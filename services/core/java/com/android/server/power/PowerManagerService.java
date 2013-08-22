@@ -1623,7 +1623,6 @@ public final class PowerManagerService extends SystemService
                 final int sleepTimeout = getSleepTimeoutLocked();
                 final int screenOffTimeout = getScreenOffTimeoutLocked(sleepTimeout);
                 final int screenDimDuration = getScreenDimDurationLocked(screenOffTimeout);
-
                 mUserActivitySummary = 0;
                 if (mLastUserActivityTime >= mLastWakeTime) {
                     nextTimeout = mLastUserActivityTime
@@ -1657,6 +1656,8 @@ public final class PowerManagerService extends SystemService
                     } else {
                         nextTimeout = mLastUserActivityTime + screenOffTimeout;
                         if (now < nextTimeout) {
+                            mButtonsLight.setBrightness(0);
+                            mKeyboardLight.setBrightness(0);
                             mUserActivitySummary = USER_ACTIVITY_SCREEN_DIM;
                             if (mWakefulness == WAKEFULNESS_AWAKE) {
                                 mButtonsLight.setBrightness(0);
