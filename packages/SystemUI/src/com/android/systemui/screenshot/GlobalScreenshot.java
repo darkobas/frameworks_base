@@ -287,6 +287,15 @@ class SaveImageInBackgroundTask extends AsyncTask<SaveImageInBackgroundData, Voi
             mNotificationBuilder.addAction(R.drawable.ic_screenshot_delete,
                     r.getString(com.android.internal.R.string.delete), deleteAction);
 
+            Intent trashIntent = new Intent();
+            trashIntent.setClass(context, TrashScreenshot.class);
+            trashIntent.putExtra(TrashScreenshot.SCREENSHOT_URI, uri.toString());
+
+            mNotificationBuilder.addAction(android.R.drawable.ic_menu_delete,
+                     r.getString(com.android.internal.R.string.delete),
+                     PendingIntent.getBroadcast(context, 0, trashIntent,
+                        PendingIntent.FLAG_CANCEL_CURRENT));
+
             params[0].imageUri = uri;
             params[0].image = null;
             params[0].result = 0;
@@ -393,6 +402,7 @@ class GlobalScreenshot {
     static final String CANCEL_ID = "android:cancel_id";
     static final String SCREENSHOT_URI_ID = "android:screenshot_uri_id";
 
+    public static final int SCREENSHOT_NOTIFICATION_ID = 789;
     private static final int SCREENSHOT_FLASH_TO_PEAK_DURATION = 130;
     private static final int SCREENSHOT_DROP_IN_DURATION = 430;
     private static final int SCREENSHOT_DROP_OUT_DELAY = 500;
