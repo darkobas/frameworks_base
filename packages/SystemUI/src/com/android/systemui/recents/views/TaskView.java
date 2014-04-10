@@ -21,6 +21,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.*;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewOutlineProvider;
@@ -41,6 +42,8 @@ public class TaskView extends FrameLayout implements Task.TaskCallbacks,
     interface TaskViewCallbacks {
         public void onTaskViewAppIconClicked(TaskView tv);
         public void onTaskViewAppInfoClicked(TaskView tv);
+        public void onTaskFloatClicked(TaskView tv);
+        public void onTaskViewLongClicked(TaskView tv);
         public void onTaskViewClicked(TaskView tv, Task task, boolean lockToTask);
         public void onTaskViewDismissed(TaskView tv);
         public void onTaskViewClipStateChanged(TaskView tv);
@@ -721,10 +724,8 @@ public class TaskView extends FrameLayout implements Task.TaskCallbacks,
     @Override
     public boolean onLongClick(View v) {
         if (v == mHeaderView.mApplicationIcon) {
-            if (mCb != null) {
-                mCb.onTaskViewAppInfoClicked(this);
-                return true;
-            }
+            mCb.onTaskViewLongClicked(this);
+            return true;
         }
         return false;
     }

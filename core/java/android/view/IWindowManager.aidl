@@ -263,4 +263,10 @@ interface IWindowManager
      * @return The frame statistics or null if the window does not exist.
      */
     WindowContentFrameStats getWindowContentFrameStats(IBinder token);
+
+    /** FLOAT VIEW **/
+    Rect getAppFullscreenViewRect();
+    Rect getAppMinimumViewRect();
+    Rect getFloatViewRect();
+    void notifyFloatActivityTouched(IBinder token, boolean force);
 }
