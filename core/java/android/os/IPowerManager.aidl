@@ -61,4 +61,6 @@ interface IPowerManager
 
     String getCurrentPowerProfile();
     void setPowerProfile(String profile);
+
+    void wakeUpWithProximityCheck(long time);
 }
