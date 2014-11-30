@@ -39,4 +39,7 @@
     <string name="screenrecord_notif_error">Unable to record screen</string>
 
     <string name="weather_info_not_available">Weather informations not available</string>
+
+    <!-- Content description of the data connection type HSPA+ for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_data_connection_hspap">HSPA+</string>
 </resources>
