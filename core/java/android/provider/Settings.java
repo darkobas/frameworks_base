@@ -3431,6 +3431,12 @@ public final class Settings {
         public static final String DOUBLE_TAP_SLEEP_LOCK_SCREEN = "double_tap_sleep_lock_screen";
 
         /**
+         * Show search bar in recents
+         * @hide
+         */
+        public static final String RECENTS_SHOW_SEARCH_BAR = "recents_show_search_bar";
+
+        /**
          * IMPORTANT: If you add a new public settings you also have to add it to
          * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
          * it to PRIVATE_SETTINGS below. Also add a validator that can validate
@@ -3462,17 +3468,17 @@ public final class Settings {
         public static final String HARDWARE_KEY_REBINDING = "hardware_key_rebinding";
 
         /**
-		 * Action to perform when the back key is pressed. (Default is 7)
-		 * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
-		 * @hide
-		 */
+	 * Action to perform when the back key is pressed. (Default is 7)
+	 * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
+	 * @hide
+	 */
         public static final String KEY_BACK_ACTION = "key_back_action";
 
         /**
-	     * Action to perform when the back key is long-pressed. (Default is 0)
-		 * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
-		 * @hide
-		 */
+         * Action to perform when the back key is long-pressed. (Default is 0)
+	 * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
+	 * @hide
+	 */
         public static final String KEY_BACK_LONG_PRESS_ACTION = "key_back_long_press_action";
 
         /**
