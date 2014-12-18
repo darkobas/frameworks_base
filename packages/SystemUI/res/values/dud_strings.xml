@@ -7,4 +7,7 @@
     <string name="battery_level_template_charging"><xliff:g id="level" example="45">%d</xliff:g>~</string>
     <!-- Battery level for expanded quick settings [CHAR LIMIT=2] -->
     <string name="battery_level_template"><xliff:g id="level" example="45">%d</xliff:g>%%</string>
+    <!-- The text for the button in the notification window-shade that clears
+         all of the currently visible notifications. [CHAR LIMIT=10]-->
+    <string name="clear_recents">Close all recents</string>
 </resources>
