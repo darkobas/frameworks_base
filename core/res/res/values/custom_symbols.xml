@@ -70,4 +70,7 @@
   <!-- Proximity check timeout -->
   <java-symbol type="integer" name="config_proximityCheckTimeout" />
 
+  <!-- First boot install dialog -->
+  <java-symbol type="string" name="android_installing_apk" />
+  <java-symbol type="string" name="android_upgrading_installing_title" />
 </resources>
