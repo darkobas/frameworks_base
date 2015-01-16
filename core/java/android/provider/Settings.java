@@ -3435,6 +3435,12 @@ public final class Settings {
          * the setting value. See an example above.
          */
 
+        /**
+         * Change volume up and down handlign based on rotation
+         * @hide
+         */
+        public static final String SWAP_VOLUME_BUTTONS = "swap_volume_buttons";
+
          /**
          * Whether wifi settings will connect to access point automatically
          * 0 = automatically
