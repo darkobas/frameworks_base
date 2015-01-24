@@ -202,6 +202,7 @@ public class QsTuner extends Fragment implements Callback {
         else if (spec.equals("sync")) return R.string.quick_settings_sync_label;
         else if (spec.equals("cast")) return R.string.quick_settings_cast_title;
         else if (spec.equals("hotspot")) return R.string.quick_settings_hotspot_label;
+        else if (spec.equals("screen_timeout")) return R.string.quick_settings_screen_timeout_detail_title;
         return 0;
     }
 
@@ -447,6 +448,7 @@ public class QsTuner extends Fragment implements Callback {
             else if (mSpec.equals("sync")) return R.drawable.ic_qs_sync_on;
             else if (mSpec.equals("cast")) return R.drawable.ic_qs_cast_on;
             else if (mSpec.equals("hotspot")) return R.drawable.ic_hotspot_enable;
+            else if (mSpec.equals("screen_timeout")) return R.drawable.ic_qs_screen_timeout_vector;
             return R.drawable.android;
         }
 
