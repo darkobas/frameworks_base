@@ -20,37 +20,35 @@
 <!-- This is a view that shows general weather information in Keyguard. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/keyguard_weather_view"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="bottom"
-        android:paddingBottom="14dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"   >
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/bottom_text_spacing_digital" >
+
+    <TextView
+        android:id="@+id/temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:textSize="16sp"
+        android:textColor="@color/clock_white" />
 
     <ImageView
         android:id="@+id/weather_image"
-        android:scaleType="centerCrop"
         android:layout_width="wrap_content"
-        android:layout_marginBottom="-10dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:scaleType="centerCrop" />
 
     <TextView
-        android:textColor="@color/clock_white"
-        android:textSize="16sp"
-        android:layout_gravity="center_horizontal"
-        android:includeFontPadding="false"
-        android:id="@+id/temperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:textColor="@color/clock_white"
-        android:textSize="16sp"
-        android:layout_gravity="center_horizontal"
-        android:includeFontPadding="false"
-        android:visibility="gone"
         android:id="@+id/city"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:textSize="16sp"
+        android:textColor="@color/clock_white" />
 
 </LinearLayout>
