@@ -31,6 +31,7 @@ public class LockscreenShortcutsHelper {
         }
     }
 
+    public static final String DEFAULT = "default";
     public static final String NONE = "none";
     private static final String DELIMITER = "|";
     private static final String SYSTEM_UI_PKGNAME = "com.android.systemui";
@@ -38,6 +39,7 @@ public class LockscreenShortcutsHelper {
     private static final String CAMERA_DEFAULT_ICON = "ic_camera_alt_24dp";
 
     private final Context mContext;
+    private Resources mSystemUiResources;
     private OnChangeListener mListener;
     private List<String> mTargetActivities;
 
@@ -82,31 +84,31 @@ public class LockscreenShortcutsHelper {
         int itemsToPad = Shortcuts.values().length - mTargetActivities.size();
         if (itemsToPad > 0) {
             for (int i = 0; i < itemsToPad; i++) {
-                mTargetActivities.add(NONE);
+                mTargetActivities.add(DEFAULT);
             }
         }
-
     }
 
     public List<TargetInfo> getDrawablesForTargets() {
         fetchTargets();
         List<TargetInfo> result = new ArrayList<TargetInfo>();
 
-        ColorMatrix cm = new ColorMatrix();
+        final ColorMatrix cm = new ColorMatrix();
         cm.setSaturation(0);
-        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(cm);
-        ColorFilter filerToSet = null;
+        final ColorMatrixColorFilter filter = new ColorMatrixColorFilter(cm);
 
         for (int i = 0; i < Shortcuts.values().length; i++) {
             String activity = mTargetActivities.get(i);
             Drawable drawable = null;
+            ColorFilter filerToSet = null;
 
             if (!TextUtils.isEmpty(activity) && !activity.equals(NONE)) {
                 // No pre-defined action, try to resolve URI
                 try {
                     Intent intent = Intent.parseUri(activity, 0);
                     PackageManager pm = mContext.getPackageManager();
-                    ActivityInfo info = intent.resolveActivityInfo(pm, PackageManager.GET_ACTIVITIES);
+                    ActivityInfo info = intent.resolveActivityInfo(pm,
+                            PackageManager.GET_ACTIVITIES);
 
                     if (info != null) {
                         drawable = info.loadIcon(pm);
@@ -130,35 +132,33 @@ public class LockscreenShortcutsHelper {
     }
 
     public Drawable getDrawableFromSystemUI(String name) {
-        Resources res = null;
-        Context context = mContext;
-        if (context.getPackageName().equals(SYSTEM_UI_PKGNAME)) {
-            res = context.getResources();
+        Resources res;
+        if (mContext.getPackageName().equals(SYSTEM_UI_PKGNAME)) {
+            res = mContext.getResources();
         } else {
-            try {
-                context = context.createPackageContext(SYSTEM_UI_PKGNAME,
-                        Context.CONTEXT_IGNORE_SECURITY);
-                res = context.getResources();
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
+            if (mSystemUiResources == null) {
+                try {
+                    PackageManager pm = mContext.getPackageManager();
+                    mSystemUiResources = pm.getResourcesForApplication(SYSTEM_UI_PKGNAME);
+                } catch (PackageManager.NameNotFoundException e) {
+                    // ignore
+                }
             }
+            res = mSystemUiResources;
         }
         if (res == null) {
             return null;
         }
         int id = res.getIdentifier(name, "drawable", SYSTEM_UI_PKGNAME);
-        if (id > 0) {
-            return res.getDrawable(id);
-        }
-        return null;
+        return id > 0 ? res.getDrawable(id) : null;
     }
 
     private String getFriendlyActivityName(Intent intent, boolean labelOnly) {
-        PackageManager packageManager = mContext.getPackageManager();
-        ActivityInfo ai = intent.resolveActivityInfo(packageManager, PackageManager.GET_ACTIVITIES);
+        PackageManager pm = mContext.getPackageManager();
+        ActivityInfo ai = intent.resolveActivityInfo(pm, PackageManager.GET_ACTIVITIES);
         String friendlyName = null;
         if (ai != null) {
-            friendlyName = ai.loadLabel(packageManager).toString();
+            friendlyName = ai.loadLabel(pm).toString();
             if (friendlyName == null && !labelOnly) {
                 friendlyName = ai.name;
             }
@@ -185,19 +185,29 @@ public class LockscreenShortcutsHelper {
     }
 
     public boolean isTargetCustom(Shortcuts shortcut) {
+        if (mTargetActivities == null || mTargetActivities.isEmpty()) {
+            return false;
+        }
+        String action = mTargetActivities.get(shortcut.index);
+        if (DEFAULT.equals(action)) {
+            return false;
+        }
+
+        return NONE.equals(action) || getIntent(shortcut) != null;
+    }
+
+    public boolean isTargetEmpty(Shortcuts shortcut) {
         return mTargetActivities != null &&
                 !mTargetActivities.isEmpty() &&
-                !mTargetActivities.get(shortcut.index).equals(NONE);
+                mTargetActivities.get(shortcut.index).equals(NONE);
     }
 
     public Intent getIntent(Shortcuts shortcut) {
         Intent intent = null;
-        if (isTargetCustom(shortcut)) {
-            try {
-                intent = Intent.parseUri(mTargetActivities.get(shortcut.index), 0);
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
+        try {
+            intent = Intent.parseUri(mTargetActivities.get(shortcut.index), 0);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
         return intent;
     }
@@ -206,5 +216,4 @@ public class LockscreenShortcutsHelper {
         Settings.Secure.putListAsDelimitedString(mContext.getContentResolver(),
                 Settings.Secure.LOCKSCREEN_TARGETS, DELIMITER, targets);
     }
-
 }
