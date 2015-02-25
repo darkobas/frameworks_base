@@ -33,6 +33,7 @@
         />
     <DateTimeView android:id="@+id/time"
         android:textAppearance="@android:style/TextAppearance.Material.Notification.Time"
+        android:textColor="@color/exposed_secondary_text_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -45,6 +46,7 @@
         />
     <TextView android:id="@+id/title"
         android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"
+        android:textColor="@color/exposed_primary_text_dark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/icon"
@@ -65,6 +67,7 @@
         />
     <TextView android:id="@+id/text"
         android:textAppearance="@android:style/TextAppearance.Material.Notification"
+        android:textColor="@color/exposed_secondary_text_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@id/title"
