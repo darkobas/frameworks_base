@@ -57,9 +57,10 @@ public interface RILConstants {
     int ILLEGAL_SIM_OR_ME = 15;               /* network selection failure due
                                                  to wrong SIM/ME and no
                                                  retries needed */
-    int MISSING_RESOURCE = 16;                /* no logical channel available */
-    int NO_SUCH_ELEMENT = 17;                 /* application not found on SIM */
-    int DIAL_MODIFIED_TO_USSD = 18;           /* DIAL request modified to USSD */
+
+    int MISSING_RESOURCE = 16;                 /* no logical channel available */
+    int NO_SUCH_ELEMENT = 17;                  /* application not found on SIM */
+    int DIAL_MODIFIED_TO_USSD = 18;            /* DIAL request modified to USSD */
     int DIAL_MODIFIED_TO_SS = 19;             /* DIAL request modified to SS */
     int DIAL_MODIFIED_TO_DIAL = 20;           /* DIAL request modified to DIAL with different data*/
     int USSD_MODIFIED_TO_DIAL = 21;           /* USSD request modified to DIAL */
@@ -69,7 +70,7 @@ public interface RILConstants {
     int SS_MODIFIED_TO_USSD = 25;             /* SS request modified to USSD */
     int SUBSCRIPTION_NOT_SUPPORTED = 26;      /* Subscription not supported */
     int SS_MODIFIED_TO_SS = 27;               /* SS request modified to different SS request */
-
+    int INVALID_PARAMETER = 29;
 
     /* NETWORK_MODE_* See ril.h RIL_REQUEST_SET_PREFERRED_NETWORK_TYPE */
     int NETWORK_MODE_WCDMA_PREF     = 0; /* GSM/WCDMA (WCDMA preferred) */
@@ -307,6 +308,8 @@ cat include/telephony/ril.h | \
     int RIL_REQUEST_SHUTDOWN = 129;
     int RIL_REQUEST_GET_RADIO_CAPABILITY = 130;
     int RIL_REQUEST_SET_RADIO_CAPABILITY = 131;
+    int RIL_REQUEST_GET_DATA_CALL_PROFILE = 132;
+    int RIL_REQUEST_SIM_GET_ATR = 133;
 
     int RIL_UNSOL_RESPONSE_BASE = 1000;
     int RIL_UNSOL_RESPONSE_RADIO_STATE_CHANGED = 1000;
@@ -354,5 +357,6 @@ cat include/telephony/ril.h | \
     int RIL_UNSOL_RADIO_CAPABILITY = 1042;
     int RIL_UNSOL_ON_SS = 1043;
     int RIL_UNSOL_STK_CC_ALPHA_NOTIFY = 1044;
+
     int RIL_UNSOL_STK_SEND_SMS_RESULT = 11002; /* Samsung STK */
 }
