@@ -148,6 +148,8 @@ public abstract class BaseStatusBar extends SystemUI implements
     private static final String BANNER_ACTION_SETUP =
             "com.android.systemui.statusbar.banner_action_setup";
 
+    protected static final int SYSTEM_UI_VISIBILITY_MASK = 0xffffffff;
+
     protected CommandQueue mCommandQueue;
     protected IStatusBarService mBarService;
     protected H mHandler = createHandler();
@@ -611,7 +613,7 @@ public abstract class BaseStatusBar extends SystemUI implements
 
         mSettingsObserver.onChange(false); // set up
         disable(switches[0], switches[6], false /* animate */);
-        setSystemUiVisibility(switches[1], 0xffffffff);
+        setSystemUiVisibility(switches[1], SYSTEM_UI_VISIBILITY_MASK);
         topAppWindowChanged(switches[2] != 0);
         // StatusBarManagerService has a back up of IME token and it's restored here.
         setImeWindowStatus(binders.get(0), switches[3], switches[4], switches[5] != 0);
