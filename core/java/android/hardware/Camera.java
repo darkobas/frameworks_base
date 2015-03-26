@@ -4507,9 +4507,6 @@ public class Camera {
         private static final String KEY_QC_MANUAL_FOCUS_POS_TYPE = "manual-focus-pos-type";
         private static final String KEY_QC_SCENE_DETECT = "scene-detect";
         private static final String KEY_QC_ISO_MODE = "iso";
-        private static final String KEY_QC_EXPOSURE_TIME = "exposure-time";
-        private static final String KEY_QC_MIN_EXPOSURE_TIME = "min-exposure-time";
-        private static final String KEY_QC_MAX_EXPOSURE_TIME = "max-exposure-time";
         private static final String KEY_QC_LENSSHADE = "lensshade";
         private static final String KEY_QC_HISTOGRAM = "histogram";
         private static final String KEY_QC_SKIN_TONE_ENHANCEMENT = "skinToneEnhancement";
@@ -5341,42 +5338,6 @@ public class Camera {
          }
 
          /** @hide
-         * Sets the exposure time.
-         *
-         * @param value exposure time.
-         */
-         public void setExposureTime(int value) {
-            set(KEY_QC_EXPOSURE_TIME, Integer.toString(value));
-         }
-
-         /** @hide
-         * Gets the current exposure time.
-         *
-         * @return exposure time.
-         */
-         public String getExposureTime() {
-            return get(KEY_QC_EXPOSURE_TIME);
-         }
-
-         /** @hide
-         * Gets the min supported exposure time.
-         *
-         * @return min supported exposure time.
-         */
-         public String getMinExposureTime() {
-            return get(KEY_QC_MIN_EXPOSURE_TIME);
-         }
-
-         /** @hide
-         * Gets the max supported exposure time.
-         *
-         * @return max supported exposure time.
-         */
-         public String getMaxExposureTime() {
-            return get(KEY_QC_MAX_EXPOSURE_TIME);
-         }
-
-         /** @hide
          * Gets the current LensShade Mode.
          *
          * @return LensShade Mode
@@ -5429,15 +5390,6 @@ public class Camera {
          */
          public void setMemColorEnhance(String mce) {
             set(KEY_QC_MEMORY_COLOR_ENHANCEMENT, mce);
-         }
-
-         /** @hide
-         * Set white balance manual cct value.
-         *
-         * @param cct user CCT setting.
-         */
-         public void setWBManualCCT(int cct) {
-            set(KEY_QC_WB_MANUAL_CCT, Integer.toString(cct));
          }
 
          /** @hide
@@ -5654,12 +5606,6 @@ public class Camera {
             set(KEY_QC_FACE_DETECTION, value);
          }
 
-         /** @hide
-         * Gets the current video rotation setting.
-         *
-         * @return one of VIDEO_QC_ROTATION_XXX string constant. null if video rotation
-         *         setting is not supported.
-         */
          public String getVideoRotation() {
             return get(KEY_QC_VIDEO_ROTATION);
          }
