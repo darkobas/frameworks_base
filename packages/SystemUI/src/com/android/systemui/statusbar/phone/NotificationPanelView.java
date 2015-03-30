@@ -233,9 +233,6 @@ public class NotificationPanelView extends PanelView implements
     private final Interpolator mTouchResponseInterpolator =
             new PathInterpolator(0.3f, 0f, 0.1f, 1f);
 
-    private Handler mHandler = new Handler();
-    private SettingsObserver mSettingsObserver;
-
     private boolean mDoubleTapToSleepEnabled;
     private int mStatusBarHeaderHeight;
     private GestureDetector mDoubleTapGesture;
@@ -1519,13 +1516,6 @@ public class NotificationPanelView extends PanelView implements
         animator.start();
         mQsExpansionAnimator = animator;
         mQsAnimatorExpand = expand;
-    }
-
-    /**
-     * @return Whether we should intercept a gesture to open Quick Settings.
-     */
-    private boolean shouldQuickSettingsIntercept(float x, float y, float yDiff) {
-        return shouldQuickSettingsIntercept(x, y, yDiff, true);
     }
 
     /**
