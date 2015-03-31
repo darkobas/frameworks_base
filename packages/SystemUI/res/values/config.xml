@@ -282,10 +282,10 @@
     <integer name="volume_panel_dismiss_delay">200</integer>
 
     <!-- Hotspot tile: number of days to show after feature is used. -->
-    <integer name="days_to_show_hotspot_tile">30</integer>
+    <integer name="days_to_show_hotspot_tile">5</integer>
 
     <!-- Color inversion tile: number of days to show after feature is used. -->
-    <integer name="days_to_show_color_inversion_tile">7</integer>
+    <integer name="days_to_show_color_inversion_tile">1</integer>
 
     <!-- Location tile: number of days to show after feature is used. -->
     <integer name="days_to_show_location_tile">5</integer>
