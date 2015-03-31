@@ -47,8 +47,7 @@ public class LocationTile extends QSTile<QSTile.BooleanState> {
         super(host);
         mController = host.getLocationController();
         mKeyguard = host.getKeyguardMonitor();
-        mUsageTracker = new UsageTracker(host.getContext(), LocationTile.class,
-               R.integer.days_to_show_location_tile);
+        mUsageTracker = newUsageTracker(host.getContext());
         mUsageTracker.setListening(true);
     }
 
@@ -118,6 +117,10 @@ public class LocationTile extends QSTile<QSTile.BooleanState> {
         }
     }
 
+    private static UsageTracker newUsageTracker(Context context) {
+        return new UsageTracker(context, LocationTile.class, R.integer.days_to_show_location_tile);
+    }
+
     private final class Callback implements LocationSettingsChangeCallback,
             KeyguardMonitor.Callback {
         @Override
@@ -141,7 +144,7 @@ public class LocationTile extends QSTile<QSTile.BooleanState> {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (mUsageTracker == null) {
-                mUsageTracker = new UsageTracker(context, LocationTile.class);
+                mUsageTracker = newUsageTracker(context);
             }
             mUsageTracker.trackUsage();
         }

@@ -54,10 +54,8 @@ public class CastTile extends QSTile<QSTile.BooleanState> {
         mController = host.getCastController();
         mDetailAdapter = new CastDetailAdapter();
         mKeyguard = host.getKeyguardMonitor();
-        mUsageTracker = new UsageTracker(host.getContext(), CastTile.class,
-                R.integer.days_to_show_cast_tile);
+        mUsageTracker = newUsageTracker(host.getContext());
         mUsageTracker.setListening(true);
-
     }
 
     @Override
@@ -138,6 +136,10 @@ public class CastTile extends QSTile<QSTile.BooleanState> {
     private String getDeviceName(CastDevice device) {
         return device.name != null ? device.name
                 : mContext.getString(R.string.quick_settings_cast_device_default_name);
+    }
+
+    private static UsageTracker newUsageTracker(Context context) {
+        return new UsageTracker(context, CastTile.class, R.integer.days_to_show_cast_tile);
     }
 
     private final class Callback implements CastController.Callback, KeyguardMonitor.Callback {
@@ -270,7 +272,7 @@ public class CastTile extends QSTile<QSTile.BooleanState> {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (mUsageTracker == null) {
-                mUsageTracker = new UsageTracker(context, CastTile.class);
+                mUsageTracker = newUsageTracker(context);
             }
             mUsageTracker.trackUsage();
         }
