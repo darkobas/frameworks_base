@@ -42,7 +42,8 @@
 
     <!-- Performance optimized alternate Recents theme (no wallpaper) -->
     <style name="RecentsTheme.NoWallpaper">
-        <item name="android:windowBackground">@android:color/black</item>
+      <!-- exposed for theming -->
+        <item name="android:windowBackground">@color/exposed_bg_light</item>
     </style>
 
     <!-- Animations for a non-full-screen window or activity. -->
@@ -127,6 +128,8 @@
     </style>
 
     <style name="TextAppearance.StatusBar.Expanded.Network.EmergencyOnly">
+      <!-- exposed for theming -->
+      <item name="android:textColor">@color/exposed_primary_text_dark</item>
     </style>
 
     <style name="TextAppearance.StatusBar.Expanded.UserSwitcher">
@@ -228,7 +231,7 @@
     <style name="TextAppearance.StatusBar.PhoneTicker"
         parent="@*android:style/TextAppearance.StatusBar.Ticker">
         <!-- Note: must be dp to fit in status bar -->
-        <item name="android:textSize">14dp</item>
+      <item name="android:textSize">14dp</item>
     </style>
 
     <style name="systemui_theme" parent="@android:style/Theme.DeviceDefault">

@@ -262,7 +262,7 @@ please see styles_device_defaults.xml.
         <item name="textSize">@dimen/notification_text_size</item>
     </style>
     <style name="TextAppearance.StatusBar.EventContent.Title">
-        <item name="textColor">#ffffff</item>
+        <item name="textColor">@color/exposed_primary_text_dark</item>
         <item name="fontFamily">sans-serif-light</item>
         <item name="textSize">@dimen/notification_title_text_size</item>
         <item name="textStyle">bold</item>
@@ -281,7 +281,7 @@ please see styles_device_defaults.xml.
         <item name="textColor">@color/exposed_TextAppearance.StatusBar.EventContent</item>
     </style>
     <style name="TextAppearance.StatusBar.EventContent.Emphasis">
-        <item name="textColor">#CCCCCC</item>
+        <item name="textColor">@color/exposed_TextAppearance.StatusBar.EventContent.Emphasis</item>
     </style>
 
     <style name="TextAppearance.Small.CalendarViewWeekDayView">

@@ -19,6 +19,7 @@ package com.android.systemui.statusbar.phone;
 import android.app.ActivityManagerNative;
 import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -34,9 +35,12 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.UserHandle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.telecom.TelecomManager;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -55,6 +59,7 @@ import com.android.keyguard.KeyguardUpdateMonitorCallback;
 import com.android.systemui.EventLogConstants;
 import com.android.systemui.EventLogTags;
 import com.android.systemui.R;
+import com.android.systemui.cm.UserContentObserver;
 import com.android.systemui.statusbar.CommandQueue;
 import com.android.systemui.statusbar.KeyguardAffordanceView;
 import com.android.systemui.statusbar.KeyguardIndicationController;
@@ -92,7 +97,8 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
     private static final int DOZE_ANIMATION_ELEMENT_DURATION = 250;
 
     // the length to animate the visualizer in and out
-    private static final int VISUALIZER_ANIMATION_DURATION = 300;
+    private static final int VISUALIZER_ANIMATION_DURATION_IN = 300;
+    private static final int VISUALIZER_ANIMATION_DURATION_OUT = 0;
 
     private KeyguardAffordanceView mCameraImageView;
     private KeyguardAffordanceView mPhoneImageView;
@@ -119,6 +125,9 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
     private VisualizerView mVisualizer;
     private boolean mScreenOn;
     private boolean mLinked;
+    private boolean mVisualizerEnabled;
+    private boolean mPowerSaveModeEnabled;
+    private SettingsObserver mSettingsObserver;
 
     public KeyguardBottomAreaView(Context context) {
         this(context, null);
@@ -138,6 +147,7 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
         mTrustDrawable = new TrustDrawable(mContext);
         mLinearOutSlowInInterpolator =
                 AnimationUtils.loadInterpolator(context, android.R.interpolator.linear_out_slow_in);
+        mSettingsObserver = new SettingsObserver(new Handler());
     }
 
     private AccessibilityDelegate mAccessibilityDelegate = new AccessibilityDelegate() {
@@ -414,8 +424,18 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
     }
 
     @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mContext.registerReceiver(mReceiver, new IntentFilter(
+                PowerManager.ACTION_POWER_SAVE_MODE_CHANGING));
+        mSettingsObserver.observe();
+    }
+
+    @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        mSettingsObserver.unobserve();
+        mContext.unregisterReceiver(mReceiver);
         mTrustDrawable.stop();
         requestVisualizer(false, 0);
     }
@@ -541,6 +561,17 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
         }
     };
 
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (PowerManager.ACTION_POWER_SAVE_MODE_CHANGING.equals(intent.getAction())) {
+                mPowerSaveModeEnabled = intent.getBooleanExtra(PowerManager.EXTRA_POWER_SAVE_MODE,
+                        false);
+                requestVisualizer(true, 0);
+            }
+        }
+    };
+
     private final KeyguardUpdateMonitorCallback mUpdateMonitorCallback =
             new KeyguardUpdateMonitorCallback() {
         @Override
@@ -600,6 +631,9 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
     }
 
     public void requestVisualizer(boolean show, int delay) {
+        if (mVisualizer == null || !mVisualizerEnabled || mPowerSaveModeEnabled) {
+            return;
+        }
         removeCallbacks(mStartVisualizer);
         removeCallbacks(mStopVisualizer);
         if (DEBUG) Log.d(TAG, "requestVisualizer(show: " + show + ", delay: " + delay + ")");
@@ -672,7 +706,7 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
 
             mVisualizer.animate()
                     .alpha(1f)
-                    .setDuration(VISUALIZER_ANIMATION_DURATION);
+                    .setDuration(VISUALIZER_ANIMATION_DURATION_IN);
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -692,7 +726,7 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
 
             mVisualizer.animate()
                     .alpha(0f)
-                    .setDuration(VISUALIZER_ANIMATION_DURATION);
+                    .setDuration(VISUALIZER_ANIMATION_DURATION_OUT);
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -704,4 +738,34 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
             });
         }
     };
+
+    private class SettingsObserver extends UserContentObserver {
+        SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        protected void observe() {
+            super.observe();
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_VISUALIZER_ENABLED),
+                    false, this, UserHandle.USER_ALL);
+            update();
+        }
+
+        @Override
+        protected void unobserve() {
+            super.unobserve();
+            mContext.getContentResolver().unregisterContentObserver(this);
+        }
+
+        @Override
+        public void update() {
+            ContentResolver resolver = mContext.getContentResolver();
+            mVisualizerEnabled = Settings.Secure.getIntForUser(resolver,
+                    Settings.Secure.LOCKSCREEN_VISUALIZER_ENABLED, 1, UserHandle.USER_CURRENT) != 0;
+
+        }
+    }
 }
