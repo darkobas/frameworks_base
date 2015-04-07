@@ -20,11 +20,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
     <!-- exposed bg for theming -->
-    <LinearLayout
-        android:id="@+id/slider_panel_expand"
-        android:layout_height="wrap_content"
+    <FrameLayout
+        android:id="@+id/slider_panel"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:background="@color/exposed_volume_panel"
         android:paddingTop="8dp"
         android:paddingLeft="8dp"
