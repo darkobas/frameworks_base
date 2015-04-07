@@ -225,9 +225,6 @@ public class RecentsActivity extends Activity implements RecentsView.RecentsView
         loader.loadTasks(this, plan, loadOpts);
 
         SpaceNode root = plan.getSpaceNode();
-        root = loader.reload(this,
-                Constants.Values.RecentsTaskLoader.PreloadFirstTasksCount,
-                mConfig.launchedFromHome);
         ArrayList<TaskStack> stacks = root.getStacks();
         boolean hasTasks = root.hasTasks();
         if (hasTasks) {
@@ -514,8 +511,6 @@ public class RecentsActivity extends Activity implements RecentsView.RecentsView
     protected void onStart() {
         super.onStart();
         RecentsTaskLoader loader = RecentsTaskLoader.getInstance();
-        SystemServicesProxy ssp = loader.getSystemServicesProxy();
-        AlternateRecentsComponent.notifyVisibilityChanged(this, ssp, true);
 
         // Register the broadcast receiver to handle messages from our service
         IntentFilter filter = new IntentFilter();
@@ -599,6 +594,8 @@ public class RecentsActivity extends Activity implements RecentsView.RecentsView
 
         // Animate the SystemUI scrim views
         mScrimViews.startEnterRecentsAnimation();
+        mRecentsView.startFABanimation();
+
     }
 
     @Override
@@ -687,27 +684,17 @@ public class RecentsActivity extends Activity implements RecentsView.RecentsView
         }
     }
 
-    /** Called when the enter recents animation is triggered. */
-    public void onEnterAnimationTriggered() {
-        // Animate the SystemUI scrim views
-        mScrimViews.startEnterRecentsAnimation();
-        mRecentsView.startFABanimation();
-    }
-
     /**** RecentsView.RecentsViewCallbacks Implementation ****/
 
     @Override
     public void onExitToHomeAnimationTriggered() {
         // Animate the SystemUI scrim views out
-        mScrimViews.startExitRecentsAnimation();
         mRecentsView.endFABanimation();
+        mScrimViews.startExitRecentsAnimation();
     }
 
     @Override
     public void onTaskViewClicked() {
-        // Mark recents as no longer visible
-        AlternateRecentsComponent.notifyVisibilityChanged(false);
-        mVisible = false;
         mRecentsView.endFABanimation();
     }
 
