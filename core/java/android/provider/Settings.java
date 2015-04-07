@@ -5281,6 +5281,13 @@ public final class Settings {
         public static final String ADB_PORT = "adb_port";
 
         /**
+         * Whether to show the lockscreen visualizer.
+         * 0 will disable it, anything else will enable it. Default is on.
+         * @hide
+         */
+        public static final String LOCKSCREEN_VISUALIZER_ENABLED = "lockscreen_visualizer";
+
+        /**
          * This are the settings to be backed up.
          *
          * NOTE: Settings are backed up and restored in the order they appear
@@ -7101,13 +7108,6 @@ public final class Settings {
          * @hide
          */
         public static final String LTE_SERVICE_FORCED = "lte_service_forced";
-
-        /**
-         * Whether to show the lockscreen visualizer.
-         * 0 will disable it, anything else will enable it. Default is on.
-         * @hide
-         */
-        public static final String LOCKSCREEN_VISUALIZER_ENABLED = "lockscreen_visualizer";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
