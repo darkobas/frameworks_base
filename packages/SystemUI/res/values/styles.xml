@@ -85,7 +85,6 @@
     </style>
 
     <style name="TextAppearance.StatusBar.Expanded" parent="@*android:style/TextAppearance.StatusBar">
-        <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/statusbar_expanded_text</item>
     </style>
 
