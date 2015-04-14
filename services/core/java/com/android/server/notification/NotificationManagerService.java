@@ -834,7 +834,7 @@ public class NotificationManagerService extends SystemService {
                     updateNotificationPulse();
                 }
             }
-            mDisableDuckingWhileMedia = Settings.Global.getInt(mContext.getContentResolver(),
+            mDisableDuckingWhileMedia = Settings.Global.getInt(resolver,
                     Settings.Global.ZEN_DISABLE_DUCKING_DURING_MEDIA_PLAYBACK, 0) == 1;
             updateDisableDucking();
         }
@@ -844,8 +844,8 @@ public class NotificationManagerService extends SystemService {
         if (!mSystemReady) {
             return;
         }
-        final MediaSessionManager mediaSessionManager = (MediaSessionManager) mContext
-                .getSystemService(Context.MEDIA_SESSION_SERVICE);
+        final MediaSessionManager mediaSessionManager = (MediaSessionManager)
+                getContext().getSystemService(Context.MEDIA_SESSION_SERVICE);
         mediaSessionManager.removeOnActiveSessionsChangedListener(mSessionListener);
         if (mDisableDuckingWhileMedia) {
             mediaSessionManager.addOnActiveSessionsChangedListener(mSessionListener, null);
