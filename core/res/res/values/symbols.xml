@@ -2193,4 +2193,7 @@
   <java-symbol type="bool" name="config_use_sim_language_file" />
   <java-symbol type="bool" name="config_LTE_eri_for_network_name" />
   <java-symbol type="bool" name="config_defaultInTouchMode" />
+  
+   <!-- Doze invert -->
+  <java-symbol type="bool" name="config_invert_colors_on_doze" />
 </resources>
