@@ -900,6 +900,15 @@ public class VolumePanel extends Handler implements DemoMode {
     private void updateSliderEnabled(final StreamControl sc, boolean muted, boolean fixedVolume) {
         final boolean wasEnabled = sc.seekbarView.isEnabled();
         final boolean isRinger = isNotificationOrRing(sc.streamType);
+        boolean enableClick = false;
+        if (mLinkNotificationWithVolume) {
+            enableClick = isRinger;
+        } else {
+            enableClick = isRing(sc.streamType);
+        }
+        sc.icon.setClickable(enableClick);
+        sc.seekbarView.setEnabled(true);
+
         if (LOGD) Log.d(mTag, "updateSliderEnabled(streamType: " + streamToString(sc.streamType)
                 + ", muted: " + muted + ", isRinger: " + isRinger + ", ringerMode: " + mAudioManager.getRingerModeInternal() + ")");
 
@@ -912,21 +921,16 @@ public class VolumePanel extends Handler implements DemoMode {
         } else if (isRinger
                 && mAudioManager.getRingerModeInternal() == AudioManager.RINGER_MODE_SILENT) {
             sc.seekbarView.setEnabled(false);
-
         } else if (fixedVolume ||
                 (sc.streamType != mAudioManager.getMasterStreamType() && !isRinger && muted) ||
                 (sSafetyWarning != null)) {
             sc.seekbarView.setEnabled(false);
-
-        } else {
-            sc.seekbarView.setEnabled(true);
-
         }
+
         // show the silent hint when the disabled slider is touched in silent mode
         if (isRinger && wasEnabled != sc.seekbarView.isEnabled()) {
             if (sc.seekbarView.isEnabled()) {
                 sc.group.setOnTouchListener(null);
-
             } else {
                 final View.OnTouchListener showHintOnTouch = new View.OnTouchListener() {
                     @Override
@@ -1541,7 +1545,7 @@ public class VolumePanel extends Handler implements DemoMode {
             case MSG_INTERNAL_RINGER_MODE_CHANGED:
             case MSG_NOTIFICATION_EFFECTS_SUPPRESSOR_CHANGED: {
                 if (isShowing()) {
-                    updateActiveSlider();
+                    updateStates();
                 }
                 break;
             }
