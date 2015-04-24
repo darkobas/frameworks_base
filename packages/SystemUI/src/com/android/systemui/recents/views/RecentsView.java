@@ -369,6 +369,8 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
         // Animate the action button in
         mFloatingButton = ((View)getParent()).findViewById(R.id.floating_action_button);
         mFloatingButton.animate().alpha(1f)
+                .setStartDelay(mConfig.taskBarEnterAnimDelay)
+                .setDuration(mConfig.taskBarEnterAnimDuration)
                 .setInterpolator(mConfig.fastOutLinearInInterpolator)
                 .withLayer()
                 .start();
@@ -379,6 +381,7 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
         mFloatingButton = ((View)getParent()).findViewById(R.id.floating_action_button);
         mFloatingButton.animate().alpha(0f)
                 .setStartDelay(0)
+                .setDuration(mConfig.taskBarExitAnimDuration)
                 .setInterpolator(mConfig.fastOutLinearInInterpolator)
                 .withLayer()
                 .start();
