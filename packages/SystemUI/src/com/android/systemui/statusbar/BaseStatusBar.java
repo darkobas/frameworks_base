@@ -92,8 +92,6 @@ import com.android.systemui.RecentsComponent;
 import com.android.systemui.SearchPanelView;
 import com.android.systemui.SwipeHelper;
 import com.android.systemui.SystemUI;
-import com.android.systemui.recents.AlternateRecentsComponent;
-import com.android.systemui.recents.RecentsActivity;
 import com.android.systemui.statusbar.NotificationData.Entry;
 import com.android.systemui.statusbar.phone.NavigationBarView;
 import com.android.systemui.statusbar.phone.StatusBarKeyguardViewManager;
@@ -130,7 +128,6 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected static final int MSG_HIDE_HEADS_UP = 1029;
     protected static final int MSG_ESCALATE_HEADS_UP = 1030;
     protected static final int MSG_DECAY_HEADS_UP = 1031;
-    protected static final int MSG_CLEAR_RECENT_APPS = 1032;
 
     protected static final boolean ENABLE_HEADS_UP = true;
     // scores above this threshold should be displayed in heads up mode.
@@ -1008,13 +1005,6 @@ public abstract class BaseStatusBar extends SystemUI implements
     }
 
     @Override
-    public void clearRecentApps() {
-        int msg = MSG_CLEAR_RECENT_APPS;
-        mHandler.removeMessages(msg);
-        mHandler.sendEmptyMessage(msg);
-    }
-
-    @Override
     public void preloadRecentApps() {
         int msg = MSG_PRELOAD_RECENT_APPS;
         mHandler.removeMessages(msg);
@@ -1136,14 +1126,6 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
     }
 
-    protected boolean isRecentAppsVisible() {
-        return RecentsActivity.isActivityShowing();
-    }
-
-    protected boolean hasRecentApps() {
-        return RecentsActivity.hasTaskStacks();
-    }
-
     protected void toggleRecents() {
         if (mRecents != null) {
             sendCloseSystemWindows(mContext, SYSTEM_DIALOG_REASON_RECENT_APPS);
@@ -1256,14 +1238,6 @@ public abstract class BaseStatusBar extends SystemUI implements
                  break;
              case MSG_TOGGLE_RECENTS_APPS:
                  toggleRecents();
-                 break;
-             case MSG_CLEAR_RECENT_APPS:
-                 if (DEBUG) Log.d(TAG, "clearing recents panel");
-                 Intent intent = new Intent(AlternateRecentsComponent.ACTION_CLEAR_RECENTS_ACTIVITY);
-                 intent.setClassName("com.android.systemui",
-                     "com.android.systemui.recents.RecentsActivity");
-                     mContext.startActivityAsUser(intent, new UserHandle(
-                         UserHandle.USER_CURRENT));
                  break;
              case MSG_PRELOAD_RECENT_APPS:
                   preloadRecents();
