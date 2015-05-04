@@ -16,6 +16,8 @@
 
 package com.android.systemui.qs.tiles;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 import android.content.BroadcastReceiver;
@@ -25,6 +27,7 @@ import android.content.Intent;
 import com.android.systemui.R;
 import com.android.systemui.qs.UsageTracker;
 import com.android.systemui.qs.QSTile;
+import com.android.systemui.qs.UsageTracker;
 import com.android.systemui.statusbar.policy.KeyguardMonitor;
 import com.android.systemui.statusbar.policy.LocationController;
 import com.android.systemui.statusbar.policy.LocationController.LocationSettingsChangeCallback;
