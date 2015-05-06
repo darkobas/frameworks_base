@@ -37,4 +37,6 @@
 
     <!-- Screen record notification error title -->
     <string name="screenrecord_notif_error">Unable to record screen</string>
+
+    <string name="weather_info_not_available">Weather informations not available</string>
 </resources>
