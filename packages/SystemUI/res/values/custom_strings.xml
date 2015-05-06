@@ -55,4 +55,6 @@
     <string name="advanced_dev_option_wipe_app">Wipe app data</string>
     <string name="advanced_dev_option_force_stop">Force stop</string>
     <string name="advanced_dev_option_uninstall">Uninstall</string>
+
+    <string name="weather_info_not_available">Weather informations not available</string>
 </resources>
