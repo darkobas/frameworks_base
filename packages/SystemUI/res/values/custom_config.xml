@@ -22,5 +22,6 @@
 <resources>
     <!-- Doze: shake accelerometer threshold minimum is 2 and maximum is 10-->
     <integer name="doze_shake_accelerometer_threshold">10</integer>
+    <integer name="days_to_show_nfc_tile">3</integer>
 </resources>
 
