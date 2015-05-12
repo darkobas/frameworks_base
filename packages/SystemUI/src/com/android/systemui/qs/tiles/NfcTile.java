@@ -66,7 +66,6 @@ public class NfcTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     protected void handleLongClick() {
-        if (mState.value) return;  // don't allow usage reset if inversion is active
         final String title = mContext.getString(R.string.quick_settings_reset_confirmation_title,
                 mContext.getString(R.string.quick_settings_nfc));
         mUsageTracker.showResetConfirmation(title, new Runnable() {

@@ -102,6 +102,19 @@ public class CastTile extends QSTile<QSTile.BooleanState> {
     }
 
     @Override
+    protected void handleLongClick() {
+        if (mState.value) return;  // don't allow usage reset if active
+        final String title = mContext.getString(R.string.quick_settings_reset_confirmation_title,
+                mState.label);
+        mUsageTracker.showResetConfirmation(title, new Runnable() {
+            @Override
+            public void run() {
+                refreshState();
+            }
+        });
+    }
+
+    @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
         state.visible = !(mKeyguard.isSecure() && mKeyguard.isShowing()) && mUsageTracker.isRecentlyUsed();
         state.label = mContext.getString(R.string.quick_settings_cast_title);
