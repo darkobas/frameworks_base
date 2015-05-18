@@ -118,7 +118,7 @@
 
     <!-- The default tiles to display in QuickSettings -->
     <string name="quick_settings_tiles_default" translatable="false">
-        wifi,bt,cell,airplane,rotation,flashlight,location,cast,hotspot,visualizer,nfc,usb_tether,inversion
+        wifi,bt,cell,airplane,rotation,flashlight,location,cast,usb_tether,hotspot,inversion,visualizer
     </string>
 
     <!-- The tiles to display in QuickSettings -->
