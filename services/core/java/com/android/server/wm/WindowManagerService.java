@@ -8568,6 +8568,7 @@ public class WindowManagerService extends IWindowManager.Stub
             synchronized(mWindowMap) {
                 final DisplayContent displayContent = getDisplayContentLocked(displayId);
                 if (displayContent != null) {
+                    SystemProperties.set(PERSIST_SYS_LCD_DENSITY, null);
                     setForcedDisplayDensityLocked(displayContent,
                             displayContent.mInitialDisplayDensity);
                     Settings.Global.putString(mContext.getContentResolver(),
