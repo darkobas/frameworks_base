@@ -422,7 +422,7 @@ public final class BatteryService extends SystemService {
                     mBatteryLevelLow = false;
                 } else if (mBatteryProps.batteryLevel >= mLowBatteryCloseWarningLevel)  {
                     mBatteryLevelLow = false;
-                } else if (force && mBatteryProps.batteryLevel >= mLowBatteryWarningLevel) {
+                } else if (force && mBatteryProps.batteryLevel > mLowBatteryWarningLevel) {
                     // If being forced, the previous state doesn't matter, we will just
                     // absolutely check to see if we are now above the warning level.
                     mBatteryLevelLow = false;
@@ -735,7 +735,7 @@ public final class BatteryService extends SystemService {
             if (!mLightEnabled) {
                 // No lights if explicitly disabled
                 mBatteryLight.turnOff();
-            } else if (level < mLowBatteryWarningLevel) {
+            } else if (level <= mLowBatteryWarningLevel) {
                 if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
                     // Solid red when battery is charging
                     mBatteryLight.setColor(mBatteryLowARGB);
