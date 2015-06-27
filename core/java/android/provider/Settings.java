@@ -3300,6 +3300,12 @@ public final class Settings {
          */
         public static final String SCREEN_BRIGHTNESS_DOZE = "screen_brightness_doze";
 
+        /**
+         * Launch headsup in floating window or not
+         *
+         * @hide
+         */
+        public static final String HEADS_UP_FLOATING = "heads_up_floating";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
