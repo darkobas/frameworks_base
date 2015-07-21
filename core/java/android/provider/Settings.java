@@ -3226,6 +3226,12 @@ public final class Settings {
         public static final String NAVIGATION_BAR_SHOW = "navigation_bar_show";
 
         /**
+         * navbar recents style - 0 default AOSP 1 OmniSwitch
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_RECENTS = "navigation_bar_recents";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -6032,6 +6038,12 @@ public final class Settings {
        public static final String DATA_ROAMING = "data_roaming";
 
        /**
+        * Whether national data roaming should be used.
+        * @hide
+        */
+       public static final String MVNO_ROAMING = "mvno_roaming";
+
+       /**
         * The value passed to a Mobile DataConnection via bringUp which defines the
         * number of retries to preform when setting up the initial connection. The default
         * value defined in DataConnectionTrackerBase#DEFAULT_MDC_INITIAL_RETRY is currently 1.
@@ -6475,6 +6487,12 @@ public final class Settings {
         * @hide
         */
        public static final String WIFI_COUNTRY_CODE = "wifi_country_code";
+
+       /**
+        * 802.11 country code in ISO 3166 format set from the sim card
+        * @hide
+        */
+       public static final String WIFI_COUNTRY_CODE_SIM0 = "wifi_country_code_sim0";
 
        /**
         * The interval in milliseconds to issue wake up scans when wifi needs
@@ -7323,6 +7341,33 @@ public final class Settings {
          * @hide
          */
         public static final String ENHANCED_4G_MODE_ENABLED = "volte_vt_enabled";
+
+        /**
+         * Whether WFC is enabled
+         * <p>
+         * Type: int (0 for false, 1 for true)
+         *
+         * @hide
+         */
+        public static final String WFC_IMS_ENABLED = "wfc_ims_enabled";
+
+        /**
+         * WFC Mode.
+         * <p>
+         * Type: int - 2=Wi-Fi preferred, 1=Cellular preferred, 0=Wi-Fi only
+         *
+         * @hide
+         */
+        public static final String WFC_IMS_MODE = "wfc_ims_mode";
+
+        /**
+         * Whether WFC roaming is enabled
+         * <p>
+         * Type: int (0 for false, 1 for true)
+         *
+         * @hide
+         */
+        public static final String WFC_IMS_ROAMING_ENABLED = "wfc_ims_roaming_enabled";
 
         /**
          * Global override to disable VoLTE (independent of user setting)
