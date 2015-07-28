@@ -2048,5 +2048,5 @@
          NOTE ! - Enable for devices that have a fast response proximity sensor (ideally < 300ms)
     -->
     <bool name="config_proximityCheckOnWake">false</bool>
-    <integer name="config_proximityCheckTimeout">250</integer>
+    <integer name="config_proximityCheckTimeout">150</integer>
 </resources>
