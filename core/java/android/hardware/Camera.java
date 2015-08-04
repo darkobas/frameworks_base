@@ -25,6 +25,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.media.IAudioService;
+import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -160,6 +161,7 @@ public class Camera {
     /* ### QC ADD-ONS: END */
 
     private long mNativeContext; // accessed by native methods
+    private int mCameraId;
     private EventHandler mEventHandler;
     private ShutterCallback mShutterCallback;
     private PictureCallback mRawImageCallback;
@@ -463,6 +465,7 @@ public class Camera {
     }
 
     private int cameraInitVersion(int cameraId, int halVersion) {
+        mCameraId = cameraId;
         mShutterCallback = null;
         mRawImageCallback = null;
         mJpegCallback = null;
@@ -485,6 +488,9 @@ public class Camera {
         }
 
         String packageName = ActivityThread.currentPackageName();
+        if (packageName == null && android.os.Process.SYSTEM_UID == Binder.getCallingUid()) {
+            packageName = "android";
+        }
 
         return native_setup(new WeakReference<Camera>(this), cameraId, halVersion, packageName);
     }
@@ -1369,12 +1375,6 @@ public class Camera {
     private native void enableFocusMoveCallback(int enable);
 
     /**
-     * Send a raw command to the camera driver
-     * @hide
-     */
-    public native void sendRawCommand(int arg1, int arg2, int arg3);
-
-    /**
      * Callback interface used to signal the moment of actual image capture.
      *
      * @see #takePicture(ShutterCallback, PictureCallback, PictureCallback, PictureCallback)
@@ -1624,6 +1624,20 @@ public class Camera {
     }
 
     private native final boolean _enableShutterSound(boolean enabled);
+
+    /**
+     * Send a vendor-specific camera command
+     *
+     * @hide
+     */
+    public final void sendVendorCommand(int cmd, int arg1, int arg2) {
+        if (cmd < 1000) {
+            throw new IllegalArgumentException("Command numbers must be at least 1000");
+        }
+        _sendVendorCommand(cmd, arg1, arg2);
+    }
+
+    private native final void _sendVendorCommand(int cmd, int arg1, int arg2);
 
     /**
      * Callback interface for zoom changes during a smooth zoom operation.
@@ -4356,6 +4370,7 @@ public class Camera {
             splitter.setString(str);
             int index = 0;
             for (String s : splitter) {
+                s = s.replaceAll("\\s","");
                 output[index++] = Integer.parseInt(s);
             }
         }
@@ -4426,7 +4441,7 @@ public class Camera {
         // Example string: "(10000,26623),(10000,30000)". Return null if the
         // passing string is null or the size is 0.
         private ArrayList<int[]> splitRange(String str) {
-            if (str == null || str.charAt(0) != '('
+            if (str == null || str.isEmpty() || str.charAt(0) != '('
                     || str.charAt(str.length() - 1) != ')') {
                 Log.e(TAG, "Invalid range list string=" + str);
                 return null;
@@ -4451,7 +4466,7 @@ public class Camera {
         // Example string: "(-10,-10,0,0,300),(0,0,10,10,700)". Return null if
         // the passing string is null or the size is 0 or (0,0,0,0,0).
         private ArrayList<Area> splitArea(String str) {
-            if (str == null || str.charAt(0) != '('
+            if (str == null || str.isEmpty() || str.charAt(0) != '('
                     || str.charAt(str.length() - 1) != ')') {
                 Log.e(TAG, "Invalid area string=" + str);
                 return null;
@@ -4507,6 +4522,9 @@ public class Camera {
         private static final String KEY_QC_MANUAL_FOCUS_POS_TYPE = "manual-focus-pos-type";
         private static final String KEY_QC_SCENE_DETECT = "scene-detect";
         private static final String KEY_QC_ISO_MODE = "iso";
+        private static final String KEY_QC_EXPOSURE_TIME = "exposure-time";
+        private static final String KEY_QC_MIN_EXPOSURE_TIME = "min-exposure-time";
+        private static final String KEY_QC_MAX_EXPOSURE_TIME = "max-exposure-time";
         private static final String KEY_QC_LENSSHADE = "lensshade";
         private static final String KEY_QC_HISTOGRAM = "histogram";
         private static final String KEY_QC_SKIN_TONE_ENHANCEMENT = "skinToneEnhancement";
@@ -5338,6 +5356,42 @@ public class Camera {
          }
 
          /** @hide
+         * Sets the exposure time.
+         *
+         * @param value exposure time.
+         */
+         public void setExposureTime(int value) {
+            set(KEY_QC_EXPOSURE_TIME, Integer.toString(value));
+         }
+
+         /** @hide
+         * Gets the current exposure time.
+         *
+         * @return exposure time.
+         */
+         public String getExposureTime() {
+            return get(KEY_QC_EXPOSURE_TIME);
+         }
+
+         /** @hide
+         * Gets the min supported exposure time.
+         *
+         * @return min supported exposure time.
+         */
+         public String getMinExposureTime() {
+            return get(KEY_QC_MIN_EXPOSURE_TIME);
+         }
+
+         /** @hide
+         * Gets the max supported exposure time.
+         *
+         * @return max supported exposure time.
+         */
+         public String getMaxExposureTime() {
+            return get(KEY_QC_MAX_EXPOSURE_TIME);
+         }
+
+         /** @hide
          * Gets the current LensShade Mode.
          *
          * @return LensShade Mode
@@ -5390,6 +5444,15 @@ public class Camera {
          */
          public void setMemColorEnhance(String mce) {
             set(KEY_QC_MEMORY_COLOR_ENHANCEMENT, mce);
+         }
+
+         /** @hide
+         * Set white balance manual cct value.
+         *
+         * @param cct user CCT setting.
+         */
+         public void setWBManualCCT(int cct) {
+            set(KEY_QC_WB_MANUAL_CCT, Integer.toString(cct));
          }
 
          /** @hide
@@ -5606,6 +5669,12 @@ public class Camera {
             set(KEY_QC_FACE_DETECTION, value);
          }
 
+         /** @hide
+         * Gets the current video rotation setting.
+         *
+         * @return one of VIDEO_QC_ROTATION_XXX string constant. null if video rotation
+         *         setting is not supported.
+         */
          public String getVideoRotation() {
             return get(KEY_QC_VIDEO_ROTATION);
          }

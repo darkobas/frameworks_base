@@ -91,14 +91,10 @@ public class CamcorderProfile
     public static final int QUALITY_QVGA = 7;
 
     /**
-     * Quality level corresponding to the 2160p (3840x2160) resolution.
+     * Quality level corresponding to the 2160p (3840 x 2160) resolution.
      */
     public static final int QUALITY_2160P = 8;
 
-    /** @hide
-     * Quality level corresponding to the FWVGA resolution.
-     */
-    public static final int QUALITY_FWVGA = 9;
     /** @hide
      * Quality level corresponding to the WVGA resolution.
      */
@@ -131,7 +127,7 @@ public class CamcorderProfile
 
     // Start and end of quality list
     private static final int QUALITY_LIST_START = QUALITY_LOW;
-    private static final int QUALITY_LIST_END = QUALITY_WQVGA;
+    private static final int QUALITY_LIST_END = QUALITY_HVGA;
 
     /**
      * Time lapse quality level corresponding to the lowest available resolution.
@@ -205,7 +201,7 @@ public class CamcorderProfile
 
     // Start and end of timelapse quality list
     private static final int QUALITY_TIME_LAPSE_LIST_START = QUALITY_TIME_LAPSE_LOW;
-    private static final int QUALITY_TIME_LAPSE_LIST_END = QUALITY_TIME_LAPSE_WQVGA;
+    private static final int QUALITY_TIME_LAPSE_LIST_END = QUALITY_TIME_LAPSE_4kDCI;
 
     /**
      * High speed ( >= 100fps) quality level corresponding to the lowest available resolution.
