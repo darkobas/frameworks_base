@@ -377,7 +377,7 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
         mLongClickToForceLock = mUnlockMethodCache.isTrustManaged()
                 && !clickToForceLock;
         mLongClickToSleep = Settings.Secure.getIntForUser(getContext().getContentResolver(),
-                Settings.Secure.LONG_PRESS_LOCK_ICON_TO_SLEEP, 0, UserHandle.USER_CURRENT) == 1;
+                Settings.Secure.LONG_PRESS_LOCK_ICON_TO_SLEEP, 1, UserHandle.USER_CURRENT) == 1;
         mLockIcon.setClickable(clickToForceLock || clickToUnlock);
         mLockIcon.setLongClickable(mLongClickToForceLock || mLongClickToSleep);
         mLockIcon.setFocusable(mAccessibilityController.isAccessibilityEnabled());

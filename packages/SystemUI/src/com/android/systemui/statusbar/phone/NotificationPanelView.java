@@ -31,7 +31,6 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.PowerManager;
-import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.MathUtils;
@@ -2053,11 +2052,9 @@ public class NotificationPanelView extends PanelView implements
         void observe() {
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.DOUBLE_TAP_SLEEP_GESTURE),
-                    false, this, UserHandle.USER_ALL);
+                   Settings.System.DOUBLE_TAP_SLEEP_GESTURE), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.DOUBLE_TAP_SLEEP_ANYWHERE),
-                    false, this, UserHandle.USER_ALL);
+                    Settings.System.DOUBLE_TAP_SLEEP_ANYWHERE), false, this);
             update();
         }
 
@@ -2078,12 +2075,10 @@ public class NotificationPanelView extends PanelView implements
 
         public void update() {
             ContentResolver resolver = mContext.getContentResolver();
-            mDoubleTapToSleepEnabled = Settings.System.getIntForUser(
-                    resolver, Settings.System.DOUBLE_TAP_SLEEP_GESTURE, 1,
-                    UserHandle.USER_CURRENT) == 1;
-            mDoubleTapToSleepAnywhere = Settings.System.getIntForUser(
-                    resolver, Settings.System.DOUBLE_TAP_SLEEP_ANYWHERE, 0,
-                    UserHandle.USER_CURRENT) == 1;
+            mDoubleTapToSleepEnabled = Settings.System.getInt(
+                    resolver, Settings.System.DOUBLE_TAP_SLEEP_GESTURE, 1) == 1;
+            mDoubleTapToSleepAnywhere = Settings.System.getInt(
+                    resolver, Settings.System.DOUBLE_TAP_SLEEP_ANYWHERE, 0) == 1;
         }
     }
 }

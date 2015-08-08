@@ -3233,12 +3233,6 @@ public final class Settings {
         public static final String DOUBLE_TAP_SLEEP_ANYWHERE = "double_tap_sleep_anywhere";
 
         /**
-         * Long press on lock screen lock icon to sleep
-         * @hide
-         */
-        public static final String LONG_PRESS_LOCK_ICON_TO_SLEEP = "long_press_lock_icon_to_sleep";
-
-        /**
          * Show onscreen keys for hw button devices
          * @hide
          */
@@ -5612,6 +5606,12 @@ public final class Settings {
          * @hide
          */
         public static final String DEVELOPMENT_SHORTCUT = "development_shortcut";
+
+        /**
+         * Long press on lock screen lock icon to sleep
+         * @hide
+         */
+        public static final String LONG_PRESS_LOCK_ICON_TO_SLEEP = "long_press_lock_icon_to_sleep";
 
         /**
          * This are the settings to be backed up.
