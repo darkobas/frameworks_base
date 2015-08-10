@@ -325,8 +325,6 @@ public class KeyguardStatusView extends GridLayout implements
         int primaryTextColor = Settings.System.getInt(resolver,
                 Settings.System.LOCK_SCREEN_WEATHER_TEXT_COLOR, defaultPrimaryTextColor);
         int secondaryTextColor = (179 << 24) | (primaryTextColor & 0x00ffffff); // primaryTextColor with a transparency of 70%
-                Settings.System.LOCK_SCREEN_TEXT_COLOR, defaultPrimaryTextColor);
-
         if (hideMode == 0) {
             if (currentVisibleNotifications > maxAllowedNotifications) {
                 forceHideByNumberOfNotifications = true;
