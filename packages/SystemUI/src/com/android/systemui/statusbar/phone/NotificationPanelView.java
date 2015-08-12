@@ -348,11 +348,13 @@ public class NotificationPanelView extends PanelView implements
 
     @Override
     public void onAttachedToWindow() {
+        super.onAttachedToWindow();
         mSecureCameraLaunchManager.create();
     }
 
     @Override
     public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
         mSecureCameraLaunchManager.destroy();
     }
 
