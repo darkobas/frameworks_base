@@ -881,6 +881,7 @@ public class AudioRecord
      */
     public void startRecording()
     throws IllegalStateException {
+        android.util.SeempLog.record(88);
         if (mState != STATE_INITIALIZED) {
             throw new IllegalStateException("startRecording() called on an "
                     + "uninitialized AudioRecord.");
@@ -904,6 +905,7 @@ public class AudioRecord
      */
     public void startRecording(MediaSyncEvent syncEvent)
     throws IllegalStateException {
+        android.util.SeempLog.record(88);
         if (mState != STATE_INITIALIZED) {
             throw new IllegalStateException("startRecording() called on an "
                     + "uninitialized AudioRecord.");
@@ -924,6 +926,7 @@ public class AudioRecord
      */
     public void stop()
     throws IllegalStateException {
+        android.util.SeempLog.record(90);
         if (mState != STATE_INITIALIZED) {
             throw new IllegalStateException("stop() called on an uninitialized AudioRecord.");
         }
