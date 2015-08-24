@@ -46,4 +46,6 @@
 
     <!-- Themes material -->
     <color name="navigation_bar_color">@color/exposed_navigation_bar</color>
+    <color name="color_control_normal_default_material_light">#8a000000</color>
+    <color name="color_control_normal_default_material_dark">#b3ffffff</color>
 </resources> 
