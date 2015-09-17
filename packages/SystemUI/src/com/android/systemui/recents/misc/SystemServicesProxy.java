@@ -335,6 +335,36 @@ public class SystemServicesProxy {
         mAm.removeTask(taskId);
     }
 
+    /** Removes the task and kills the process */
+    public void removeTask(int taskId, boolean isDocument) {
+        if (mAm == null) return;
+        if (Constants.DebugFlags.App.EnableSystemServicesProxy) return;
+
+        // Remove the task
+        mAm.removeTask(taskId);
+    }
+
+    /** Removes all the user task and kills its processes **/
+    public void removeAllUserTask(int userId) {
+        // Exclude home/recents tasks
+        List<ActivityManager.RecentTaskInfo> tasks = mAm.getRecentTasksForUser(
+                ActivityManager.getMaxRecentTasksStatic(),
+                ActivityManager.RECENT_IGNORE_HOME_STACK_TASKS |
+                ActivityManager.RECENT_IGNORE_UNAVAILABLE |
+                ActivityManager.RECENT_INCLUDE_PROFILES |
+                ActivityManager.RECENT_WITH_EXCLUDED, userId);
+        if (tasks == null) {
+            return;
+        }
+        Iterator<ActivityManager.RecentTaskInfo> iter = tasks.iterator();
+        while (iter.hasNext()) {
+            ActivityManager.RecentTaskInfo t = iter.next();
+            if (t.persistentId > 0) {
+                removeTask(t.persistentId);
+            }
+        }
+    }
+
     /**
      * Returns the activity info for a given component name.
      *
