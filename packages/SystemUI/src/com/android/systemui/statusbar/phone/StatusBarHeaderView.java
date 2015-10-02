@@ -344,6 +344,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         updateAvatarScale();
         updateClockLp();
         requestCaptureValues();
+        mBatteryViewManager.update();
     }
 
     private void updateHeights() {
