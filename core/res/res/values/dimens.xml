@@ -410,7 +410,4 @@
     <item type="dimen" format="integer" name="time_picker_column_start_material">0</item>
     <item type="dimen" format="integer" name="time_picker_column_end_material">1</item>
 
-    <!-- Largest size an avatar might need to be drawn in the user picker, status bar, or
-    quick settings header -->
-    <dimen name="max_avatar_size">48dp</dimen>
 </resources>
