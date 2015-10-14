@@ -206,7 +206,7 @@ LOCAL_C_INCLUDES += \
 
 ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
 LOCAL_C_INCLUDES += \
-        $(TOP)/frameworks/av-caf/include
+        $(TOP)/frameworks/av/include
 else
 LOCAL_C_INCLUDES += \
         $(TOP)/frameworks/av/include
