@@ -745,18 +745,12 @@ public class AudioManager {
                                  : ADJUST_RAISE;
                     }
                 }
-                int flags = FLAG_SHOW_UI | FLAG_VIBRATE;
-
-                if (mUseMasterVolume) {
-                    adjustMasterVolume(direction, flags);
-                } else {
-                    adjustSuggestedStreamVolume(
-                            keyCode == KeyEvent.KEYCODE_VOLUME_UP
-                                    ? ADJUST_RAISE
-                                    : ADJUST_LOWER,
-                            stream,
-                            FLAG_SHOW_UI | FLAG_VIBRATE);
-                }
+                adjustSuggestedStreamVolume(
+                        keyCode == KeyEvent.KEYCODE_VOLUME_UP
+                                ? ADJUST_RAISE
+                                : ADJUST_LOWER,
+                        stream,
+                        FLAG_SHOW_UI | FLAG_VIBRATE);
                 break;
             case KeyEvent.KEYCODE_VOLUME_MUTE:
                 if (event.getRepeatCount() == 0) {
@@ -779,15 +773,11 @@ public class AudioManager {
                  * Play a sound. This is done on key up since we don't want the
                  * sound to play when a user holds down volume down to mute.
                  */
-                if (mUseMasterVolume) {
-                    adjustMasterVolume(ADJUST_SAME, FLAG_PLAY_SOUND);
-                } else {
-                    if (mUseVolumeKeySounds) {
-                        adjustSuggestedStreamVolume(
-                                ADJUST_SAME,
-                                stream,
-                                FLAG_PLAY_SOUND);
-                    }
+                if (mUseVolumeKeySounds) {
+                    adjustSuggestedStreamVolume(
+                            ADJUST_SAME,
+                            stream,
+                            FLAG_PLAY_SOUND);
                 }
                 mVolumeKeyUpTime = SystemClock.uptimeMillis();
                 break;

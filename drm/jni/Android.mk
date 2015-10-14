@@ -38,9 +38,9 @@ LOCAL_C_INCLUDES += \
 
 ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
 LOCAL_C_INCLUDES += \
-    $(TOP)/frameworks/av-caf/drm/libdrmframework/include \
-    $(TOP)/frameworks/av-caf/drm/libdrmframework/plugins/common/include \
-    $(TOP)/frameworks/av-caf/include
+    $(TOP)/frameworks/av/drm/libdrmframework/include \
+    $(TOP)/frameworks/av/drm/libdrmframework/plugins/common/include \
+    $(TOP)/frameworks/av/include
 else
 LOCAL_C_INCLUDES += \
     $(TOP)/frameworks/av/drm/libdrmframework/include \

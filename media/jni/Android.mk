@@ -65,12 +65,12 @@ LOCAL_C_INCLUDES += \
 
 ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
 LOCAL_C_INCLUDES += \
-    frameworks/av-caf/media/libmedia \
-    frameworks/av-caf/media/libstagefright \
-    frameworks/av-caf/media/libstagefright/codecs/amrnb/enc/src \
-    frameworks/av-caf/media/libstagefright/codecs/amrnb/common \
-    frameworks/av-caf/media/libstagefright/codecs/amrnb/common/include \
-    frameworks/av-caf/media/mtp
+    frameworks/av/media/libmedia \
+    frameworks/av/media/libstagefright \
+    frameworks/av/media/libstagefright/codecs/amrnb/enc/src \
+    frameworks/av/media/libstagefright/codecs/amrnb/common \
+    frameworks/av/media/libstagefright/codecs/amrnb/common/include \
+    frameworks/av/media/mtp
 else
 LOCAL_C_INCLUDES += \
     frameworks/av/media/libmedia \
