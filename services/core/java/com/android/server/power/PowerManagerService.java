@@ -500,6 +500,7 @@ public final class PowerManagerService extends SystemService
     private static native void nativeSetInteractive(boolean enable);
     private static native void nativeSetAutoSuspend(boolean enable);
     private static native void nativeSendPowerHint(int hintId, int data);
+    private static native void nativeSendPowerHintString(int hintId, String data);
     private static native void nativeSetFeature(int featureId, int data);
 
     private SensorManager mSensorManager;

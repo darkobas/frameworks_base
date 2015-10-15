@@ -156,6 +156,14 @@ static void nativeSendPowerHint(JNIEnv *env, jclass clazz, jint hintId, jint dat
     }
 }
 
+static void nativeSendPowerHintString(JNIEnv *env, jclass clazz, jint hintId, jstring data) {
+    ScopedUtfChars name(env, data);
+
+    if (gPowerModule && gPowerModule->powerHint) {
+        gPowerModule->powerHint(gPowerModule, (power_hint_t)hintId, (void*)name.c_str());
+    }
+}
+
 static void nativeSetFeature(JNIEnv *env, jclass clazz, jint featureId, jint data) {
     int data_param = data;
 
@@ -180,6 +188,8 @@ static JNINativeMethod gPowerManagerServiceMethods[] = {
             (void*) nativeSetAutoSuspend },
     { "nativeSendPowerHint", "(II)V",
             (void*) nativeSendPowerHint },
+    { "nativeSendPowerHintString", "(ILjava/lang/String;)V",
+            (void*) nativeSendPowerHintString },
     { "nativeSetFeature", "(II)V",
             (void*) nativeSetFeature },
 };

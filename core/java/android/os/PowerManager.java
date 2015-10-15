@@ -996,6 +996,31 @@ public final class PowerManager {
     public static final String EXTRA_POWER_SAVE_MODE = "mode";
 
     /**
+     * Get current active power profile if supported
+     *
+     * @hide
+     */
+    public String getCurrentPowerProfile() {
+        try {
+            return mService.getCurrentPowerProfile();
+        } catch (RemoteException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Force set a profile overruling automatic profile selection
+     *
+     * @hide
+     */
+    void setPowerProfile(String profile) {
+        try {
+            mService.setPowerProfile(profile);
+        } catch (RemoteException e) {
+        }
+    }
+
+    /**
      * Intent that is broadcast when the state of {@link #isScreenBrightnessBoosted()} has changed.
      * This broadcast is only sent to registered receivers.
      *
