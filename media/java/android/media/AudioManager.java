@@ -48,9 +48,6 @@ import android.util.ArrayMap;
 import android.util.Log;
 import android.util.Pair;
 import android.view.KeyEvent;
-import android.view.View;
-import android.view.Surface;
-import android.view.WindowManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -728,23 +725,6 @@ public class AudioManager {
                  * Adjust the volume in on key down since it is more
                  * responsive to the user.
                  */
-                int direction = keyCode == KeyEvent.KEYCODE_VOLUME_UP ? ADJUST_RAISE
-                        : ADJUST_LOWER;
-                final WindowManager windowService = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-                if (windowService != null) {
-                    final int rotation = windowService.getDefaultDisplay().getRotation();
-                    final Configuration config = mContext.getResources().getConfiguration();
-                    final boolean swapKeys = Settings.System.getIntForUser(mContext.getContentResolver(),
-                            Settings.System.SWAP_VOLUME_BUTTONS, 0, Process.myUserHandle().getIdentifier()) == 1;
-
-                    if (swapKeys
-                            && (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_180)
-                            && config.getLayoutDirection() == View.LAYOUT_DIRECTION_LTR) {
-                         direction = keyCode == KeyEvent.KEYCODE_VOLUME_UP
-                                 ? ADJUST_LOWER
-                                 : ADJUST_RAISE;
-                    }
-                }
                 adjustSuggestedStreamVolume(
                         keyCode == KeyEvent.KEYCODE_VOLUME_UP
                                 ? ADJUST_RAISE
@@ -760,7 +740,6 @@ public class AudioManager {
                 break;
         }
     }
-
     /**
      * @hide
      */
@@ -787,7 +766,6 @@ public class AudioManager {
                 break;
         }
     }
-
     /**
      * Indicates if the device implements a fixed volume policy.
      * <p>Some devices may not have volume control and may operate at a fixed volume,

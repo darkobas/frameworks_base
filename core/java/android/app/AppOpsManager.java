@@ -1,7 +1,4 @@
 /*
- * Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
- * Not a Contribution.
- *
  * Copyright (C) 2012 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,7 +27,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Process;
 import android.os.RemoteException;
-import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.os.UserManager;
 import android.util.ArrayMap;
@@ -107,18 +103,9 @@ public class AppOpsManager {
      */
     public static final int MODE_DEFAULT = 3;
 
-    /**
-     * @hide Result from {@link #checkOp}, {@link #noteOp}, {@link #startOp}:
-     * AppOps Service should show a dialog box on screen to get user
-     * permission.
-     */
-    public static final int MODE_ASK = 4;
-
     // when adding one of these:
     //  - increment _NUM_OP
-    //  - add rows to sOpToSwitch, sOpToString, sOpNames, sOpPerms, sOpDefaultMode, sOpDefaultStrictMode,
-    //    sOpToOpString, sOpStrictMode.
-    //  - add descriptive strings to frameworks/base/core/res/res/values/config.xml
+    //  - add rows to sOpToSwitch, sOpToString, sOpNames, sOpPerms, sOpDefaultMode
     //  - add descriptive strings to Settings/res/values/arrays.xml
     //  - add the op to the appropriate template in AppOpsState.OpsTemplate (settings app)
 
@@ -936,10 +923,6 @@ public class AppOpsManager {
             throw new IllegalStateException("sOpToString length " + sOpToString.length
                     + " should be " + _NUM_OP);
         }
-        if (sOpToOpString.length != _NUM_OP) {
-            throw new IllegalStateException("sOpToOpString length " + sOpToOpString.length
-                    + " should be " + _NUM_OP);
-        }
         if (sOpNames.length != _NUM_OP) {
             throw new IllegalStateException("sOpNames length " + sOpNames.length
                     + " should be " + _NUM_OP);
@@ -952,10 +935,6 @@ public class AppOpsManager {
             throw new IllegalStateException("sOpDefaultMode length " + sOpDefaultMode.length
                     + " should be " + _NUM_OP);
         }
-        if (sOpDefaultStrictMode.length != _NUM_OP) {
-            throw new IllegalStateException("sOpDefaultStrictMode length " + sOpDefaultStrictMode.length
-                    + " should be " + _NUM_OP);
-        }
         if (sOpDisableReset.length != _NUM_OP) {
             throw new IllegalStateException("sOpDisableReset length " + sOpDisableReset.length
                     + " should be " + _NUM_OP);
@@ -965,19 +944,12 @@ public class AppOpsManager {
                     + " should be " + _NUM_OP);
         }
         if (sOpAllowSystemRestrictionBypass.length != _NUM_OP) {
-            throw new IllegalStateException("sOpAllowSystemRestrictionsBypass length "
-                    + sOpAllowSystemRestrictionBypass.length + " should be " + _NUM_OP);
-        }
-        if (sOpStrictMode.length != _NUM_OP) {
-            throw new IllegalStateException("sOpStrictMode length "
-                    + sOpStrictMode.length + " should be " + _NUM_OP);
+            throw new IllegalStateException("sOpAllowSYstemRestrictionsBypass length "
+                    + sOpRestrictions.length + " should be " + _NUM_OP);
         }
         for (int i=0; i<_NUM_OP; i++) {
             if (sOpToString[i] != null) {
                 sOpStrToOp.put(sOpToString[i], i);
-            }
-            if (sOpToOpString[i] != null) {
-                sOpStringToOp.put(sOpToOpString[i], i);
             }
         }
         for (int i=0; i<_NUM_OP; i++) {
@@ -1054,9 +1026,7 @@ public class AppOpsManager {
      * Retrieve the default mode for the operation.
      * @hide
      */
-    public static int opToDefaultMode(int op, boolean isStrict) {
-        if (isStrict)
-            return sOpDefaultStrictMode[op];
+    public static int opToDefaultMode(int op) {
         return sOpDefaultMode[op];
     }
 
@@ -1782,50 +1752,5 @@ public class AppOpsManager {
     /** @hide */
     public void finishOp(int op) {
         finishOp(op, Process.myUid(), mContext.getOpPackageName());
-    }
-
-    /** @hide */
-    public static boolean isStrictEnable() {
-        return SystemProperties.getBoolean("persist.sys.strict_op_enable", false);
-    }
-
-    /**
-     * Check if op in strict mode
-     * @hide
-     */
-    public static boolean isStrictOp(int code) {
-        return sOpStrictMode[code];
-    }
-
-
-    /** @hide */
-    public static int stringToMode(String permission) {
-        if ("allowed".equalsIgnoreCase(permission)) {
-            return AppOpsManager.MODE_ALLOWED;
-        } else if ("ignored".equalsIgnoreCase(permission)) {
-            return AppOpsManager.MODE_IGNORED;
-        } else if ("ask".equalsIgnoreCase(permission)) {
-            return AppOpsManager.MODE_ASK;
-        }
-        return AppOpsManager.MODE_ERRORED;
-    }
-
-    /** @hide */
-    public static int stringOpToOp (String op) {
-        Integer val = sOpStringToOp.get(op);
-        if (val == null) {
-            val = OP_NONE;
-        }
-        return val;
-    }
-
-    /** @hide */
-    public boolean isControlAllowed(int op, String packageName) {
-        boolean isShow = true;
-        try {
-            isShow = mService.isControlAllowed(op, packageName);
-        } catch (RemoteException e) {
-        }
-        return isShow;
     }
 }
