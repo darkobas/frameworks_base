@@ -5583,10 +5583,16 @@ class ActivityManagerProxy implements IActivityManager
         data.writeInt(displayId);
         mRemote.transact(CREATE_STACK_ON_DISPLAY, data, reply, 0);
         reply.readException();
-        final int displayId = reply.readInt();
+        final int result = reply.readInt();
+        final IActivityContainer res;
+        if (result == 1) {
+            res = IActivityContainer.Stub.asInterface(reply.readStrongBinder());
+        } else {
+            res = null;
+        }
         data.recycle();
         reply.recycle();
-        return displayId;
+        return res;
     }
 
     @Override

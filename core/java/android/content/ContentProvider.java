@@ -505,32 +505,6 @@ public abstract class ContentProvider implements ComponentCallbacks2 {
 
             return AppOpsManager.MODE_ALLOWED;
         }
-
-        private int enforceDeletePermission(String callingPkg, Uri uri, IBinder callerToken) 
-                throws SecurityException {
-            enforceWritePermissionInner(uri, callerToken);
-            if (mWriteOp != AppOpsManager.OP_NONE) {
-                int op = mWriteOp;
-                switch (mWriteOp) {
-                case AppOpsManager.OP_WRITE_SMS:
-                    op = AppOpsManager.OP_DELETE_SMS;
-                    break;
-                case AppOpsManager.OP_WRITE_MMS:
-                    op = AppOpsManager.OP_DELETE_MMS;
-                    break;
-                case AppOpsManager.OP_WRITE_CONTACTS:
-                    op = AppOpsManager.OP_DELETE_CONTACTS;
-                    break;
-                case AppOpsManager.OP_WRITE_CALL_LOG:
-                    op = AppOpsManager.OP_DELETE_CALL_LOG;
-                    break;
-                default:
-                    break;
-                }
-               mAppOpsManager.noteOp(op, Binder.getCallingUid(), callingPkg);
-            }
-            return AppOpsManager.MODE_ALLOWED;
-        }
     }
 
     boolean checkUser(int pid, int uid, Context context) {

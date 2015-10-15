@@ -1447,9 +1447,6 @@ public class WifiManager {
      *         is the same as the requested state).
      */
     public boolean setWifiEnabled(boolean enabled) {
-        if (mAppOps.noteOp(AppOpsManager.OP_WIFI_CHANGE) !=
-                AppOpsManager.MODE_ALLOWED)
-            return false;
         try {
             return mService.setWifiEnabled(enabled);
         } catch (RemoteException e) {
