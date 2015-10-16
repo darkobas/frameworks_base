@@ -66,7 +66,6 @@ import android.os.UserHandle;
 import android.os.WorkSource;
 import android.provider.Settings;
 import android.service.dreams.DreamManagerInternal;
-import android.telephony.TelephonyManager;
 import android.util.EventLog;
 import android.util.Slog;
 import android.util.TimeUtils;
@@ -3356,13 +3355,7 @@ public final class PowerManagerService extends SystemService
                 // There is already a message queued;
                 return;
             }
-
-            TelephonyManager tm = (TelephonyManager)mContext.getSystemService(
-                    Context.TELEPHONY_SERVICE);
-            boolean hasIncomingCall = tm.getCallState() == TelephonyManager.CALL_STATE_RINGING;
-
-            if (mProximityWakeSupported && mProximityWakeEnabled && mProximitySensor != null
-                    && !hasIncomingCall) {
+            if (mProximityWakeSupported && mProximityWakeEnabled && mProximitySensor != null) {
                 Message msg = mHandler.obtainMessage(MSG_WAKE_UP);
                 msg.obj = r;
                 mHandler.sendMessageDelayed(msg, mProximityTimeOut);
