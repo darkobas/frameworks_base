@@ -3375,7 +3375,6 @@ public final class PowerManagerService extends SystemService
                 runPostProximityCheck(r);
             } else {
                 r.run();
->>>>>>> e57827c... ProximityWake : Add support for checking proximity when waking device
             }
         }
 
