@@ -2323,7 +2323,12 @@ public abstract class ActivityManagerNative extends Binder implements IActivityM
             int displayId = data.readInt();
             IActivityContainer activityContainer = createStackOnDisplay(displayId);
             reply.writeNoException();
-            reply.writeInt(displayId);
+            if (activityContainer != null) {
+                reply.writeInt(1);
+                reply.writeStrongBinder(activityContainer.asBinder());
+            } else {
+                reply.writeInt(0);
+            }
             return true;
         }
 
