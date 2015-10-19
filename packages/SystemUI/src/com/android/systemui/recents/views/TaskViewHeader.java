@@ -123,8 +123,8 @@ public class TaskViewHeader extends FrameLayout {
                 context.getString(R.string.accessibility_recents_item_will_be_dismissed);
 
         // Load the screen pinning resources
-        mLightPinDrawable = res.getDrawable(R.drawable.ic_pin);
-        mDarkPinDrawable = res.getDrawable(R.drawable.ic_pin_dark);
+        mLightPinDrawable = context.getDrawable(R.drawable.ic_pin);
+        mDarkPinDrawable = context.getDrawable(R.drawable.ic_pin_dark);
 
         // Configure the highlight paint
         if (sHighlightPaint == null) {
