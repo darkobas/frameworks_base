@@ -52,11 +52,14 @@ LOCAL_REQUIRED_MODULES := \
 LOCAL_STATIC_LIBRARIES := \
     libstagefright_amrnbenc
 
+LOCAL_WHOLE_STATIC_LIBRARIES := libavmediaextentions
+
 LOCAL_C_INCLUDES += \
     external/libexif/ \
     external/tremor/Tremor \
     frameworks/base/core/jni \
     frameworks/base/libs/hwui \
+    frameworks/av/media/libavextensions \
     frameworks/native/include/media/openmax \
     $(call include-path-for, libhardware)/hardware \
     system/media/camera/include \

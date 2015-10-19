@@ -85,16 +85,7 @@
             android:layout_below="@id/zen_introduction_message"
             android:layout_alignParentEnd="true" />
 
-                <TextView
-                    android:id="@+id/zen_subhead_expanded"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="8dp"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    android:textAppearance="@style/TextAppearance.QS.Subhead" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/zen_conditions"
