@@ -127,6 +127,7 @@ public class TaskViewHeader extends FrameLayout {
         // Load multi-window resources
         mLightMultiwindowDrawable = context.getDrawable(R.drawable.ic_multiwindow);
         mDarkMultiwindowDrawable = context.getDrawable(R.drawable.ic_multiwindow_dark);
+
         // Configure the highlight paint
         if (sHighlightPaint == null) {
             sHighlightPaint = new Paint();

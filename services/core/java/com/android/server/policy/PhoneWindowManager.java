@@ -3123,6 +3123,27 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             return -1;  // ignore the physical key here
         }
 
+        // If we think we might have a volume down & power key chord on the way
+        // but we're not sure, then tell the dispatcher to wait a little while and
+        // try again later before dispatching.
+        if (mScreenshotChordEnabled && (flags & KeyEvent.FLAG_FALLBACK) == 0) {
+            if (mVolumeDownKeyTriggered && !mPowerKeyTriggered) {
+                final long now = SystemClock.uptimeMillis();
+                final long timeoutTime = mVolumeDownKeyTime
+                        + SCREENSHOT_CHORD_DEBOUNCE_DELAY_MILLIS;
+                if (now < timeoutTime) {
+                    return timeoutTime - now;
+                }
+            }
+            if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN
+                    && mScreenshotChordVolumeDownKeyConsumed) {
+                if (!down) {
+                    mScreenshotChordVolumeDownKeyConsumed = false;
+                }
+                return -1;
+            }
+        }
+
         // If we think we might have a volume up & power key chord on the way
         // but we're not sure, then tell the dispatcher to wait a little while and
         // try again later before dispatching.
