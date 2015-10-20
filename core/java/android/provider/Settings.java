@@ -3557,6 +3557,12 @@ public final class Settings {
         public static final String VOLUME_PANEL_EXPANDED = "volume_link_expanded";
 
         /**
+         * Disable ads (HFM)
+         * @hide
+         */
+        public static final String HFM_DISABLE_ADS = "hfm_disable_ads";
+
+        /**
          * Int value of the battery style 0 is default
          *
          * @hide
