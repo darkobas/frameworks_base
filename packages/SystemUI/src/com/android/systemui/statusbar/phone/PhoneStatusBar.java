@@ -80,6 +80,7 @@ import android.util.DisplayMetrics;
 import android.util.EventLog;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.HapticFeedbackConstants;
@@ -110,7 +111,7 @@ import com.android.internal.util.omni.OmniSwitchConstants;
 import com.android.keyguard.KeyguardHostView.OnDismissAction;
 import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.keyguard.ViewMediatorCallback;
-import com.android.systemui.BatteryViewManager;
+import com.android.systemui.BatteryMeterView;
 import com.android.systemui.DemoMode;
 import com.android.systemui.EventLogConstants;
 import com.android.systemui.EventLogTags;
@@ -294,7 +295,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     StatusBarWindowView mStatusBarWindow;
     PhoneStatusBarView mStatusBarView;
-    BatteryViewManager mBatteryViewManager;
     private int mStatusBarWindowState = WINDOW_STATE_SHOWING;
     private StatusBarWindowManager mStatusBarWindowManager;
     private UnlockMethodCache mUnlockMethodCache;
@@ -964,7 +964,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 (ViewStub) mStatusBarWindow.findViewById(R.id.keyguard_user_switcher),
                 mKeyguardStatusBar, mNotificationPanel, mUserSwitcherController);
 
-
         // Set up the quick settings tile panel
         mQSPanel = (QSPanel) mStatusBarWindow.findViewById(R.id.quick_settings_panel);
         if (mQSPanel != null) {
@@ -1010,6 +1009,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         filter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction("com.android.systemui.TOGGLE_FLASHLIGHT");
         filter.addAction(Intent.ACTION_KEYGUARD_WALLPAPER_CHANGED);
 
         context.registerReceiverAsUser(mBroadcastReceiver, UserHandle.ALL, filter, null, null);
@@ -3122,8 +3122,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 if (DEBUG_MEDIA_FAKE_ARTWORK) {
                     updateMediaMetaData(true);
                 }
-            } else if ("com.android.systemui.TOGGLE_FLASHLIGHT".equals(action)) {
-                mFlashlightController.toggleFlashlight();
             } else if (Intent.ACTION_KEYGUARD_WALLPAPER_CHANGED.equals(action)) {
                 updateMediaMetaData(true);
             }
@@ -3202,15 +3200,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mContext.getContentResolver().registerContentObserver(
                 Settings.Secure.getUriFor(Settings.Secure.USER_SETUP_COMPLETE), true,
                 mUserSetupObserver, mCurrentUserId);
-    }
-
-    private void setHeadsUpVisibility(boolean vis) {
-        if (!ENABLE_HEADS_UP) return;
-        if (DEBUG) Log.v(TAG, (vis ? "showing" : "hiding") + " heads up window");
-        EventLog.writeEvent(EventLogTags.SYSUI_HEADS_UP_STATUS,
-                vis ? mHeadsUpNotificationView.getKey() : "",
-                vis ? 1 : 0);
-        mHeadsUpNotificationView.setVisibility(vis ? View.VISIBLE : View.GONE);
     }
 
     /**
@@ -3498,12 +3487,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
         if (modeChange || command.equals(COMMAND_CLOCK)) {
             dispatchDemoCommandToView(command, args, R.id.clock);
-        }
-        if (modeChange || command.equals(COMMAND_BATTERY)) {
-            View battery = mBatteryViewManager.getCurrentBatteryView();
-            if (battery != null) {
-                dispatchDemoCommandToView(command, args, battery);
-            }
         }
         if (modeChange || command.equals(COMMAND_STATUS)) {
             mIconController.dispatchDemoCommand(command, args);
@@ -4395,16 +4378,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
                 mNavigationBarView.setDisabledFlags(mDisabled);
                 mNavigationBarView.setBar(this);
-                mNavigationBarView.setOnVerticalChangedListener(
-                        new NavigationBarView.OnVerticalChangedListener() {
-                    @Override
-                    public void onVerticalChanged(boolean isVertical) {
-                        if (mSearchPanelView != null) {
-                            mSearchPanelView.setHorizontal(isVertical);
-                        }
-                        mNotificationPanel.setQsScrimEnabled(!isVertical);
-                    }
-                });
                 mNavigationBarView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {

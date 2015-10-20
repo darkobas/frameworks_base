@@ -589,11 +589,7 @@ public class WallpaperCropActivity extends Activity {
                 try {
                     InputStream is = regenerateInputStream();
                     if (is != null) {
-                        if (mKeyguardMode) {
-                            wallpaperManager.setKeyguardStream(is);
-                        } else {
-                            wallpaperManager.setStream(is);
-                        }
+                        wallpaperManager.setStream(is);
                         Utils.closeSilently(is);
                     }
                 } catch (IOException e) {
@@ -789,11 +785,7 @@ public class WallpaperCropActivity extends Activity {
                     if (mSetWallpaper && wallpaperManager != null) {
                         try {
                             byte[] outByteArray = tmpOut.toByteArray();
-                            if (mKeyguardMode) {
-                                wallpaperManager.setKeyguardStream(new ByteArrayInputStream(outByteArray));
-                            } else {
-                                wallpaperManager.setStream(new ByteArrayInputStream(outByteArray));
-                            }
+                            wallpaperManager.setStream(new ByteArrayInputStream(outByteArray));
                             if (mOnBitmapCroppedHandler != null) {
                                 mOnBitmapCroppedHandler.onBitmapCropped(outByteArray);
                             }
