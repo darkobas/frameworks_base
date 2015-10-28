@@ -24,7 +24,7 @@
 
     <LinearLayout
         android:id="@+id/option1"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="?android:attr/actionBarItemBackground"
@@ -35,9 +35,9 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_zen_none"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_audio_ring_notif_mute_select"
             android:scaleType="center"
             android:duplicateParentState="true"
             android:background="@drawable/global_action_indicator_oval"
@@ -67,8 +67,8 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/option3"
-        android:layout_width="0dp"
+        android:id="@+id/option2"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="?android:attr/actionBarItemBackground"
@@ -79,9 +79,9 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_audio_ring_notif_mute_select"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_audio_ring_notif_vibrate_select"
             android:scaleType="center"
             android:duplicateParentState="true"
             android:background="@drawable/global_action_indicator_oval"
@@ -112,8 +112,8 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/option5"
-        android:layout_width="0dp"
+        android:id="@+id/option3"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="?android:attr/actionBarItemBackground"
@@ -124,8 +124,8 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:src="@drawable/ic_audio_ring_notif_select"
             android:scaleType="center"
             android:duplicateParentState="true"
