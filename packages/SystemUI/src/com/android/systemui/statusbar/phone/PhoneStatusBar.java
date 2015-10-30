@@ -904,6 +904,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         filter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction("com.android.systemui.TOGGLE_FLASHLIGHT");
+
         context.registerReceiverAsUser(mBroadcastReceiver, UserHandle.ALL, filter, null, null);
 
         IntentFilter demoFilter = new IntentFilter();
@@ -2888,6 +2890,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             else if (Intent.ACTION_SCREEN_ON.equals(action)) {
                 mScreenOn = true;
                 notifyNavigationBarScreenOn(true);
+            } else if ("com.android.systemui.TOGGLE_FLASHLIGHT".equals(action)) {
+                mFlashlightController.toggleFlashlight();
             }
         }
     };

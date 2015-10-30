@@ -101,6 +101,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.android.internal.logging.MetricsLogger;
+import com.android.internal.os.DeviceKeyHandler;
 import com.android.internal.policy.PhoneWindow;
 import android.view.Surface;
 import android.view.View;
@@ -1585,14 +1586,15 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 Constructor<?> constructor = klass.getConstructor(Context.class);
                 mDeviceKeyHandler = (DeviceKeyHandler) constructor.newInstance(
                         mContext);
-                if(DEBUG) Slog.d(TAG, "Device key handler loaded");
+                if(DEBUG) Slog.d(TAG, "Device key handler "
+                        + deviceKeyHandlerClass + " from class "
+                        + deviceKeyHandlerLib);
             } catch (Exception e) {
                 Slog.w(TAG, "Could not instantiate device key handler "
                         + deviceKeyHandlerClass + " from class "
                         + deviceKeyHandlerLib, e);
             }
         }
-
     }
 
     /**
@@ -3053,6 +3055,19 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (isValidGlobalKey(keyCode)
                 && mGlobalKeyManager.handleGlobalKey(mContext, keyCode, event)) {
             return -1;
+
+        }
+
+        // Specific device key handling
+        if (mDeviceKeyHandler != null) {
+            try {
+                // The device only should consume known keys.
+                if (mDeviceKeyHandler.handleKeyEvent(event)) {
+                    return -1;
+                }
+            } catch (Exception e) {
+                Slog.w(TAG, "Could not dispatch event to device key handler", e);
+            }
         }
 
         // Specific device key handling
