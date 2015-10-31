@@ -5966,8 +5966,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 boolean useSensorRotation =
                         orientation == ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
                         || orientation == ActivityInfo.SCREEN_ORIENTATION_FULL_USER
-                        || RotationPolicy.isRotationAllowed(sensorRotation, mUserRotationAngles,
-                                mAllowAllRotations != 0);
+                        || mAllowAllRotations == 1;);
                 if (useSensorRotation) {
                     preferredRotation = sensorRotation;
                 } else {
