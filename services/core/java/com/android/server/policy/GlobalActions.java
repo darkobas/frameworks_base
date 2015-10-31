@@ -43,6 +43,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IPowerManager;
 import android.os.Message;
+import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemClock;
@@ -96,7 +97,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
     /* Valid settings for global actions keys.
      * see config.xml config_globalActionList */
     private static final String GLOBAL_ACTION_KEY_POWER = "power";
-    private static final String GLOBAL_ACTION_KEY_REBOOT = "reboot";
     private static final String GLOBAL_ACTION_KEY_AIRPLANE = "airplane";
     private static final String GLOBAL_ACTION_KEY_BUGREPORT = "bugreport";
     private static final String GLOBAL_ACTION_KEY_SILENT = "silent";
@@ -462,7 +462,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 mAdapter.notifyDataSetChanged();
             } else {
                 mHandler.sendEmptyMessage(MESSAGE_DISMISS);
-                mWindowManagerFuncs.reboot(null, false);
+                mWindowManagerFuncs.rebootCustom(null, false);
             }
         }
     }
@@ -495,7 +495,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
         @Override
         public void onPress() {
-            mWindowManagerFuncs.reboot("recovery", false);
+            mWindowManagerFuncs.rebootCustom(PowerManager.REBOOT_RECOVERY, false);
         }
     }
 
@@ -527,7 +527,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
         @Override
         public void onPress() {
-            mWindowManagerFuncs.reboot("bootloader", false);
+            mWindowManagerFuncs.rebootCustom(PowerManager.REBOOT_BOOTLOADER, false);
         }
     }
 
@@ -1390,7 +1390,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
     private boolean advancedRebootEnabled(Context context) {
         boolean devOptionsEnabled = Settings.Secure.getInt(context.getContentResolver(),
-                Settings.Secure.DEVELOPER_OPTIONS_ENABLED, 0) == 1;
+                Settings.Secure.DEVELOPMENT_SETTINGS_ENABLED, 0) == 1;
         return Settings.Secure.getInt(context.getContentResolver(),
                 Settings.Secure.ADVANCED_REBOOT, devOptionsEnabled ? 1 : 0) == 1;
     }

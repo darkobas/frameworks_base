@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/* //device/apps/common/assets/res/any/strings.xml
+**
+** Copyright 2006, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Reboot -->
+    <string name="global_action_reboot_more">Reboot\u2026</string>
+    <string name="global_action_reboot_sub">System</string>
+    <string name="global_action_reboot_recovery">Recovery</string>
+    <string name="global_action_reboot_bootloader">Bootloader</string>
+    <string name="global_action_current_user">Current</string>
+
+    <!-- advanced reboot to bootloader. -->
+    <string name="reboot_to_bootloader_title">Reboot bootloader</string>
+    <string name="reboot_to_bootloader_message">Rebooting\u2026</string>
+
+    <!-- advanced reboot to recovery. -->
+    <string name="reboot_to_recovery_title">Reboot recovery</string>
+    <string name="reboot_to_recovery_message">Rebooting\u2026</string>
+
+    <!-- advanced reboot system -->
+    <string name="reboot_system_title">Reboot system</string>
+    <string name="reboot_system_message">Rebooting\u2026</string>
+
+    <!-- HW button mapping -->
+    <string name="hide_lock_to_app_dialog">Always start</string>
+    <string name="silent_mode_priority">Priority</string>
+    <string name="silent_mode_none">None</string>
+
+    <!-- Text of the checkbox for the permission confirmation dialog to remember the user's choice. [CHAR LIMIT=40] -->
+    <string name="permission_remember_choice">Remember</string>
+    <string name="permission">Permission request</string>
+    <string name="permission_dialog_text">%1$s would like to %2$s</string>
+
+    <!-- App ops requests -->
+    <string name="app_ops_access_camera">access the camera</string>
+    <string name="app_ops_access_location">access your location</string>
+    <string name="app_ops_access_notifications">read your notifications</string>
+    <string name="app_ops_activate_vpn">activate VPN</string>
+    <string name="app_ops_delete_sms">delete SMS</string>
+    <string name="app_ops_delete_mms">delete MMS</string>
+    <string name="app_ops_delete_contacts">delete contacts</string>
+    <string name="app_ops_delete_call_log">delete call log</string>
+    <string name="app_ops_draw_on_top">draw windows on top</string>
+    <string name="app_ops_get_usage_stats">get usage stats</string>
+    <string name="app_ops_keep_device_awake">keep your device awake</string>
+    <string name="app_ops_modify_calendar">update your calendar</string>
+    <string name="app_ops_modify_call_log">update the call log</string>
+    <string name="app_ops_modify_clipboard">modify the clipboard</string>
+    <string name="app_ops_modify_contacts">modify your contacts</string>
+    <string name="app_ops_modify_icc_sms">write/modify ICC SMS messages</string>
+    <string name="app_ops_modify_settings">modify your settings</string>
+    <string name="app_ops_modify_sms">write/modify SMS messages</string>
+    <string name="app_ops_mute_mic">mute microphone</string>
+    <string name="app_ops_phone_call">make a phone call</string>
+    <string name="app_ops_play_audio">play audio</string>
+    <string name="app_ops_post_notification">post a notification</string>
+    <string name="app_ops_project_media">project media</string>
+    <string name="app_ops_read_calendar">read your calendar</string>
+    <string name="app_ops_read_call_log">read your call log</string>
+    <string name="app_ops_read_clipboard">read the clipboard</string>
+    <string name="app_ops_read_contacts">read your contacts</string>
+    <string name="app_ops_read_icc_sms">read ICC SMS messages</string>
+    <string name="app_ops_read_mms_storage">read MMS storage</string>
+    <string name="app_ops_read_other_accounts">read other accounts</string>
+    <string name="app_ops_read_phone_info">read phone info</string>
+    <string name="app_ops_read_sms">read your SMS messages</string>
+    <string name="app_ops_receive_emergency_sms"> emergency SMS</string>
+    <string name="app_ops_receive_mms">receive MMS messages</string>
+    <string name="app_ops_receive_sms">receive SMS messages</string>
+    <string name="app_ops_receive_wap_push">receive WAP push</string>
+    <string name="app_ops_record_audio">record audio</string>
+    <string name="app_ops_send_sms">send an SMS message</string>
+    <string name="app_ops_send_mms">send an MMS message</string>
+    <string name="app_ops_show_toast_window">show a toast window</string>
+    <string name="app_ops_start_at_bootup">start at bootup</string>
+    <string name="app_ops_toggle_bluetooth">turn on/off Bluetooth</string>
+    <string name="app_ops_toggle_nfc">turn on/off NFC</string>
+    <string name="app_ops_toggle_wifi">turn on/off WiFi</string>
+    <string name="app_ops_turn_on_mobile_data">turn on mobile data</string>
+    <string name="app_ops_use_alarm_volume">use alarm volume</string>
+    <string name="app_ops_use_audio_focus">use audio focus</string>
+    <string name="app_ops_use_bluetooth_volume">use bluetooth volume</string>
+    <string name="app_ops_use_master_volume">use master volume</string>
+    <string name="app_ops_use_media_buttons">use media buttons</string>
+    <string name="app_ops_use_media_volume">use media volume</string>
+    <string name="app_ops_use_notification_volume">use notification volume</string>
+    <string name="app_ops_use_ringer_volume">use ringer volume</string>
+    <string name="app_ops_use_vibrate">use haptic feedback</string>
+    <string name="app_ops_use_voice_volume">use voice volume</string>
+    <string name="app_ops_write_mms_storage">write MMS storage</string>
+
+    <string name="battery_style_none">None</string>
+    <string name="battery_style_default">Default</string>
+    <string name="battery_style_bar">Vertical bar</string>
+    <string name="battery_style_meter_horizontal">Horizontal bar</string>
+    <string name="battery_style_circle">Circle</string>
+
+    <!-- Title of an application permission, listed so the user can choose whether they want the application to do this. -->
+    <string name="permlab_setKeyguardWallpaper">set keyguard wallpaper</string>
+    <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
+    <string name="permdesc_setKeyguardWallpaper">Allows an app to change the lock screen wallpaper.</string>
+
+    <!-- Title of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
+    <string name="permlab_fakePackageSignature">mimic package signature</string>
+    <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
+    <string name="permdesc_fakePackageSignature">Allows the app to use mimic another app\'s package signature.</string>
+</resources>

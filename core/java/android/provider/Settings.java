@@ -6032,6 +6032,12 @@ public final class Settings {
         public static final String SLEEP_TIMEOUT = "sleep_timeout";
 
         /**
+         * Whether to include options in power menu for rebooting into recovery or bootloader
+         * @hide
+         */
+        public static final String ADVANCED_REBOOT = "advanced_reboot";
+
+        /**
          * Controls whether double tap to wake is enabled.
          * @hide
          */
