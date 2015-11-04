@@ -1620,14 +1620,17 @@ public final class PowerManagerService extends SystemService
                     nextTimeout = mLastUserActivityTime
                             + screenOffTimeout - screenDimDuration;
                     if (now < nextTimeout) {
-                        int buttonBrightness, keyboardBrightness;
-                        if (mButtonBrightnessOverrideFromWindowManager >= 0) {
-                            buttonBrightness = mButtonBrightnessOverrideFromWindowManager;
-                            keyboardBrightness = mButtonBrightnessOverrideFromWindowManager;
-                        } else {
-                            buttonBrightness = mButtonBrightness;
-                            keyboardBrightness = mKeyboardBrightness;
-                        }
+                        mUserActivitySummary = USER_ACTIVITY_SCREEN_BRIGHT;
+                        if (mWakefulness == WAKEFULNESS_AWAKE) {
+                            int buttonBrightness, keyboardBrightness;
+                            if (mButtonBrightnessOverrideFromWindowManager >= 0) {
+                                buttonBrightness = mButtonBrightnessOverrideFromWindowManager;
+                                keyboardBrightness = mButtonBrightnessOverrideFromWindowManager;
+                            } else {
+                                buttonBrightness = mButtonBrightness;
+                                keyboardBrightness = mKeyboardBrightness;
+                            }
+
                             mKeyboardLight.setBrightness(mKeyboardVisible ?
                                     keyboardBrightness : 0);
                             if (mButtonTimeout != 0
@@ -1642,13 +1645,14 @@ public final class PowerManagerService extends SystemService
                                 }
                             }
                         }
-                        mUserActivitySummary = USER_ACTIVITY_SCREEN_BRIGHT;
                     } else {
                         nextTimeout = mLastUserActivityTime + screenOffTimeout;
                         if (now < nextTimeout) {
-                            mButtonsLight.setBrightness(0);
-                            mKeyboardLight.setBrightness(0);
                             mUserActivitySummary = USER_ACTIVITY_SCREEN_DIM;
+                            if (mWakefulness == WAKEFULNESS_AWAKE) {
+                                mButtonsLight.setBrightness(0);
+                                mKeyboardLight.setBrightness(0);
+                            }
                         }
                     }
                 }
@@ -1695,7 +1699,6 @@ public final class PowerManagerService extends SystemService
             }
         }
     }
-
     /**
      * Called when a user activity timeout has occurred.
      * Simply indicates that something about user activity has changed so that the new
