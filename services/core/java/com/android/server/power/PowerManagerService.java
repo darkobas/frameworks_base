@@ -80,6 +80,7 @@ import java.util.Arrays;
 
 import libcore.util.Objects;
 
+import static android.os.PowerManagerInternal.POWER_HINT_INTERACTION;
 import static android.os.PowerManagerInternal.WAKEFULNESS_ASLEEP;
 import static android.os.PowerManagerInternal.WAKEFULNESS_AWAKE;
 import static android.os.PowerManagerInternal.WAKEFULNESS_DREAMING;
@@ -156,7 +157,6 @@ public final class PowerManagerService extends SystemService
     private static final int SCREEN_BRIGHTNESS_BOOST_TIMEOUT = 5 * 1000;
 
     // Power hints defined in hardware/libhardware/include/hardware/power.h.
-    private static final int POWER_HINT_INTERACTION = 2;
     private static final int POWER_HINT_LOW_POWER = 5;
 
     // Power features defined in hardware/libhardware/include/hardware/power.h.
@@ -3844,6 +3844,11 @@ public final class PowerManagerService extends SystemService
         @Override
         public void uidGone(int uid) {
             uidGoneInternal(uid);
+        }
+
+        @Override
+        public void powerHint(int hintId, int data) {
+            powerHintInternal(hintId, data);
         }
     }
 
