@@ -24,4 +24,5 @@
     <item>reboot_recovery</item>
     <item>reboot_bootloader</item>
   </string-array>
+
 </resources>
