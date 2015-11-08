@@ -341,6 +341,19 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     int[] mAbsPos = new int[2];
     ArrayList<Runnable> mPostCollapseRunnables = new ArrayList<>();
 
+    private boolean mBrightnessControl;
+    private boolean mBrightnessChanged;
+    private float mScreenWidth;
+    private int mMinBrightness;
+    private boolean mJustPeeked;
+    private int mLinger;
+    private int mInitialTouchX;
+    private int mInitialTouchY;
+    private boolean mAutomatic;
+    private IPowerManager mPower;
+
+    // omni additions
+    private boolean mOmniSwitchRecents;
     private boolean mBackKillPending;
     private int mBackKillTimeout;
     private boolean mRecentsConsumed;
@@ -428,6 +441,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_RECENTS),
                     false, this, UserHandle.USER_ALL);
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAVIGATION_BAR_RECENTS),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -448,6 +464,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
         }
     }
+
     private OmniSettingsObserver mOmniSettingsObserver = new OmniSettingsObserver(mHandler);
 
     private int mInteractingWindows;
@@ -1123,6 +1140,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
             awakenDreams();
             toggleRecentApps();
+            }
+            return false;
         }
     };
 
@@ -1131,6 +1150,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         // tasks on touch down
         @Override
         public boolean onTouch(View v, MotionEvent event) {
+            if (mOmniSwitchRecents) {
+                return false;
+            }
             int action = event.getAction() & MotionEvent.ACTION_MASK;
             if (action == MotionEvent.ACTION_DOWN) {
                 preloadRecents();

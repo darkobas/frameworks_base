@@ -19,4 +19,7 @@
     <!-- Screen pinning dialog description when in accessibility mode. -->
     <string name="screen_pinning_description_back">This keeps it in view until you unpin. Touch and hold Back to unpin.</string>
 
+    <!-- Screen pinning dialog description when in accessibility mode. -->
+    <string name="screen_pinning_description_back">This keeps it in view until you unpin. Touch and hold Back to unpin.</string>
+
 </resources>
