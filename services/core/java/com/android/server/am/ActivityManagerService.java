@@ -80,6 +80,7 @@ import com.android.internal.app.IAppOpsService;
 import com.android.internal.app.IVoiceInteractor;
 import com.android.internal.app.ProcessMap;
 import com.android.internal.app.ProcessStats;
+import com.android.internal.app.ActivityTrigger;
 import com.android.internal.os.BackgroundThread;
 import com.android.internal.os.BatteryStatsImpl;
 import com.android.internal.os.IResultReceiver;
@@ -1393,6 +1394,8 @@ public final class ActivityManagerService extends ActivityManagerNative
     static final int FIRST_BROADCAST_QUEUE_MSG = 200;
     static final int FIRST_COMPAT_MODE_MSG = 300;
     static final int FIRST_SUPERVISOR_STACK_MSG = 100;
+
+    static final ActivityTrigger mActivityTrigger = new ActivityTrigger();
 
     CompatModeDialog mCompatModeDialog;
     long mLastMemUsageReportTime = 0;
@@ -3455,6 +3458,9 @@ public final class ActivityManagerService extends ActivityManagerNative
                 }
             }
             checkTime(startTime, "startProcess: done updating pids map");
+            if ("activity".equals(hostingType) || "service".equals(hostingType)) {
+                mActivityTrigger.activityStartProcessTrigger(app.processName, startResult.pid);
+            }
         } catch (RuntimeException e) {
             // XXX do better error recovery.
             app.setPid(0);
