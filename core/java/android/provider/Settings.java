@@ -3400,6 +3400,25 @@ public final class Settings {
         };
 
         /**
+         * Whether volume button press shuld be treated as wake key
+         * @hide
+         */
+        public static final String VOLUME_BUTTON_WAKE = "volume_button_wake";
+
+        /**
+         * Whether home button press shuld be treated as wake key
+         * @hide
+         */
+        public static final String HOME_BUTTON_WAKE = "home_button_wake";
+
+        /**
+         * What happens when the user presses the Home button when the
+         * phone is ringing.
+         * @hide
+         */
+        public static final String HOME_BUTTON_ANSWER = "home_button_answer";
+
+        /**
          * IMPORTANT: If you add a new public settings you also have to add it to
          * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
          * it to PRIVATE_SETTINGS below. Also add a validator that can validate
@@ -3411,12 +3430,6 @@ public final class Settings {
          * @hide
          */
         public static final String SWAP_VOLUME_BUTTONS = "swap_volume_buttons";
-
-        /**
-         * Whether volume button press shuld be treated as wake key
-         * @hide
-         */
-        public static final String VOLUME_BUTTON_WAKE = "volume_button_wake";
 
          /**
           * Action to perform when the key is pressed

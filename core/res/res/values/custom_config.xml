@@ -49,4 +49,6 @@
     <bool name="config_button_brightness_support">false</bool>
     <integer name="config_button_brightness_default">128</integer>
 
+    <!-- Set Home Button Wake Support as a persistent behaviour. -->
+    <bool name="config_persistHomeWakeSupport">false</bool>
 </resources>
