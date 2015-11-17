@@ -662,7 +662,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mHardwareKeysDisable;
     // What we do when the user long presses on home
     private int mLongPressOnMenuBehavior;
-    private boolean mOmniSwitchRecents;
     private boolean mMenuConsumed;
     private boolean mBackConsumed;
     private boolean mBackKillPending;
@@ -1958,9 +1957,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_CURRENT) != 0;
             mHardwareKeysDisable = Settings.System.getIntForUser(resolver,
                     Settings.System.HARDWARE_KEYS_DISABLE, 0,
-                    UserHandle.USER_CURRENT) != 0;
-            mOmniSwitchRecents = Settings.System.getIntForUser(resolver,
-                    Settings.System.NAVIGATION_BAR_RECENTS, 0,
                     UserHandle.USER_CURRENT) != 0;
         }
         synchronized (mWindowManagerFuncs.getWindowManagerLock()) {
@@ -3456,9 +3452,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private void preloadRecentApps() {
-        if (mOmniSwitchRecents) {
-            return;
-        }
         mPreloadedRecentApps = true;
         try {
             IStatusBarService statusbar = getStatusBarService();
@@ -3473,9 +3466,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private void cancelPreloadRecentApps() {
-        if (mOmniSwitchRecents) {
-            return;
-        }
         if (mPreloadedRecentApps) {
             mPreloadedRecentApps = false;
             try {

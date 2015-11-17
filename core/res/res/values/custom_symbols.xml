@@ -51,4 +51,10 @@
   <java-symbol type="string" name="lock_to_app_toast_back" />
   <java-symbol type="anim" name="last_app_in" />
   <java-symbol type="anim" name="last_app_out" />
+  <!-- HW button mapping -->
+  <java-symbol type="integer" name="config_deviceHardwareKeys" />
+  <java-symbol type="integer" name="config_backKillTimeout" />
+  <java-symbol type="string" name="app_killed_message" />
+  <java-symbol type="bool" name="config_hasRemovableLid" />
+  <java-symbol type="bool" name="config_persistHomeWakeSupport" />
 </resources>
