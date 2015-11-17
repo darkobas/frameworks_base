@@ -23,9 +23,6 @@ import android.text.Spanned;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.KeyCharacterMap;
-import android.os.IPowerManager;
-import android.os.RemoteException;
-import android.os.ServiceManager;
 
 /**
  * This base class encapsulates the behavior for tracking the state of
