@@ -1631,50 +1631,25 @@ public final class PowerManagerService extends SystemService
                 final int sleepTimeout = getSleepTimeoutLocked();
                 final int screenOffTimeout = getScreenOffTimeoutLocked(sleepTimeout);
                 final int screenDimDuration = getScreenDimDurationLocked(screenOffTimeout);
+
                 mUserActivitySummary = 0;
                 if (mLastUserActivityTime >= mLastWakeTime) {
                     nextTimeout = mLastUserActivityTime
                             + screenOffTimeout - screenDimDuration;
                     if (now < nextTimeout) {
-                        if (now > mLastUserActivityTime + BUTTON_ON_DURATION) {
-                            mButtonsLight.setBrightness(0);
-                        } else {
-                            mButtonsLight.setBrightness(mDisplayPowerRequest.screenBrightness);
-                            nextTimeout = now + BUTTON_ON_DURATION;
+                        if (mSystemReady && mButtonTimeout != 0){
+                            if (now > mLastUserActivityTime + mButtonTimeout) {
+                                mButtonDisabledByTimeout = true;
+                            } else {
+                                mButtonDisabledByTimeout = false;
+                                nextTimeout = now + mButtonTimeout;
+                            }
                         }
                         mUserActivitySummary = USER_ACTIVITY_SCREEN_BRIGHT;
-                        if (mWakefulness == WAKEFULNESS_AWAKE) {
-                            int buttonBrightness, keyboardBrightness;
-                            if (mButtonBrightnessOverrideFromWindowManager >= 0) {
-                                buttonBrightness = mButtonBrightnessOverrideFromWindowManager;
-                                keyboardBrightness = mButtonBrightnessOverrideFromWindowManager;
-                            } else {
-                                buttonBrightness = mButtonBrightness;
-                                keyboardBrightness = mKeyboardBrightness;
-                            }
-
-                            mKeyboardLight.setBrightness(mKeyboardVisible ?
-                                    keyboardBrightness : 0);
-                            if (mButtonTimeout != 0
-                                    && now > mLastUserActivityTime + mButtonTimeout) {
-                                mButtonsLight.setBrightness(0);
-                            } else {
-                                if (!mProximityPositive) {
-                                    mButtonsLight.setBrightness(buttonBrightness);
-                                    if (buttonBrightness != 0 && mButtonTimeout != 0) {
-                                        nextTimeout = now + mButtonTimeout;
-                                    }
-                                }
-                            }
-                        }
                     } else {
                         nextTimeout = mLastUserActivityTime + screenOffTimeout;
                         if (now < nextTimeout) {
                             mUserActivitySummary = USER_ACTIVITY_SCREEN_DIM;
-                            if (mWakefulness == WAKEFULNESS_AWAKE) {
-                                mButtonsLight.setBrightness(0);
-                                mKeyboardLight.setBrightness(0);
-                            }
                         }
                     }
                 }
@@ -2687,10 +2662,6 @@ public final class PowerManagerService extends SystemService
 
     private void powerHintInternal(int hintId, int data) {
         nativeSendPowerHint(hintId, data);
-    }
-
-    public void powerHintStringInternal(int hintId, String data) {
-        nativeSendPowerHintString(hintId, data);
     }
 
     private void setTemporaryButtonBrightnessSettingOverrideInternal(int brightness) {
@@ -3735,6 +3706,29 @@ public final class PowerManagerService extends SystemService
             if(changed){
                 mDirty |= DIRTY_WAKE_LOCKS;
                 updatePowerStateLocked();
+            }
+        }
+
+        /**
+         * Used by the settings application and brightness control widgets to
+         * temporarily override the current button brightness setting so that the
+         * user can observe the effect of an intended settings change without applying
+         * it immediately.
+         *
+         * The override will be canceled when the setting value is next updated.
+         *
+         * @param brightness The overridden brightness.
+         */
+        @Override // Binder call
+        public void setTemporaryButtonBrightnessSettingOverride(int brightness) {
+            mContext.enforceCallingOrSelfPermission(
+                    android.Manifest.permission.DEVICE_POWER, null);
+
+            final long ident = Binder.clearCallingIdentity();
+            try {
+                setTemporaryButtonBrightnessSettingOverrideInternal(brightness);
+            } finally {
+                Binder.restoreCallingIdentity(ident);
             }
         }
     }

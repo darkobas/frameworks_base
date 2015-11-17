@@ -3412,6 +3412,12 @@ public final class Settings {
          */
         public static final String SWAP_VOLUME_BUTTONS = "swap_volume_buttons";
 
+        /**
+         * Whether volume button press shuld be treated as wake key
+         * @hide
+         */
+        public static final String VOLUME_BUTTON_WAKE = "volume_button_wake";
+
          /**
           * Action to perform when the key is pressed
           * 0 - Nothing
@@ -3531,6 +3537,12 @@ public final class Settings {
           * @hide
           */
          public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
+
+        /**
+         * Timeout value for button lights. 0 = disabled
+         * @hide
+         */
+        public static final String BUTTON_BACKLIGHT_TIMEOUT = "button_backlight_timeout";
 
         /**
          * Disable hw buttons - actions, brightness, haptic feedback, overflow menu

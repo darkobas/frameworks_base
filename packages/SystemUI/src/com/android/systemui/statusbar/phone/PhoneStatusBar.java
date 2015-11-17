@@ -353,7 +353,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private int mInitialTouchX;
     private int mInitialTouchY;
     private boolean mAutomatic;
-    private IPowerManager mPower;
 
     // omni additions
     private boolean mOmniSwitchRecents;
@@ -1143,8 +1142,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
             awakenDreams();
             toggleRecentApps();
-            }
-            return false;
         }
     };
 
