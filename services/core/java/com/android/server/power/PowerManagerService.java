@@ -162,8 +162,6 @@ public final class PowerManagerService extends SystemService
     // Power features defined in hardware/libhardware/include/hardware/power.h.
     private static final int POWER_FEATURE_DOUBLE_TAP_TO_WAKE = 1;
 
-    private static final int DEFAULT_BUTTON_ON_DURATION = 5 * 1000;
-
     // Default setting for double tap to wake.
     private static final int DEFAULT_DOUBLE_TAP_TO_WAKE = 0;
 
@@ -184,6 +182,7 @@ public final class PowerManagerService extends SystemService
     private SettingsObserver mSettingsObserver;
     private DreamManagerInternal mDreamManager;
     private Light mAttentionLight;
+    private Light mButtonsLight;
 
     private final Object mLock = new Object();
 
@@ -410,11 +409,6 @@ public final class PowerManagerService extends SystemService
     // Use -1 to disable.
     private int mScreenBrightnessOverrideFromWindowManager = -1;
 
-    // The button brightness setting override from the window manager
-    // to allow the current foreground activity to override the button brightness.
-    // Use -1 to disable.
-    private int mButtonBrightnessOverrideFromWindowManager = -1;
-
     // The user activity timeout override from the window manager
     // to allow the current foreground activity to override the user activity timeout.
     // Use -1 to disable.
@@ -582,8 +576,6 @@ public final class PowerManagerService extends SystemService
             mScreenBrightnessSettingMinimum = pm.getMinimumScreenBrightnessSetting();
             mScreenBrightnessSettingMaximum = pm.getMaximumScreenBrightnessSetting();
             mScreenBrightnessSettingDefault = pm.getDefaultScreenBrightnessSetting();
-            mButtonBrightnessSettingDefault = pm.getDefaultButtonBrightness();
-            mKeyboardBrightnessSettingDefault = pm.getDefaultKeyboardBrightness();
 
             SensorManager sensorManager = new SystemSensorManager(mContext, mHandler.getLooper());
 
@@ -827,7 +819,6 @@ public final class PowerManagerService extends SystemService
             updateLowPowerModeLocked();
         }
 
-        updateButtonLightSettings();
         mDirty |= DIRTY_SETTINGS;
     }
 
@@ -1645,13 +1636,11 @@ public final class PowerManagerService extends SystemService
                     nextTimeout = mLastUserActivityTime
                             + screenOffTimeout - screenDimDuration;
                     if (now < nextTimeout) {
-                        if (mSystemReady && mButtonTimeout != 0){
-                            if (now > mLastUserActivityTime + mButtonTimeout) {
-                                mButtonDisabledByTimeout = true;
-                            } else {
-                                mButtonDisabledByTimeout = false;
-                                nextTimeout = now + mButtonTimeout;
-                            }
+                        if (now > mLastUserActivityTime + BUTTON_ON_DURATION) {
+                            mButtonsLight.setBrightness(0);
+                        } else {
+                            mButtonsLight.setBrightness(mDisplayPowerRequest.screenBrightness);
+                            nextTimeout = now + BUTTON_ON_DURATION;
                         }
                         mUserActivitySummary = USER_ACTIVITY_SCREEN_BRIGHT;
                         if (mWakefulness == WAKEFULNESS_AWAKE) {
@@ -1681,8 +1670,6 @@ public final class PowerManagerService extends SystemService
                     } else {
                         nextTimeout = mLastUserActivityTime + screenOffTimeout;
                         if (now < nextTimeout) {
-                            mButtonsLight.setBrightness(0);
-                            mKeyboardLight.setBrightness(0);
                             mUserActivitySummary = USER_ACTIVITY_SCREEN_DIM;
                             if (mWakefulness == WAKEFULNESS_AWAKE) {
                                 mButtonsLight.setBrightness(0);
@@ -3342,41 +3329,6 @@ public final class PowerManagerService extends SystemService
             }
         }
 
-        @Override // Binder call
-        public void setKeyboardVisibility(boolean visible) {
-            synchronized (mLock) {
-                if (DEBUG_SPEW) {
-                    Slog.d(TAG, "setKeyboardVisibility: " + visible);
-                }
-                if (mKeyboardVisible != visible) {
-                    mKeyboardVisible = visible;
-                    if (!visible) {
-                        // If hiding keyboard, turn off leds
-                        setKeyboardLight(false, 1);
-                        setKeyboardLight(false, 2);
-                    }
-                    synchronized (mLock) {
-                        mDirty |= DIRTY_USER_ACTIVITY;
-                        updatePowerStateLocked();
-                    }
-                }
-            }
-        }
-
-        @Override // Binder call
-        public void setKeyboardLight(boolean on, int key) {
-            if (key == 1) {
-                if (on)
-                    mCapsLight.setColor(0x00ffffff);
-                else
-                    mCapsLight.turnOff();
-            } else if (key == 2) {
-                if (on)
-                    mFnLight.setColor(0x00ffffff);
-                else
-                    mFnLight.turnOff();
-            }
-        }
 
         /**
          * @hide
@@ -3788,38 +3740,6 @@ public final class PowerManagerService extends SystemService
         }
     }
 
-    private void setButtonBrightnessOverrideFromWindowManagerInternal(int brightness) {
-        synchronized (mLock) {
-            if (mButtonBrightnessOverrideFromWindowManager != brightness) {
-                mButtonBrightnessOverrideFromWindowManager = brightness;
-                mDirty |= DIRTY_SETTINGS;
-                updatePowerStateLocked();
-            }
-        }
-        /**
-         * Used by the settings application and brightness control widgets to
-         * temporarily override the current button brightness setting so that the
-         * user can observe the effect of an intended settings change without applying
-         * it immediately.
-         *
-         * The override will be canceled when the setting value is next updated.
-         *
-         * @param brightness The overridden brightness.
-         */
-        @Override // Binder call
-        public void setTemporaryButtonBrightnessSettingOverride(int brightness) {
-            mContext.enforceCallingOrSelfPermission(
-                    android.Manifest.permission.DEVICE_POWER, null);
-
-            final long ident = Binder.clearCallingIdentity();
-            try {
-                setTemporaryButtonBrightnessSettingOverrideInternal(brightness);
-            } finally {
-                Binder.restoreCallingIdentity(ident);
-            }
-        }
-    }
-
     private final class LocalService extends PowerManagerInternal {
         @Override
         public void setScreenBrightnessOverrideFromWindowManager(int screenBrightness) {
@@ -3832,15 +3752,8 @@ public final class PowerManagerService extends SystemService
 
         @Override
         public void setButtonBrightnessOverrideFromWindowManager(int screenBrightness) {
-            mContext.enforceCallingOrSelfPermission(android.Manifest.permission.DEVICE_POWER, null);
-
-            final long ident = Binder.clearCallingIdentity();
-            try {
-                setButtonBrightnessOverrideFromWindowManagerInternal(screenBrightness);
-            } finally {
-                Binder.restoreCallingIdentity(ident);
-            }
-
+            // Do nothing.
+            // Button lights are not currently supported in the new implementation.
         }
 
         @Override
