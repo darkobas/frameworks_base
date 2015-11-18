@@ -108,16 +108,16 @@
 
   <!-- Use alternative way to blur lockscreen -->
   <java-symbol type="bool" name="config_use_stackblur" />
+
   <java-symbol type="array" name="entries_battery_styles" />
   <java-symbol type="array" name="values_battery_styles" />
   <java-symbol type="bool" name="config_button_brightness_support" />
   <java-symbol type="integer" name="config_button_brightness_default" />
   <java-symbol type="integer" name="config_longPressOnMenuBehavior" />
   <java-symbol type="string" name="lock_to_app_toast_back" />
-<!--  <java-symbol type="string" name="system_error_vendorprint" />
--  <java-symbol type="drawable" name="ic_audio_notification_new" />
+  <java-symbol type="bool" name="config_enableScreenrecordChord" />
+  <java-symbol type="drawable" name="ic_audio_notification_new" />
   <java-symbol type="drawable" name="ic_audio_notification_mute_new" />
   <java-symbol type="drawable" name="ic_audio_notification_mute_alpha" />
--->
-  <java-symbol type="bool" name="config_enableScreenrecordChord" />
+
 </resources>

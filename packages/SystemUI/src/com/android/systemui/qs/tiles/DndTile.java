@@ -123,9 +123,7 @@ public class DndTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     protected void handleLongClick() {
-        intent.setClassName("com.android.settings",
-            "com.android.settings.Settings$ZenModeSettingsActivity");
-        mHost.startActivityDismissingKeyguard(intent);
+        showDetail(true);
     }
 
     @Override
