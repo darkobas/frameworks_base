@@ -29,6 +29,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
+import android.net.Uri;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
 import android.util.AttributeSet;
