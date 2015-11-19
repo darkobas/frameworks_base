@@ -819,6 +819,7 @@ public final class PowerManagerService extends SystemService
             updateLowPowerModeLocked();
         }
 
+        updateButtonLightSettings();
         mDirty |= DIRTY_SETTINGS;
     }
 

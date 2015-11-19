@@ -389,6 +389,16 @@ public class NotificationPanelView extends PanelView implements
         updateMaxHeadsUpTranslation();
     }
 
+     @Override
+     public void onAttachedToWindow() {
+        mSettingsObserver.observe();
+     }
+
+     @Override
+     public void onDetachedFromWindow() {
+        mSettingsObserver.unobserve();
+     }
+ 
     private void startQsSizeChangeAnimation(int oldHeight, final int newHeight) {
         if (mQsSizeChangeAnimator != null) {
             oldHeight = (int) mQsSizeChangeAnimator.getAnimatedValue();
