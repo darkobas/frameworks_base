@@ -3450,6 +3450,14 @@ public final class Settings {
         public static final String SWAP_VOLUME_BUTTONS = "swap_volume_buttons";
 
          /**
+         * Whether wifi settings will connect to access point automatically
+         * 0 = automatically
+         * 1 = manually
+         * @hide
+         */
+        public static final String WIFI_AUTO_CONNECT_TYPE = "wifi_auto_connect_type";
+
+         /**
           * Action to perform when the key is pressed
           * 0 - Nothing
           * 1 - Menu
@@ -3461,8 +3469,7 @@ public final class Settings {
           * 7 - back
           * 8 - toggle last app
           * 9 - kill app
-          * 10 - go to sleep
-          * 11 - OmniSwitch recents
+          * 10 - sleep
           * @hide
           */
         public static final String HARDWARE_KEY_REBINDING = "hardware_key_rebinding";
@@ -3478,7 +3485,7 @@ public final class Settings {
          * Action to perform when the back key is long-pressed. (Default is 0)
 	 * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
 	 * @hide
-	 */
+         */
         public static final String KEY_BACK_LONG_PRESS_ACTION = "key_back_long_press_action";
 
         /**
@@ -3544,15 +3551,6 @@ public final class Settings {
          * @hide
          */
         public static final String KEY_APP_SWITCH_LONG_PRESS_ACTION = "key_app_switch_long_press_action";
-
-         /**
-         * Whether wifi settings will connect to access point automatically
-         * 0 = automatically
-         * 1 = manually
-         * @hide
-         */
-        public static final String WIFI_AUTO_CONNECT_TYPE = "wifi_auto_connect_type";
-
 
         /**
          *  Enable statusbar double tap gesture on to put device to sleep
