@@ -820,13 +820,7 @@ public class NotificationPanelView extends PanelView implements
                 && mQsExpansionEnabled) {
             mTwoFingerQsExpandPossible = true;
         }
-        boolean twoFingerQsEvent = mTwoFingerQsExpandPossible
-                && (event.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN
-                && event.getPointerCount() == 2);
-        boolean oneFingerQsOverride = mOneFingerQuickSettingsIntercept
-                && event.getActionMasked() == MotionEvent.ACTION_DOWN
-                && shouldQuickSettingsIntercept(event.getX(), event.getY(), -1, false);
-        if ((twoFingerQsEvent || oneFingerQsOverride) && isOpenQsEvent(event)
+        if (mTwoFingerQsExpandPossible && isOpenQsEvent(event)
                 && event.getY(event.getActionIndex()) < mStatusBarMinHeight) {
             MetricsLogger.count(mContext, COUNTER_PANEL_OPEN_QS, 1);
             mQsExpandImmediate = true;
