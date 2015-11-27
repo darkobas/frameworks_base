@@ -1307,21 +1307,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         boolean isHeadsUped = mUseHeadsUp && shouldInterrupt(shadeEntry);
         if (isHeadsUped) {
             mHeadsUpManager.showNotification(shadeEntry);
-            // filter out alarms if required
-            if (notification.getNotification().category != null &&
-                    notification.getNotification().category.equals(Notification.CATEGORY_ALARM)) {
-                boolean fullscreenAlarm = Settings.System.getIntForUser(mContext.getContentResolver(),
-                        Settings.System.SHOW_ALARM_FULLSCREEN, 0, mCurrentUserId) == 1;
-                if (fullscreenAlarm) {
-                    if (DEBUG) Log.d(TAG, "launching alarm notification in fullscreen mode");
-                    isHeadsUped = false;
-                }
-            }
-            if (isHeadsUped) {
-                mHeadsUpManager.showNotification(shadeEntry);
-                // Mark as seen immediately
-                setNotificationShown(notification);
-            }
+            // Mark as seen immediately
+            setNotificationShown(notification);
         }
 
         if (!isHeadsUped && notification.getNotification().fullScreenIntent != null) {
