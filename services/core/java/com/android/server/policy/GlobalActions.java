@@ -366,9 +366,9 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                     mItems.add(mSilentModeAction);
                 }
             } else if (GLOBAL_ACTION_KEY_USERS.equals(actionKey)) {
-                if (SystemProperties.getBoolean("fw.power_user_switcher", false)) {
+               // if (SystemProperties.getBoolean("fw.power_user_switcher", false)) {
                     addUsersToMenu(mItems, true);
-                }
+               // }
             } else if (GLOBAL_ACTION_KEY_SETTINGS.equals(actionKey)) {
                 mItems.add(getSettingsAction());
             } else if (GLOBAL_ACTION_KEY_LOCKDOWN.equals(actionKey)) {
@@ -785,6 +785,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
     private void addUsersToMenu(ArrayList<Action> items, boolean currentOnly) {
         UserManager um = (UserManager) mContext.getSystemService(Context.USER_SERVICE);
+
         List<UserInfo> users = um.getUsers(true);
         if (um.isUserSwitcherEnabled() && users.size() > 1) {
             final int avatarSize
@@ -819,7 +820,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
                         @Override
                         public boolean showBeforeProvisioning() {
-                            return false;
+                            return true;
                         }
 
                         @Override
