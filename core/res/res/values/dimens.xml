@@ -333,7 +333,7 @@
 
      <!-- Largest size an avatar might need to be drawn in the user picker, status bar, or
          quick settings header -->
-     <dimen name="max_avatar_size">48dp</dimen>
+     <dimen name="max_avatar_size">40dp</dimen>
 
     <!-- Size of the region along the edge of the screen that will accept
          swipes to scroll the widget area. -->
