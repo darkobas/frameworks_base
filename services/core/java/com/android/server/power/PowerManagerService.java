@@ -1638,8 +1638,9 @@ public final class PowerManagerService extends SystemService
                     nextTimeout = mLastUserActivityTime
                             + screenOffTimeout - screenDimDuration;
                     if (now < nextTimeout) {
-                        if (mSystemReady && mButtonTimeout > 0){
+                        if (mSystemReady && mButtonTimeout != 0){
                             if (now > mLastUserActivityTime + mButtonTimeout) {
+                                mButtonsLight.setBrightness(0);
                                 mButtonDisabledByTimeout = true;
                             } else {
                                 mButtonDisabledByTimeout = false;
