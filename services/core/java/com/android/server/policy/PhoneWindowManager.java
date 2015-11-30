@@ -3287,26 +3287,43 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
             return -1;
         } else if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (!virtualKey) {
-                if (down) {
-                    if (repeatCount == 0) {
-                        playSoundEffect(SoundEffectConstants.CLICK);
-                    } else if (longPress) {
-                        if (!keyguardOn) {
-                            handleLongPressOnBack(event.getDeviceId());
+            if (down) {
+                if (!mRecentAppsPreloaded && (mPressOnBackBehavior == KEY_ACTION_APP_SWITCH
+                        || mLongPressOnBackBehavior == KEY_ACTION_APP_SWITCH)) {
+                    preloadRecentApps();
+                }
+                if (repeatCount == 0) {
+                    if (mPressOnBackBehavior != KEY_ACTION_BACK && !virtualKey) {
+                        mBackDoCustomAction = true;
+                        return -1;
+                    }
+                } else if (longPress) {
+                    if (mRecentAppsPreloaded &&
+                            mLongPressOnBackBehavior != KEY_ACTION_APP_SWITCH) {
+                        cancelPreloadRecentApps();
+                    }
+                    if (!keyguardOn) {
+                        if (mLongPressOnBackBehavior != KEY_ACTION_NOTHING) {
+                            performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);
+
+                            performKeyAction(mLongPressOnBackBehavior, event);
+                            // Do not perform action when key is released
+                            mBackDoCustomAction = false;
+                            return -1;
                         }
                     }
-                    return -1;
-                } else {
-                    if (canceled) {
+                }
+            } else {
+                if (mRecentAppsPreloaded && mPressOnBackBehavior != KEY_ACTION_APP_SWITCH &&
+                        mLongPressOnBackBehavior != KEY_ACTION_APP_SWITCH) {
+                    cancelPreloadRecentApps();
+                }
+                if (mBackDoCustomAction) {
+                    mBackDoCustomAction = false;
+                    if (!canceled && !keyguardOn) {
+                        performKeyAction(mPressOnBackBehavior, event);
                         return -1;
                     }
-                    if (mBackConsumed) {
-                        mBackConsumed = false;
-                        return -1;
-                    }
-                    triggerVirtualKeypress(KeyEvent.KEYCODE_BACK);
-                    return -1;
                 }
             }
         } else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
