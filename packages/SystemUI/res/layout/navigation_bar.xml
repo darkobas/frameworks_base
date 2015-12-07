@@ -54,7 +54,7 @@
                 android:src="@drawable/ic_sysbar_back"
                 systemui:keyCode="4"
                 android:layout_weight="0"
-                android:scaleType="center"
+                android:scaleType="centerInside"
                 android:contentDescription="@string/accessibility_back"
                 />
             <View
@@ -70,7 +70,7 @@
                 systemui:keyCode="3"
                 systemui:keyRepeat="false"
                 android:layout_weight="0"
-                android:scaleType="center"
+                android:scaleType="centerInside"
                 android:contentDescription="@string/accessibility_home"
                 />
             <View
@@ -84,7 +84,7 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_sysbar_recent"
                 android:layout_weight="0"
-                android:scaleType="center"
+                android:scaleType="centerInside"
                 android:contentDescription="@string/accessibility_recent"
                 />
             <FrameLayout
@@ -224,8 +224,8 @@
                 android:layout_height="@dimen/navigation_key_width"
                 android:layout_width="match_parent"
                 android:src="@drawable/ic_sysbar_recent"
-                android:scaleType="center"
                 android:layout_weight="0"
+                android:scaleType="center"
                 android:contentDescription="@string/accessibility_recent"
                 />
             <View
@@ -238,9 +238,9 @@
                 android:layout_height="@dimen/navigation_key_width"
                 android:layout_width="match_parent"
                 android:src="@drawable/ic_sysbar_home"
-                android:scaleType="center"
                 systemui:keyCode="3"
                 systemui:keyRepeat="false"
+                android:scaleType="center"
                 android:layout_weight="0"
                 android:contentDescription="@string/accessibility_home"
                 />
@@ -254,8 +254,8 @@
                 android:layout_height="@dimen/navigation_key_width"
                 android:layout_width="match_parent"
                 android:src="@drawable/ic_sysbar_back"
-                android:scaleType="center"
                 systemui:keyCode="4"
+                android:scaleType="center"
                 android:layout_weight="0"
                 android:contentDescription="@string/accessibility_back"
                 />

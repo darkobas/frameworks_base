@@ -3468,6 +3468,12 @@ public final class Settings {
          */
         public static final String POWER_MENU_LOCKSCREEN = "power_menu_lockscreen";
 
+        /**
+         * Height of navigation bar buttons
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_HEIGHT = "navigation_bar_height";
+
         /** @hide */
         public static final Validator LOCK_TO_APP_ENABLED_VALIDATOR = sBooleanValidator;
 
