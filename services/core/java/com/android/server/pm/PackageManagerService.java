@@ -2343,8 +2343,6 @@ public class PackageManagerService extends IPackageManager.Stub {
                     continue;
                 }
                 pkgSetting.enableComponentLPw(className, UserHandle.USER_OWNER);
-=======
->>>>>>> android-6.0.1_r3
             }
 
             // If this is first boot after an OTA, and a normal boot, then

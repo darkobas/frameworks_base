@@ -205,6 +205,12 @@ public final class PhoneAccount implements Parcelable {
             mIsEnabled = phoneAccount.isEnabled();
         }
 
+        /** @hide */
+        public Builder setAccountHandle(PhoneAccountHandle accountHandle) {
+            mAccountHandle = accountHandle;
+            return this;
+        }
+
         /**
          * Sets the address. See {@link PhoneAccount#getAddress}.
          *

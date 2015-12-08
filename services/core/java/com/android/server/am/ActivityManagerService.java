@@ -427,17 +427,6 @@ public final class ActivityManagerService extends ActivityManagerNative
     private boolean mIsBoosted = false;
     private long mBoostStartTime = 0;
 
-
-    // Delay to disable app launch boost
-    static final int APP_BOOST_MESSAGE_DELAY = 3000;
-    // Lower delay than APP_BOOST_MESSAGE_DELAY to disable the boost
-    static final int APP_BOOST_TIMEOUT = 2500;
-
-    private static native int nativeMigrateToBoost();
-    private static native int nativeMigrateFromBoost();
-    private boolean mIsBoosted = false;
-    private long mBoostStartTime = 0;
-
     /** All system services */
     SystemServiceManager mSystemServiceManager;
 

@@ -103,7 +103,6 @@ public class WifiEnterpriseConfig implements Parcelable {
     public static final String PLMN_KEY            = "plmn";
     /** @hide */
     public static final String PHASE1_KEY          = "phase1";
-
     /** {@hide} */
     public static final String ENABLE_TLS_1_2 = "\"tls_disable_tlsv1_2=0\"";
     /** {@hide} */
@@ -309,6 +308,7 @@ public class WifiEnterpriseConfig implements Parcelable {
                 throw new IllegalArgumentException("Unknown EAP method");
         }
     }
+
 
     /**
      * Set the TLS version
