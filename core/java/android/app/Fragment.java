@@ -2404,7 +2404,7 @@ public class Fragment implements ComponentCallbacks2, OnCreateContextMenuListene
                 mLoaderManager = mHost.getLoaderManager(mWho, mLoadersStarted, false);
             }
             if (mLoaderManager != null) {
-                if (mRetainLoader) {
+                if (mHost.getRetainLoaders()) {
                     mLoaderManager.doRetain();
                 } else {
                     mLoaderManager.doStop();
