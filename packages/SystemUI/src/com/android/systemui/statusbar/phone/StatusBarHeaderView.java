@@ -71,14 +71,9 @@ import java.text.NumberFormat;
  * The view to manage the header area in the expanded status bar.
  */
 public class StatusBarHeaderView extends RelativeLayout implements View.OnClickListener,
-<<<<<<< HEAD
-        BatteryController.BatteryStateChangeCallback, NextAlarmController.NextAlarmChangeCallback,
-        EmergencyListener {
-=======
-        NextAlarmController.NextAlarmChangeCallback, EmergencyListener,
+        BatteryController.BatteryStateChangeCallback, NextAlarmController.NextAlarmChangeCallback, EmergencyListener,
         StatusBarHeaderMachine.IStatusBarHeaderMachineObserver {
     static final String TAG = "StatusBarHeaderView";
->>>>>>> a351099... Time Contextual Headers [1/2]
 
     private boolean mExpanded;
     private boolean mListening;
@@ -147,16 +142,10 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     private boolean mShowingDetail;
     private boolean mDetailTransitioning;
 
-<<<<<<< HEAD
-=======
-    private SettingsObserver mSettingsObserver;
-    private boolean mShowBatteryTextExpanded;
-
     private ImageView mBackgroundImage;
     private Drawable mCurrentBackground;
     private float mLastHeight;
 
->>>>>>> a351099... Time Contextual Headers [1/2]
     public StatusBarHeaderView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -191,11 +180,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mAlarmStatus.setOnClickListener(this);
         mSignalCluster = findViewById(R.id.signal_cluster);
         mSystemIcons = (LinearLayout) findViewById(R.id.system_icons);
-<<<<<<< HEAD
-=======
-        mSettingsObserver = new SettingsObserver(new Handler());
         mBackgroundImage = (ImageView) findViewById(R.id.background_image);
->>>>>>> a351099... Time Contextual Headers [1/2]
         loadDimens();
         updateVisibilities();
         updateClockScale();
@@ -893,60 +878,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                     .start();
         }
     };
-<<<<<<< HEAD
-=======
-
-    class SettingsObserver extends ContentObserver {
-        SettingsObserver(Handler handler) {
-            super(handler);
-        }
-
-        void observe() {
-            ContentResolver resolver = mContext.getContentResolver();
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.STATUS_BAR_BATTERY_STYLE), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.STATUS_BAR_SHOW_BATTERY_PERCENT), false, this);
-            update();
-        }
-
-        void unobserve() {
-            ContentResolver resolver = mContext.getContentResolver();
-            resolver.unregisterContentObserver(this);
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            update();
-        }
-
-        @Override
-        public void onChange(boolean selfChange, Uri uri) {
-            update();
-        }
-
-        public void update() {
-            ContentResolver resolver = mContext.getContentResolver();
-            int currentUserId = ActivityManager.getCurrentUser();
-            int batteryStyle = Settings.System.getIntForUser(resolver,
-                    Settings.System.STATUS_BAR_BATTERY_STYLE, 0, currentUserId);
-            boolean showExpandedBatteryPercentage = Settings.System.getIntForUser(resolver,
-                    Settings.System.STATUS_BAR_SHOW_BATTERY_PERCENT, 0, currentUserId) == 0;
-
-            switch (batteryStyle) {
-                case 4: //BATTERY_METER_GONE
-                case 6: //BATTERY_METER_TEXT
-                    showExpandedBatteryPercentage = false;
-                    break;
-                default:
-                    break;
-            }
-
-            mShowBatteryTextExpanded = showExpandedBatteryPercentage;
-            updateVisibilities();
-            requestCaptureValues();
-        }
-    }
 
     private void doUpdateStatusBarCustomHeader(final Drawable next, final boolean force) {
         if (next != null) {
@@ -995,5 +926,4 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             }
         });
     }
->>>>>>> a351099... Time Contextual Headers [1/2]
 }

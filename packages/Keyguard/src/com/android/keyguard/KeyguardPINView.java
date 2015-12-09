@@ -19,6 +19,7 @@ package com.android.keyguard;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.RenderNode;
 import android.view.RenderNodeAnimator;
@@ -46,8 +47,6 @@ public class KeyguardPINView extends KeyguardPinBasedInputView {
     private View mDivider;
     private int mDisappearYTranslation;
     private View[][] mViews;
-
-    private static List<Integer> sNumbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
 
     private final int userId = KeyguardUpdateMonitor.getCurrentUser();
 
