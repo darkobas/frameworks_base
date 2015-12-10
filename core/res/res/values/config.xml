@@ -2540,4 +2540,7 @@
     <!-- Support in Surfaceflinger for blur layers.
          NOTE: This requires additional hardware-specific code. -->
     <bool name="config_ui_blur_enabled">false</bool>
+
+    <!-- Use alternative way to blur lockscreen -->
+    <bool name="config_use_stackblur">false</bool>
 </resources>
