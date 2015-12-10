@@ -671,8 +671,8 @@ public final class PowerManagerService extends SystemService
                     Settings.System.PROXIMITY_ON_WAKE),
                     false, mSettingsObserver, UserHandle.USER_ALL);
 
-            // Go.
             readConfigurationLocked();
+
 
             if (mButtonBrightnessSupport){
                 resolver.registerContentObserver(
@@ -691,7 +691,6 @@ public final class PowerManagerService extends SystemService
                         Settings.System.BUTTON_BACKLIGHT_TIMEOUT),
                         false, mSettingsObserver, UserHandle.USER_ALL);
             }
-
             updateSettingsLocked();
             mDirty |= DIRTY_BATTERY_STATE;
             updatePowerStateLocked();
@@ -743,15 +742,15 @@ public final class PowerManagerService extends SystemService
                 com.android.internal.R.bool.config_proximityCheckOnWake);
         mProximityWakeEnabledByDefaultConfig = resources.getBoolean(
                 com.android.internal.R.bool.config_proximityCheckOnWakeEnabledByDefault);
+        mButtonBrightnessSupport = resources.getBoolean(
+                com.android.internal.R.bool.config_button_brightness_support);
+        mCustomButtonBrightness = resources.getInteger(
+                com.android.internal.R.integer.config_button_brightness_default);
         if (mProximityWakeSupported) {
             PowerManager powerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
             mProximityWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                     "ProximityWakeLock");
         }
-        mButtonBrightnessSupport = resources.getBoolean(
-                com.android.internal.R.bool.config_button_brightness_support);
-        mCustomButtonBrightness = resources.getInteger(
-                com.android.internal.R.integer.config_button_brightness_default);
     }
 
     private void updateSettingsLocked() {

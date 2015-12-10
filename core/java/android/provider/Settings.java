@@ -3660,18 +3660,6 @@ public final class Settings {
          public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
 
         /**
-         * Timeout value for button lights. 0 = disabled
-         * @hide
-         */
-        public static final String BUTTON_BACKLIGHT_TIMEOUT = "button_backlight_timeout";
-
-        /**
-         * Disable hw buttons - actions, brightness, haptic feedback, overflow menu
-         * @hide
-         */
-        public static final String HARDWARE_KEYS_DISABLE = "hardware_keys_disable";
-
-        /**
          * navbar recents style - 0 default AOSP 1 OmniSwitch
          * @hide
          */
@@ -3682,27 +3670,6 @@ public final class Settings {
          * @hide
          */
         public static final String NAVIGATION_BAR_SHOW = "navigation_bar_show";
-
-        /**
-         * Custom button brightness value for manual mode
-         *
-         * @hide
-         */
-        public static final String CUSTOM_BUTTON_BRIGHTNESS = "custom_button_brightness";
-
-        /**
-         * use same value for buttons as for screen (manual and auto mode)
-         *
-         * @hide
-         */
-        public static final String CUSTOM_BUTTON_USE_SCREEN_BRIGHTNESS = "custom_button_use_screen_brightness";
-
-        /**
-         * disable all button brightness (manual and auto mode)
-         *
-         * @hide
-         */
-        public static final String CUSTOM_BUTTON_DISABLE_BRIGHTNESS = "custom_button_use_disable_brightness";
 
         /**
          * Toast icon
@@ -3734,6 +3701,39 @@ public final class Settings {
          * @hide
          */
         public static final String STATUS_BAR_CUSTOM_HEADER_PROVIDER = "status_bar_custom_header_provider";
+
+       /**
+         * Custom button brightness value for manual mode
+         *
+         * @hide
+         */
+        public static final String CUSTOM_BUTTON_BRIGHTNESS = "custom_button_brightness";
+
+        /**
+         * use same value for buttons as for screen (manual and auto mode)
+         *
+         * @hide
+         */
+        public static final String CUSTOM_BUTTON_USE_SCREEN_BRIGHTNESS = "custom_button_use_screen_brightness";
+
+        /**
+         * disable all button brightness (manual and auto mode)
+         *
+         * @hide
+         */
+        public static final String CUSTOM_BUTTON_DISABLE_BRIGHTNESS = "custom_button_use_disable_brightness";
+
+        /**
+         * Disable hw buttons - actions, brightness, haptic feedback, overflow menu
+         * @hide
+         */
+        public static final String HARDWARE_KEYS_DISABLE = "hardware_keys_disable";
+
+        /**
+         * Timeout value for button lights. 0 = disabled
+         * @hide
+         */
+        public static final String BUTTON_BACKLIGHT_TIMEOUT = "button_backlight_timeout";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
