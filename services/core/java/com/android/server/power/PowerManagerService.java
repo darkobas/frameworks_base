@@ -472,14 +472,14 @@ public final class PowerManagerService extends SystemService
     private final ArrayList<Integer> mBlockedUids = new ArrayList<Integer>();
 
         // button brightness suppport enablement
-    private boolean mButtonBrightnessSupport = true;
+    private boolean mButtonBrightnessSupport = false;
 
     private int mCurrentButtonBrightness = 0;
 
     // value to use in manual mode
     // can also be 0 if button light should be disabled
     // if -1 screen brightness will be used
-    private int mCustomButtonBrightness = 0;
+    private int mCustomButtonBrightness = -1;
 
     // always use screen brightness also for buttons
     private boolean mButtonUseScreenBrightness = false;
@@ -737,6 +737,8 @@ public final class PowerManagerService extends SystemService
                 com.android.internal.R.bool.config_proximityCheckOnWakeEnabledByDefault);
         mButtonBrightnessSupport = resources.getBoolean(
                 com.android.internal.R.bool.config_button_brightness_support);
+        mCustomButtonBrightness = resources.getInteger(
+                com.android.internal.R.integer.config_button_brightness_default);
         if (mProximityWakeSupported) {
             PowerManager powerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
             mProximityWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
@@ -3856,21 +3858,21 @@ public final class PowerManagerService extends SystemService
     private void updateButtonLightSettings() {
         final ContentResolver resolver = mContext.getContentResolver();
         if (mButtonBrightnessSupport){
-            mCustomButtonBrightness = Settings.System.getInt(
+            mCustomButtonBrightness = Settings.System.getIntForUser(
                     mContext.getContentResolver(), Settings.System.CUSTOM_BUTTON_BRIGHTNESS, 
-                    mCustomButtonBrightness);
-            mButtonUseScreenBrightness = Settings.System.getInt(
+                    mCustomButtonBrightness, UserHandle.USER_CURRENT);
+            mButtonUseScreenBrightness = Settings.System.getIntForUser(
                     mContext.getContentResolver(), Settings.System.CUSTOM_BUTTON_USE_SCREEN_BRIGHTNESS,
-                    0) != 0;
-            mButtonDisableBrightness = Settings.System.getInt(
+                    0, UserHandle.USER_CURRENT) != 0;
+            mButtonDisableBrightness = Settings.System.getIntForUser(
                     mContext.getContentResolver(), Settings.System.CUSTOM_BUTTON_DISABLE_BRIGHTNESS,
-                    0) != 0;
-            mHardwareKeysDisable = Settings.System.getInt(
+                    0, UserHandle.USER_CURRENT) != 0;
+            mHardwareKeysDisable = Settings.System.getIntForUser(
                     mContext.getContentResolver(), Settings.System.HARDWARE_KEYS_DISABLE,
-                    0) != 0;
-            mButtonTimeout = Settings.System.getInt(resolver,
+                    0, UserHandle.USER_CURRENT) != 0;
+            mButtonTimeout = Settings.System.getIntForUser(resolver,
                     Settings.System.BUTTON_BACKLIGHT_TIMEOUT,
-                    0) * 1000;
+                    0, UserHandle.USER_CURRENT) * 1000;
         }
     }
 

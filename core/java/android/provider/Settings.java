@@ -3721,7 +3721,7 @@ public final class Settings {
          *
          * @hide
          */
-        public static final String CUSTOM_BUTTON_DISABLE_BRIGHTNESS = "custom_button_disable_brightness";
+        public static final String CUSTOM_BUTTON_DISABLE_BRIGHTNESS = "custom_button_use_disable_brightness";
 
         /**
          * Disable hw buttons - actions, brightness, haptic feedback, overflow menu
