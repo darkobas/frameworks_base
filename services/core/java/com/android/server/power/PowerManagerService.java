@@ -408,11 +408,6 @@ public final class PowerManagerService extends SystemService
     // Use -1 to disable.
     private int mScreenBrightnessOverrideFromWindowManager = -1;
 
-    // The button brightness setting override from the window manager
-    // to allow the current foreground activity to override the button brightness.
-    // Use -1 to disable.
-    private int mButtonBrightnessOverrideFromWindowManager = -1;
-
     // The user activity timeout override from the window manager
     // to allow the current foreground activity to override the user activity timeout.
     // Use -1 to disable.
