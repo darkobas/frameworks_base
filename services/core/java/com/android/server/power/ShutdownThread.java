@@ -173,7 +173,7 @@ public final class ShutdownThread extends Thread {
             if (sConfirmDialog != null) {
                 sConfirmDialog.dismiss();
             }
-            sConfirmDialog = new AlertDialog.Builder(context)
+            sConfirmDialog = new AlertDialog.Builder(context, AlertDialog.THEME_MATERIAL_DAYNIGHT)
                     .setTitle(mRebootSafeMode
                             ? com.android.internal.R.string.reboot_safemode_title
                             : showRebootOption
@@ -282,7 +282,7 @@ public final class ShutdownThread extends Thread {
         }
 
         // Throw up a system dialog to indicate the device is rebooting / shutting down.
-        ProgressDialog pd = new ProgressDialog(context);
+        ProgressDialog pd = new ProgressDialog(context, AlertDialog.THEME_MATERIAL_DAYNIGHT);
 
         // Path 1: Reboot to recovery and install the update
         //   Condition: mRebootReason == REBOOT_RECOVERY and mRebootUpdate == True
