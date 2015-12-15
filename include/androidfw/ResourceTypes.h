@@ -1541,7 +1541,7 @@ class ResTable
 {
 public:
     ResTable();
-    ResTable(const void* data, size_t size, const int32_t cookie,
+    ResTable(const void* data, size_t size, const int32_t cookie=-1,
              bool copyData=false);
     ~ResTable();
 
@@ -1553,7 +1553,7 @@ public:
     status_t add(Asset* asset, Asset* idmapAsset, const int32_t cookie=-1, bool copyData=false);
 
     status_t add(ResTable* src);
-    status_t addEmpty(const int32_t cookie);
+    status_t addEmpty(const int32_t cookie=-1);
 
     status_t getError() const;
 
@@ -1818,6 +1818,9 @@ public:
 
     const DynamicRefTable* getDynamicRefTableForCookie(int32_t cookie) const;
 
+    // Return the index in mHeader corresponding to the asset with cookie 'cookie'
+    ssize_t cookieToHeaderIndex(int32_t cookie) const;
+
     // Return the configurations (ResTable_config) that we know about
     void getConfigurations(Vector<ResTable_config>* configs, bool ignoreMipmap=false) const;
 
@@ -1856,8 +1859,10 @@ private:
     struct bag_set;
     typedef Vector<Type*> TypeList;
 
+    int32_t nextAvailableCookie() const;
+
     status_t addInternal(const void* data, size_t size, const void* idmapData, size_t idmapDataSize,
-            const int32_t cookie, bool copyData);
+            int32_t cookie, bool copyData);
 
     ssize_t getResourcePackageIndex(uint32_t resID) const;
 
