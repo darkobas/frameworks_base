@@ -2847,6 +2847,40 @@ public class Intent implements Parcelable, Cloneable {
     public static final String ACTION_GLOBAL_BUTTON = "android.intent.action.GLOBAL_BUTTON";
 
     /**
+     * Broadcast Action: An overlay package has been installed. The data
+     * contains the name of the added overlay package.
+     * @hide
+     */
+    public static final String ACTION_OVERLAY_ADDED = "android.intent.action.OVERLAY_ADDED";
+
+    /**
+     * Broadcast Action: An overlay package has changed. The data contains the
+     * name of the overlay package which has changed. This is broadcast on all changes to the
+     * OverlayInfo returned by
+     * {@link android.content.om.IOverlayManager#getOverlayInfo(String, int)}.
+     * The most common change is a state change that will change whether the
+     * overlay is enabled or not.
+     * @hide
+     */
+    public static final String ACTION_OVERLAY_CHANGED = "android.intent.action.OVERLAY_CHANGED";
+
+    /**
+     * Broadcast Action: An overlay package has been removed. The data contains
+     * the name of the overlay package which has been removed.
+     * @hide
+     */
+    public static final String ACTION_OVERLAY_REMOVED = "android.intent.action.OVERLAY_REMOVED";
+
+    /**
+     * Broadcast Action: The order of the overlays for a target package has
+     * changed. The data contains the package name of the target package, i.e.
+     * the package that will have its resources modified by the overlay
+     * packages.
+     * @hide
+     */
+    public static final String ACTION_OVERLAYS_REORDERED = "android.intent.action.OVERLAY_REORDERED";
+
+    /**
      * Activity Action: Allow the user to select and return one or more existing
      * documents. When invoked, the system will display the various
      * {@link DocumentsProvider} instances installed on the device, letting the
