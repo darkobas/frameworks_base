@@ -1,0 +1,4 @@
+# Script to start "om" on the device
+base=/system
+export CLASSPATH=$base/framework/om.jar
+exec app_process $base/bin com.android.commands.om.Om "$@"
