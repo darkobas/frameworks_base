@@ -449,6 +449,7 @@ public final class ActivityThread {
         boolean persistent;
         Configuration config;
         CompatibilityInfo compatInfo;
+        List<String[]> assetPaths;
 
         /** Initial values for {@link Profiler}. */
         ProfilerInfo initProfilerInfo;
@@ -771,7 +772,7 @@ public final class ActivityThread {
                 IUiAutomationConnection instrumentationUiConnection, int debugMode,
                 boolean enableOpenGlTrace, boolean isRestrictedBackupMode, boolean persistent,
                 Configuration config, CompatibilityInfo compatInfo, Map<String, IBinder> services,
-                Bundle coreSettings) {
+                Bundle coreSettings, List <String[]> assetPaths) {
 
             if (services != null) {
                 // Setup the service cache in the ServiceManager
@@ -831,6 +832,7 @@ public final class ActivityThread {
             data.persistent = persistent;
             data.config = config;
             data.compatInfo = compatInfo;
+            data.assetPaths = assetPaths;
             data.initProfilerInfo = profilerInfo;
             sendMessage(H.BIND_APPLICATION, data);
         }
@@ -846,6 +848,13 @@ public final class ActivityThread {
         public void scheduleConfigurationChanged(Configuration config) {
             updatePendingConfiguration(config);
             sendMessage(H.CONFIGURATION_CHANGED, config);
+        }
+
+        public void scheduleAssetsChanged(String[] assetPaths) {
+            Message m = Message.obtain();
+            m.what = H.ASSETS_CHANGED;
+            m.obj = assetPaths;
+            mH.sendMessageAtFrontOfQueue(m);
         }
 
         public void updateTimeZone() {
@@ -1275,6 +1284,7 @@ public final class ActivityThread {
         public static final int CANCEL_VISIBLE_BEHIND = 147;
         public static final int BACKGROUND_VISIBLE_BEHIND_CHANGED = 148;
         public static final int ENTER_ANIMATION_COMPLETE = 149;
+        public static final int ASSETS_CHANGED          = 150;
 
         String codeToString(int code) {
             if (DEBUG_MESSAGES) {
@@ -1328,6 +1338,7 @@ public final class ActivityThread {
                     case CANCEL_VISIBLE_BEHIND: return "CANCEL_VISIBLE_BEHIND";
                     case BACKGROUND_VISIBLE_BEHIND_CHANGED: return "BACKGROUND_VISIBLE_BEHIND_CHANGED";
                     case ENTER_ANIMATION_COMPLETE: return "ENTER_ANIMATION_COMPLETE";
+                    case ASSETS_CHANGED: return "ASSETS_CHANGED";
                 }
             }
             return Integer.toString(code);
@@ -1557,6 +1568,9 @@ public final class ActivityThread {
                 case ENTER_ANIMATION_COMPLETE:
                     handleEnterAnimationComplete((IBinder) msg.obj);
                     break;
+                case ASSETS_CHANGED:
+                    handleAssetsChanged((String[]) msg.obj);
+                    break;
             }
             if (DEBUG_MESSAGES) Slog.v(TAG, "<<< done: " + codeToString(msg.what));
         }
@@ -1695,10 +1709,10 @@ public final class ActivityThread {
     /**
      * Creates the top level resources for the given package.
      */
-    Resources getTopLevelResources(String resDir, String[] splitResDirs, String[] overlayDirs,
+    Resources getTopLevelResources(String resDir, String[] splitResDirs,
             String[] libDirs, int displayId, Configuration overrideConfiguration,
             LoadedApk pkgInfo) {
-        return mResourcesManager.getTopLevelResources(resDir, splitResDirs, overlayDirs, libDirs,
+        return mResourcesManager.getTopLevelResources(resDir, splitResDirs, libDirs,
                 displayId, overrideConfiguration, pkgInfo.getCompatibilityInfo());
     }
 
@@ -4203,6 +4217,10 @@ public final class ActivityThread {
         return config;
     }
 
+    public final void applyAssetsChangedToResources(String[] assetPaths) {
+        handleAssetsChanged(assetPaths);
+    }
+
     final void handleConfigurationChanged(Configuration config, CompatibilityInfo compat) {
 
         int configDiff = 0;
@@ -4246,6 +4264,12 @@ public final class ActivityThread {
             for (int i=0; i<N; i++) {
                 performConfigurationChanged(callbacks.get(i), config);
             }
+        }
+    }
+
+    final void handleAssetsChanged(String[] assetPaths) {
+        synchronized (mResourcesManager) {
+            mResourcesManager.applyAssetsChangedLocked(assetPaths);
         }
     }
 
@@ -4489,6 +4513,10 @@ public final class ActivityThread {
         mResourcesManager.applyConfigurationToResourcesLocked(data.config, data.compatInfo);
         mCurDefaultDisplayDpi = data.config.densityDpi;
         applyCompatConfiguration(mCurDefaultDisplayDpi);
+
+        for (String[] paths : data.assetPaths) {
+            mResourcesManager.applyAssetsChangedLocked(paths);
+        }
 
         data.info = getPackageInfoNoCheck(data.appInfo, data.compatInfo);
 
