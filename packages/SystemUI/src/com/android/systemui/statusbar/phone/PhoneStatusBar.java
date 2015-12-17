@@ -103,6 +103,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.PathInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -918,11 +919,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mBackdropFront = (ImageView) mBackdrop.findViewById(R.id.backdrop_front);
         mBackdropBack = (ImageView) mBackdrop.findViewById(R.id.backdrop_back);
 
-        FrameLayout scrimView = (FrameLayout) mStatusBarWindowContent.findViewById(R.id.scrimview);
+        FrameLayout scrimView = (FrameLayout) mStatusBarWindow.findViewById(R.id.scrimview);
         ScrimView scrimBehind = (ScrimView) scrimView.findViewById(R.id.scrim_behind);
         ScrimView scrimInFront =
-                (ScrimView) mStatusBarWindowContent.findViewById(R.id.scrim_in_front);
-        View headsUpScrim = mStatusBarWindowContent.findViewById(R.id.heads_up_scrim);
+                (ScrimView) mStatusBarWindow.findViewById(R.id.scrim_in_front);
+        View headsUpScrim = mStatusBarWindow.findViewById(R.id.heads_up_scrim);
         mScrimController = new ScrimController(scrimBehind, scrimInFront, headsUpScrim,
                 mScrimSrcModeEnabled);
         mHeadsUpManager.addListener(mScrimController);
@@ -1908,7 +1909,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
 
         if (backdropBitmap == null && mMediaMetadata == null) {
-            backdropBitmap = mKeyguardWallpaper;
+            WallpaperManager wm = (WallpaperManager)
+                    mContext.getSystemService(Context.WALLPAPER_SERVICE);
+            backdropBitmap = wm.getKeyguardBitmap();
         }
 
         if (keyguardVisible) {

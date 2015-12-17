@@ -30,9 +30,9 @@ import android.provider.Settings;
 import android.support.v7.graphics.Palette;
 import android.util.AttributeSet;
 import android.view.View;
-import com.android.systemui.cm.UserContentObserver;
+import com.android.systemui.omni.UserContentObserver;
 import com.android.systemui.statusbar.policy.KeyguardMonitor;
-import cyanogenmod.providers.CMSettings;
+import android.provider.Settings;
 
 import java.util.Arrays;
 
@@ -353,8 +353,8 @@ public class VisualizerView extends View implements Palette.PaletteAsyncListener
 
         @Override
         protected void update() {
-            mVisualizerEnabled = CMSettings.Secure.getInt(getContext().getContentResolver(),
-                    CMSettings.Secure.LOCKSCREEN_VISUALIZER_ENABLED, 1) != 0;
+            mVisualizerEnabled = Settings.Secure.getInt(getContext().getContentResolver(),
+                    Settings.Secure.LOCKSCREEN_VISUALIZER_ENABLED, 1) != 0;
             checkStateChanged();
             updateViewVisibility();
         }
@@ -363,7 +363,7 @@ public class VisualizerView extends View implements Palette.PaletteAsyncListener
         protected void observe() {
             super.observe();
             getContext().getContentResolver().registerContentObserver(
-                    CMSettings.Secure.getUriFor(CMSettings.Secure.LOCKSCREEN_VISUALIZER_ENABLED),
+                    Settings.Secure.getUriFor(Settings.Secure.LOCKSCREEN_VISUALIZER_ENABLED),
                     false, this, UserHandle.USER_CURRENT);
         }
 

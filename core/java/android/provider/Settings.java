@@ -6275,6 +6275,12 @@ public final class Settings {
          */
         public static final String CAMERA_DOUBLE_TAP_POWER_GESTURE_DISABLED =
                 "camera_double_tap_power_gesture_disabled";
+        /**
+         * Whether to show the keyguard visualizer.
+         * Boolean setting. 0 = no, 1 = yes.
+         * @hide
+         */
+        public static final String LOCKSCREEN_VISUALIZER_ENABLED = "lockscreen_visualizer";
 
         /**
          * This are the settings to be backed up.
