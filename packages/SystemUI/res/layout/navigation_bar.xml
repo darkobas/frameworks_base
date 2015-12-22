@@ -203,7 +203,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/navigation_extra_key_width"
                     android:contentDescription="@string/accessibility_ime_switch_button"
-                    android:scaleType="centerInside"
+                    android:scaleType="center"
                     android:src="@drawable/ic_ime_switcher_default"
                     android:layout_gravity="top"
                     android:visibility="invisible" />
@@ -214,7 +214,7 @@
                     android:layout_height="40dp"
                     android:contentDescription="@string/accessibility_menu"
                     android:src="@drawable/ic_sysbar_menu"
-                    android:scaleType="centerInside"
+                    android:scaleType="center"
                     android:layout_gravity="top"
                     android:visibility="invisible"
                     systemui:keyCode="82" />
@@ -224,8 +224,8 @@
                 android:layout_height="@dimen/navigation_key_width"
                 android:layout_width="match_parent"
                 android:src="@drawable/ic_sysbar_recent"
-                android:layout_weight="0"
                 android:scaleType="center"
+                android:layout_weight="0"
                 android:contentDescription="@string/accessibility_recent"
                 />
             <View
@@ -254,8 +254,8 @@
                 android:layout_height="@dimen/navigation_key_width"
                 android:layout_width="match_parent"
                 android:src="@drawable/ic_sysbar_back"
-                systemui:keyCode="4"
                 android:scaleType="center"
+                systemui:keyCode="4"
                 android:layout_weight="0"
                 android:contentDescription="@string/accessibility_back"
                 />
