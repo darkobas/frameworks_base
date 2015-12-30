@@ -17,5 +17,5 @@
         android:drawable="@drawable/ic_audio_ring_notif_mute_white" />
     <item android:state_selected="true"
         android:drawable="@drawable/ic_audio_ring_notif_mute_white" />
-    <item android:drawable="@drawable/ic_audio_ring_notif_mute" />
+    <item android:drawable="@drawable/ic_global_audio_ring_notif_mute" />
 </selector>
