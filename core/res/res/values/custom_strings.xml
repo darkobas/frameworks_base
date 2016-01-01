@@ -124,4 +124,9 @@
     <!-- Notify use that they are in Lock-to-app in accessibility mode -->
     <string name="lock_to_app_toast_back">To unpin this screen, touch and hold Back.</string>
 
+    <!-- global actions dnd selector -->
+    <string name="dnd_mode_off">Off</string>
+    <string name="dnd_mode_total_silence">Total silence</string>
+    <string name="dnd_mode_alarms">Alarms only</string>
+    <string name="dnd_mode_important">Priority only</string>
 </resources>
