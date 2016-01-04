@@ -56,7 +56,6 @@
             android:minHeight="26dp"
             android:textColor="@color/global_actions_text_color"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="?android:attr/colorAccent"
             />
     </LinearLayout>
 </LinearLayout>
