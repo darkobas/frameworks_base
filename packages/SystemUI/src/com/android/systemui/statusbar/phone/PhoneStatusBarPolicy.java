@@ -229,6 +229,7 @@ public class PhoneStatusBarPolicy implements Callback {
         boolean zenVisible = false;
         int zenIconId = 0;
         String zenDescription = null;
+        boolean zenModeNoInterruptions = false;
 
         boolean volumeVisible = false;
         int volumeIconId = 0;
@@ -282,6 +283,10 @@ public class PhoneStatusBarPolicy implements Callback {
         if (zenVisible != mZenVisible) {
             mService.setIconVisibility(SLOT_ZEN, zenVisible);
             mZenVisible = zenVisible;
+        }
+        // overrules volume icon
+        if (zenModeNoInterruptions) {
+            volumeVisible = false;
         }
 
         if (volumeVisible) {
