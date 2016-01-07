@@ -208,7 +208,7 @@ class Rules {
         } catch (RemoteException e) {
             // Intentionally left blank
         }
-        return false;
+        return true;
     }
 
     /**
