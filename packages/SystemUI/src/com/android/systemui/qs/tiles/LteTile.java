@@ -37,6 +37,11 @@ import com.android.systemui.R;
  */
 public class LteTile extends QSTile<QSTile.BooleanState> {
 
+    private final AnimationIcon mEnable
+            = new AnimationIcon(R.drawable.ic_signal_flashlight_enable_animation);
+    private final AnimationIcon mDisable
+            = new AnimationIcon(R.drawable.ic_signal_flashlight_disable_animation);
+
     private static final Intent MOBILE_NETWORK_SETTINGS = new Intent(Intent.ACTION_MAIN)
             .setComponent(new ComponentName("com.android.phone",
                     "com.android.phone.MobileNetworkSettings"));
@@ -71,6 +76,9 @@ public class LteTile extends QSTile<QSTile.BooleanState> {
         // Hide the tile if device doesn't support LTE
         // or it supports Dual Sim Dual Active.
         // TODO: Should be spawning off a tile per sim
+        final boolean userInitiated = arg != null ? ((UserBoolean) arg).userInitiated : false;
+        final AnimationIcon icon = state.value ? mEnable : mDisable;
+
 	if (!QSTileHost.deviceSupportsLte(mContext) || QSTileHost.deviceSupportsDdsSupported(mContext))
               /*  || QSTileHost.deviceSupportsDdsSupported(mContext)) */{
             state.visible = false;
@@ -96,6 +104,7 @@ public class LteTile extends QSTile<QSTile.BooleanState> {
                 state.label = mContext.getString(R.string.lte_off);
                 break;
         }
+        icon.setAllowAnimation(userInitiated);
     }
 
     private void toggleLteState() {
