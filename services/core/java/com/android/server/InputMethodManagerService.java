@@ -39,7 +39,6 @@ import com.android.server.wm.WindowManagerService;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
-import android.util.BoostFramework;
 
 import android.annotation.Nullable;
 import android.app.ActivityManagerNative;
@@ -419,7 +418,6 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
     boolean mIsInteractive = true;
 
     class KeyboardDetect {
-        private BoostFramework mPerf = new BoostFramework();
         private int keyboardState = 0;
         private boolean enKeyOpt;
         private int[] keyboardParams;

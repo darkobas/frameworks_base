@@ -651,9 +651,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     // Panel Orientation default portrait
     private int mPanelOrientation = Surface.ROTATION_0;
 
-    // What we do when the user long presses on home
-    private int mLongPressOnHomeBehavior;
-
     // What we do when the user double-taps on home
     private int mDoubleTapOnHomeBehavior;
 
@@ -3124,40 +3121,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 || keyCode == KeyEvent.KEYCODE_SEARCH
                 || keyCode == KeyEvent.KEYCODE_MENU)) {
             return -1;  // ignore the physical key here
-        }
-
-        // If the boot mode is power off alarm, we should not dispatch the several physical keys
-        // in power off alarm UI to avoid pausing power off alarm UI.
-        int isPowerOffAlarmMode = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.POWER_OFF_ALARM_MODE, 0);
-        if (DEBUG_INPUT) { Log.d(TAG, "intercept Dispatching isPowerOffAlarmMode = " +
-                isPowerOffAlarmMode); }
-
-        if (isPowerOffAlarmMode == 1 && (keyCode == KeyEvent.KEYCODE_HOME
-                || keyCode == KeyEvent.KEYCODE_SEARCH
-                || keyCode == KeyEvent.KEYCODE_MENU)) {
-            return -1;  // ignore the physical key here
-        }
-
-        // If we think we might have a volume down & power key chord on the way
-        // but we're not sure, then tell the dispatcher to wait a little while and
-        // try again later before dispatching.
-        if (mScreenshotChordEnabled && (flags & KeyEvent.FLAG_FALLBACK) == 0) {
-            if (mVolumeDownKeyTriggered && !mPowerKeyTriggered) {
-                final long now = SystemClock.uptimeMillis();
-                final long timeoutTime = mVolumeDownKeyTime
-                        + SCREENSHOT_CHORD_DEBOUNCE_DELAY_MILLIS;
-                if (now < timeoutTime) {
-                    return timeoutTime - now;
-                }
-            }
-            if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN
-                    && mScreenshotChordVolumeDownKeyConsumed) {
-                if (!down) {
-                    mScreenshotChordVolumeDownKeyConsumed = false;
-                }
-                return -1;
-            }
         }
 
         // If we think we might have a volume up & power key chord on the way

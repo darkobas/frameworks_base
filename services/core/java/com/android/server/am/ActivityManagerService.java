@@ -18791,7 +18791,6 @@ public final class ActivityManagerService extends ActivityManagerNative
                 + ",curProcState=" + app.curProcState + ",setProcState=" + app.setProcState
                 + ",killed=" + (app.killed ? 1 : 0) + ",killedByAm=" + (app.killedByAm ? 1 : 0)
                 + ",debugging=" + (app.debugging ? 1 : 0);
-            android.util.SeempLog.record_str(385, seempStr);
             app.setRawAdj = app.curRawAdj;
         }
 
