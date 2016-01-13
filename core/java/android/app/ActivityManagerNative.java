@@ -56,7 +56,6 @@ import com.android.internal.os.IResultReceiver;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /** {@hide} */
 public abstract class ActivityManagerNative extends Binder implements IActivityManager
@@ -1074,14 +1073,6 @@ public abstract class ActivityManagerNative extends Binder implements IActivityM
             data.enforceInterface(IActivityManager.descriptor);
             Configuration config = Configuration.CREATOR.createFromParcel(data);
             updateConfiguration(config);
-            reply.writeNoException();
-            return true;
-        }
-
-        case UPDATE_ASSETS_TRANSACTION: {
-            data.enforceInterface(IActivityManager.descriptor);
-            int userId = data.readInt();
-            updateAssets(userId, data.readHashMap(null));
             reply.writeNoException();
             return true;
         }
@@ -3941,19 +3932,6 @@ class ActivityManagerProxy implements IActivityManager
         data.writeInterfaceToken(IActivityManager.descriptor);
         values.writeToParcel(data, 0);
         mRemote.transact(UPDATE_CONFIGURATION_TRANSACTION, data, reply, 0);
-        reply.readException();
-        data.recycle();
-        reply.recycle();
-    }
-    public void updateAssets(int userId, Map<String, String[]> overlays)
-        throws RemoteException
-    {
-        Parcel data = Parcel.obtain();
-        Parcel reply = Parcel.obtain();
-        data.writeInterfaceToken(IActivityManager.descriptor);
-        data.writeInt(userId);
-        data.writeMap(overlays);
-        mRemote.transact(UPDATE_ASSETS_TRANSACTION, data, reply, 0);
         reply.readException();
         data.recycle();
         reply.recycle();

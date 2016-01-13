@@ -239,12 +239,11 @@ public class OverlayManagerService extends SystemService {
             } else {
                 state = mRules.getUpdatedState(overlay, pi, userId);
             }
-            overlay = createOverlayInfo(pi, state, userId);
             PackageInfo targetPi = getPackageInfo(overlay.targetPackageName, userId);
             if (targetPi != null) {
                 mIdmapManager.createIdmap(targetPi, pi);
             }
-            mState.insertOverlay(overlay);
+            mState.insertOverlay(createOverlayInfo(pi, state, userId));
         }
 
         Map<String, List<OverlayInfo>> overlays = mState.getAllOverlays(userId);
@@ -346,21 +345,22 @@ public class OverlayManagerService extends SystemService {
     }
 
     private void updateAssets(int userId, String... targets) {
-        final long ident = Binder.clearCallingIdentity();
-        try {
-            Map<String, String[]> assetPaths = new ArrayMap<>();
-            for (String targetPackageName : targets) {
-                assetPaths.put(targetPackageName, getAssetPaths(targetPackageName, userId));
-            }
-            final IActivityManager am = ActivityManagerNative.getDefault();
-            am.updateAssets(userId, assetPaths);
-        } catch (PackageManager.NameNotFoundException e) {
-            Slog.e(TAG, "Cannot update assets for user " + userId, e);
-        } catch (RemoteException e) {
-            // Intentionally left blank
-        } finally {
-            Binder.restoreCallingIdentity(ident);
-        }
+// TODO: Uncomment when when we integrate OMS properly
+//        final long ident = Binder.clearCallingIdentity();
+//        try {
+//            Map<String, String[]> assetPaths = new ArrayMap<>();
+//            for (String targetPackageName : targets) {
+//                assetPaths.put(targetPackageName, getAssetPaths(targetPackageName, userId));
+//            }
+//            final IActivityManager am = ActivityManagerNative.getDefault();
+//            am.updateAssets(userId, assetPaths);
+//        } catch (PackageManager.NameNotFoundException e) {
+//            Slog.e(TAG, "Cannot update assets for user " + userId, e);
+//        } catch (RemoteException e) {
+//            // Intentionally left blank
+//        } finally {
+//            Binder.restoreCallingIdentity(ident);
+//        }
     }
 
     private void sendBroadcast(String action, String packageName, int userId) {

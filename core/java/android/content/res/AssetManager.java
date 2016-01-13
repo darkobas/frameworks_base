@@ -252,12 +252,6 @@ public final class AssetManager implements AutoCloseable {
         }
     }
 
-    /*package*/ final void recreateStringBlocks() {
-        synchronized (this) {
-            makeStringBlocks(null);
-        }
-    }
-
     /*package*/ final void makeStringBlocks(StringBlock[] seed) {
         final int seedNum = (seed != null) ? seed.length : 0;
         final int num = getStringBlockCount();
@@ -824,8 +818,6 @@ public final class AssetManager implements AutoCloseable {
     private native final void init(boolean isSystem);
     private native final void destroy();
 
-    /*package*/ native final int nextCookie(int cookie);
-    /*package*/ native final int nextOverlayCookie(String targetPath, int cookie);
     private native final int cookieToIndex(int cookie);
 
     private final void incRefsLocked(long id) {

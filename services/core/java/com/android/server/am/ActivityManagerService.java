@@ -103,7 +103,6 @@ import com.android.server.SystemServiceManager;
 import com.android.server.Watchdog;
 import com.android.server.am.ActivityStack.ActivityState;
 import com.android.server.firewall.IntentFirewall;
-import com.android.server.om.OverlayManagerService;
 import com.android.server.pm.Installer;
 import com.android.server.pm.UserManagerService;
 import com.android.server.statusbar.StatusBarManagerInternal;
@@ -6231,8 +6230,7 @@ public final class ActivityManagerService extends ActivityManagerNative
                     isRestrictedBackupMode || !normalMode, app.persistent,
                     new Configuration(mConfiguration), app.compat,
                     getCommonServicesLocked(app.isolated),
-                    mCoreSettingsObserver.getCoreSettingsLocked(),
-                    getAssetPaths(appInfo.packageName, app.userId));
+                    mCoreSettingsObserver.getCoreSettingsLocked());
             updateLruProcessLocked(app, false, null);
             app.lastRequestedGc = app.lastLowMemory = SystemClock.uptimeMillis();
         } catch (Exception e) {
@@ -6315,13 +6313,6 @@ public final class ActivityManagerService extends ActivityManagerNative
         }
 
         return true;
-    }
-
-    private List<String[]> getAssetPaths(String packageName, int userId)
-        throws NameNotFoundException {
-
-        OverlayManagerService oms = LocalServices.getService(OverlayManagerService.class);
-        return oms.getAllAssetPaths(packageName, userId);
     }
 
     @Override
@@ -17602,52 +17593,6 @@ public final class ActivityManagerService extends ActivityManagerNative
         }
 
         return kept;
-    }
-
-    /**
-     * @hide
-     */
-    public void updateAssets(int userId, Map<String,String[]> overlays) {
-        enforceCallingPermission(android.Manifest.permission.CHANGE_CONFIGURATION, "updateAssets()");
-
-        synchronized(this) {
-            final long origId = Binder.clearCallingIdentity();
-            try {
-                updateAssetsLocked(userId, overlays);
-            } finally {
-                Binder.restoreCallingIdentity(origId);
-            }
-        }
-    }
-
-    void updateAssetsLocked(int userId, Map<String, String[]> overlays) {
-        String[] systemOverlayPaths = null;
-        if (overlays.keySet().contains("android")) {
-            systemOverlayPaths = overlays.get("android");
-            mSystemThread.applyAssetsChangedToResources(systemOverlayPaths);
-        }
-        for (int i = mLruProcesses.size() - 1; i >= 0; i--) {
-            ProcessRecord app = mLruProcesses.get(i);
-            try {
-                if (app.userId != userId || app.thread == null) {
-                    continue;
-                }
-                String packageName = app.info.packageName;
-                if ("android".equals(packageName)) {
-                    continue;
-                }
-                if (systemOverlayPaths != null) {
-                    app.thread.scheduleAssetsChanged(systemOverlayPaths);
-                }
-                if (overlays.keySet().contains(packageName)) {
-                    app.thread.scheduleAssetsChanged(overlays.get(packageName));
-                }
-            } catch (Exception e) {}
-        }
-
-        Configuration config = new Configuration(mConfiguration);
-        config.assetSeq++;
-        updateConfiguration(config);
     }
 
     /**

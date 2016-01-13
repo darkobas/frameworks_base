@@ -88,6 +88,7 @@ public final class LoadedApk {
     private final String mResDir;
     private final String[] mSplitAppDirs;
     private final String[] mSplitResDirs;
+    private final String[] mOverlayDirs;
     private final String[] mSharedLibraries;
     private final String mDataDir;
     private final String mLibDir;
@@ -135,6 +136,7 @@ public final class LoadedApk {
         mResDir = aInfo.uid == myUid ? aInfo.sourceDir : aInfo.publicSourceDir;
         mSplitAppDirs = aInfo.splitSourceDirs;
         mSplitResDirs = aInfo.uid == myUid ? aInfo.splitSourceDirs : aInfo.splitPublicSourceDirs;
+        mOverlayDirs = aInfo.resourceDirs;
         mSharedLibraries = aInfo.sharedLibraryFiles;
         mDataDir = aInfo.dataDir;
         mDataDirFile = mDataDir != null ? new File(mDataDir) : null;
@@ -186,6 +188,7 @@ public final class LoadedApk {
         mResDir = null;
         mSplitAppDirs = null;
         mSplitResDirs = null;
+        mOverlayDirs = null;
         mSharedLibraries = null;
         mDataDir = null;
         mDataDirFile = null;
@@ -524,6 +527,10 @@ public final class LoadedApk {
         return mSplitResDirs;
     }
 
+    public String[] getOverlayDirs() {
+        return mOverlayDirs;
+    }
+
     public String getDataDir() {
         return mDataDir;
     }
@@ -538,7 +545,7 @@ public final class LoadedApk {
 
     public Resources getResources(ActivityThread mainThread) {
         if (mResources == null) {
-            mResources = mainThread.getTopLevelResources(mResDir, mSplitResDirs,
+            mResources = mainThread.getTopLevelResources(mResDir, mSplitResDirs, mOverlayDirs,
                     mApplicationInfo.sharedLibraryFiles, Display.DEFAULT_DISPLAY, null, this);
         }
         return mResources;
