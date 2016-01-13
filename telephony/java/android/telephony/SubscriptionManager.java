@@ -144,8 +144,13 @@ public class SubscriptionManager {
     /** @hide */
     public static final String SUB_STATE = "sub_state";
 
+    /** @hide */
     public static final int INACTIVE = 0;
+
+    /** @hide */
     public static final int ACTIVE = 1;
+
+    /** @hide */
     public static final int SUB_CONFIGURATION_IN_PROGRESS = 2;
 
     /**
@@ -1153,6 +1158,7 @@ public class SubscriptionManager {
         return phoneId >= 0 && phoneId < TelephonyManager.getDefault().getPhoneCount();
     }
 
+    /** @hide */
     public static void activateSubId(int subId) {
         logd("activateSubId sub id = " + subId);
         try {
@@ -1162,6 +1168,7 @@ public class SubscriptionManager {
         }
     }
 
+    /** @hide */
     public static void deactivateSubId(int subId) {
         logd("deactivateSubId sub id = " + subId);
         try {
@@ -1171,6 +1178,7 @@ public class SubscriptionManager {
         }
     }
 
+    /** @hide */
     public static int getSubState(int subId) {
         logd("getSubState sub id = " + subId);
         try {
@@ -1180,6 +1188,7 @@ public class SubscriptionManager {
         }
     }
 
+    /** @hide */
     public static int setSubState(int subId, int subState) {
         logd("setSubState sub id = " + subId + " state = " + subState);
         try {
