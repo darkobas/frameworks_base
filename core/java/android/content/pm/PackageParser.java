@@ -434,7 +434,6 @@ public class PackageParser {
         pi.restrictedAccountType = p.mRestrictedAccountType;
         pi.requiredAccountType = p.mRequiredAccountType;
         pi.overlayTarget = p.mOverlayTarget;
-        pi.requestedOverlayPriority = p.mOverlayPriority;
         pi.firstInstallTime = firstInstallTime;
         pi.lastUpdateTime = lastUpdateTime;
         if ((flags&PackageManager.GET_GIDS) != 0) {

@@ -271,14 +271,6 @@ public class PackageInfo implements Parcelable {
      */
     public String overlayTarget;
 
-    /**
-     * The overlay priority requested by the package.
-     *
-     * If no overlay priority was requested, this will be -1.
-     * @hide
-     */
-    public int requestedOverlayPriority;
-
     public PackageInfo() {
     }
 
@@ -331,7 +323,6 @@ public class PackageInfo implements Parcelable {
         dest.writeString(restrictedAccountType);
         dest.writeString(requiredAccountType);
         dest.writeString(overlayTarget);
-        dest.writeInt(requestedOverlayPriority);
     }
 
     public static final Parcelable.Creator<PackageInfo> CREATOR
@@ -381,6 +372,5 @@ public class PackageInfo implements Parcelable {
         restrictedAccountType = source.readString();
         requiredAccountType = source.readString();
         overlayTarget = source.readString();
-        requestedOverlayPriority = source.readInt();
     }
 }
