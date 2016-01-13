@@ -135,11 +135,6 @@ public:
                        const String16& name,
                        const uint32_t ident);
 
-    status_t addOverlay(const SourcePos& pos,
-                       const String16& package,
-                       const String16& type,
-                       const String16& name);
-
     status_t addEntry(const SourcePos& pos,
                       const String16& package,
                       const String16& type,
@@ -383,7 +378,7 @@ public:
 
         status_t remapStringValue(StringPool* strings);
 
-        ssize_t flatten(Bundle*, const sp<AaptFile>& data, bool isPublic, bool isOverlay);
+        ssize_t flatten(Bundle*, const sp<AaptFile>& data, bool isPublic);
 
         const SourcePos& getPos() const { return mPos; }
 
@@ -402,7 +397,7 @@ public:
     class ConfigList : public RefBase {
     public:
         ConfigList(const String16& name, const SourcePos& pos)
-            : mName(name), mPos(pos), mPublic(false), mOverlay(false), mEntryIndex(-1) { }
+            : mName(name), mPos(pos), mPublic(false), mEntryIndex(-1) { }
         virtual ~ConfigList() { }
         
         String16 getName() const { return mName; }
@@ -422,9 +417,6 @@ public:
         bool getPublic() const { return mPublic; }
         void setPublicSourcePos(const SourcePos& pos) { mPublicSourcePos = pos; }
         const SourcePos& getPublicSourcePos() { return mPublicSourcePos; }
-
-        void setOverlay(bool o) { mOverlay = o; }
-        bool getOverlay() const { return mOverlay; }
         
         void addEntry(const ResTable_config& config, const sp<Entry>& entry) {
             mEntries.add(config, entry);
@@ -438,7 +430,6 @@ public:
         String16 mTypeComment;
         bool mPublic;
         SourcePos mPublicSourcePos;
-        bool mOverlay;
         int32_t mEntryIndex;
         DefaultKeyedVector<ConfigDescription, sp<Entry> > mEntries;
     };
@@ -466,24 +457,6 @@ public:
         String16    comment;
         uint32_t    ident;
     };
-
-    class Overlay {
-    public:
-        Overlay() : sourcePos() { }
-        Overlay(const SourcePos& pos, const String16& _comment)
-            : sourcePos(pos), comment(_comment) { }
-        Overlay(const Overlay& o) : sourcePos(o.sourcePos), comment(o.comment) { }
-        ~Overlay() { }
-
-        Overlay& operator=(const Overlay& o) {
-            sourcePos = o.sourcePos;
-            comment = o.comment;
-            return *this;
-        }
-
-        SourcePos   sourcePos;
-        String16    comment;
-    };
     
     class Type : public RefBase {
     public:
@@ -495,9 +468,6 @@ public:
         status_t addPublic(const SourcePos& pos,
                            const String16& name,
                            const uint32_t ident);
-
-        status_t addOverlay(const SourcePos& pos,
-                            const String16& name);
                            
         void canAddEntry(const String16& name);
         
@@ -525,7 +495,6 @@ public:
         void setIndex(int32_t index) { mIndex = index; }
 
         status_t applyPublicEntryOrder();
-        status_t applyOverlay();
 
         const DefaultKeyedVector<String16, sp<ConfigList> >& getConfigs() const { return mConfigs; }
         const Vector<sp<ConfigList> >& getOrderedConfigs() const { return mOrderedConfigs; }
@@ -537,7 +506,6 @@ public:
         String16 mName;
         SourcePos* mFirstPublicSourcePos;
         DefaultKeyedVector<String16, Public> mPublic;
-        DefaultKeyedVector<String16, Overlay> mOverlay;
         DefaultKeyedVector<String16, sp<ConfigList> > mConfigs;
         Vector<sp<ConfigList> > mOrderedConfigs;
         SortedVector<String16> mCanAddEntries;
