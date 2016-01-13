@@ -142,7 +142,7 @@
     <string name="accessibility_data_connection_4g" msgid="7741000750630089612">"4G"</string>
     <string name="accessibility_data_connection_lte" msgid="5413468808637540658">"LTE"</string>
     <string name="accessibility_data_connection_cdma" msgid="6132648193978823023">"CDMA"</string>
-    <string name="accessibility_data_connection_roaming" msgid="5977362333466556094">"漫游中"</string>
+    <string name="accessibility_data_connection_roaming" msgid="5977362333466556094">"数据漫游"</string>
     <string name="accessibility_data_connection_edge" msgid="4477457051631979278">"EDGE"</string>
     <string name="accessibility_data_connection_wifi" msgid="2324496756590645221">"WLAN"</string>
     <string name="accessibility_no_sim" msgid="8274017118472455155">"无 SIM 卡。"</string>
@@ -433,4 +433,5 @@
     <string name="enable_bluetooth_title" msgid="5027037706500635269">"要开启蓝牙吗？"</string>
     <string name="enable_bluetooth_message" msgid="9106595990708985385">"要将您的键盘连接到平板电脑，您必须先开启蓝牙。"</string>
     <string name="enable_bluetooth_confirmation_ok" msgid="6258074250948309715">"开启"</string>
+    <string name="hotspot_apm_message">"飞行模式开启的情况下不能够链接到移动网络,请关闭飞行模式后重试。"</string>
 </resources>

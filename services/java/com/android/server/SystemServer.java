@@ -48,6 +48,7 @@ import android.webkit.WebViewFactory;
 
 import com.android.internal.R;
 import com.android.internal.os.BinderInternal;
+import com.android.internal.os.RegionalizationEnvironment;
 import com.android.internal.os.SamplingProfilerIntegration;
 import com.android.server.accessibility.AccessibilityManagerService;
 import com.android.server.accounts.AccountManagerService;
@@ -70,6 +71,7 @@ import com.android.server.media.projection.MediaProjectionManagerService;
 import com.android.server.net.NetworkPolicyManagerService;
 import com.android.server.net.NetworkStatsService;
 import com.android.server.notification.NotificationManagerService;
+import com.android.server.os.RegionalizationService;
 import com.android.server.os.SchedulingPolicyService;
 import com.android.server.pm.BackgroundDexOptService;
 import com.android.server.pm.Installer;
@@ -361,6 +363,12 @@ public final class SystemServer {
             mOnlyCore = true;
         }
 
+        if (RegionalizationEnvironment.isSupported()) {
+            Slog.i(TAG, "Regionalization Service");
+            RegionalizationService regionalizationService = new RegionalizationService();
+            ServiceManager.addService("regionalization", regionalizationService);
+        }
+
         // Start the package manager.
         Slog.i(TAG, "Package Manager");
         mPackageManagerService = PackageManagerService.main(mSystemContext, installer,
@@ -438,6 +446,7 @@ public final class SystemServer {
         boolean disableNetwork = SystemProperties.getBoolean("config.disable_network", false);
         boolean disableNetworkTime = SystemProperties.getBoolean("config.disable_networktime", false);
         boolean isEmulator = SystemProperties.get("ro.kernel.qemu").equals("1");
+	boolean disableAtlas = SystemProperties.getBoolean("config.disable_atlas", true);
 
         try {
             Slog.i(TAG, "Reading configuration...");
@@ -932,7 +941,7 @@ public final class SystemServer {
                 mSystemServiceManager.startService(DreamManagerService.class);
             }
 
-            if (!disableNonCoreServices) {
+            if (!disableNonCoreServices && !disableAtlas) {
                 try {
                     Slog.i(TAG, "Assets Atlas Service");
                     atlas = new AssetAtlasService(context);

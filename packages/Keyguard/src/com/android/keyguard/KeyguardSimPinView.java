@@ -258,9 +258,10 @@ public class KeyguardSimPinView extends KeyguardPinBasedInputView {
                             }
                             resetPasswordText(true /* animate */);
                             if (result == PhoneConstants.PIN_RESULT_SUCCESS) {
-                                mRemainingAttempts = -1;
                                 KeyguardUpdateMonitor.getInstance(getContext())
                                         .reportSimUnlocked(mSubId);
+                                mRemainingAttempts = -1;
+                                mShowDefaultMessage = true;
                                 if (mCallback != null) {
                                     mCallback.dismiss(true);
                                 }

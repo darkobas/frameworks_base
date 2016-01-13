@@ -3058,6 +3058,11 @@ public class AudioService extends IAudioService.Stub {
                 synchronized (mConnectedDevices) {
                     synchronized (mA2dpAvrcpLock) {
                         mA2dp = (BluetoothA2dp) proxy;
+                        if (mConnectedBTDevicesList.size() > 0) {
+                            Log.d(TAG,"A2dp connection list not empty, purge it, size " +
+                                    mConnectedBTDevicesList.size());
+                            mConnectedBTDevicesList.clear();
+                        }
                         //In Dual A2dp, we can have two devices connected
                         deviceList = mA2dp.getConnectedDevices();
                         Log.d(TAG, "onServiceConnected: A2dp Service connected: " +
@@ -4923,7 +4928,7 @@ public class AudioService extends IAudioService.Stub {
                         0,
                         null,
                         0);
-                delay = 1000;
+                delay = 700;
             }
         }
 

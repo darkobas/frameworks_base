@@ -77,6 +77,7 @@ import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.NotificationListenerService.RankingMap;
 import android.service.notification.StatusBarNotification;
+import android.telephony.TelephonyManager;
 import android.util.ArraySet;
 import android.util.DisplayMetrics;
 import android.util.EventLog;
@@ -94,6 +95,7 @@ import android.view.WindowManagerGlobal;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.view.ViewStub;
 import android.view.WindowManager;
 import android.view.WindowManagerGlobal;
@@ -259,6 +261,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     /** Allow some time inbetween the long press for back and recents. */
     private static final int LOCK_TO_APP_GESTURE_TOLERENCE = 200;
 
+    /**
+     * A key that is used to retrieve the value of the checkbox
+     * in Settings application that allows a user to add or remove
+     * the operator name in statusbar.
+     */
+    protected static final String SHOW_OPERATOR_NAME = "show_network_name_mode";
+
     /** If true, the system is in the half-boot-to-decryption-screen state.
      * Prudently disable QS and notifications.  */
     private static final boolean ONLY_CORE_APPS;
@@ -319,6 +328,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     StatusBarIconController mIconController;
 
+    private View mCarrierText = null;
+
     // expanded notifications
     NotificationPanelView mNotificationPanel; // the sliding/resizing panel within the notification window
     View mExpandedContents;
@@ -345,6 +356,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     int mKeyguardMaxNotificationCount;
 
+    // carrier label
+    private TextView mCarrierLabel;
+    private boolean mShowCarrierInPanel = false;
     boolean mExpandedVisible;
 
     private int mNavigationBarWindowState = WINDOW_STATE_SHOWING;
@@ -746,6 +760,22 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         // TODO: use MediaSessionManager.SessionListener to hook us up to future updates
         // in session state
 
+        // If the phone is configured to show the operator name
+        // then register the observer.
+        // Phones without simcard should not show
+        // operatorname in statusbar.
+        final TelephonyManager tm = (TelephonyManager)mContext.getSystemService(Context.
+                TELEPHONY_SERVICE);
+        final boolean enableOperatorName = (mContext.getResources().
+                getBoolean(com.android.internal.R.bool.config_showOperatorNameInStatusBar));
+        if (enableOperatorName) {
+            mContext.getContentResolver().unregisterContentObserver(mShowOperatorNameObserver);
+            mShowOperatorNameObserver.onChange(false); // setup
+            mContext.getContentResolver().registerContentObserver(
+                    Settings.System.getUriFor(SHOW_OPERATOR_NAME), true,
+                    mShowOperatorNameObserver);
+        }
+
         addNavigationBar();
         // must be after addNavigationBar
         mOmniSettingsObserver.observe();
@@ -882,6 +912,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         // figure out which pixel-format to use for the status bar.
         mPixelFormat = PixelFormat.OPAQUE;
 
+        if (mContext.getResources().getBoolean(R.bool.enable_operator_name)) {
+            mCarrierText = mStatusBarView.findViewById(R.id.status_carrier_text);
+        }
+
         mStackScroller = (NotificationStackScrollLayout) mStatusBarWindow.findViewById(
                 R.id.notification_stack_scroller);
         mStackScroller.setLongPressListener(getNotificationLongClicker());
@@ -1008,6 +1042,23 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mNetworkController.addEmergencyListener(mHeader);
         }
 
+        mCarrierLabel = (TextView)mStatusBarWindow.findViewById(R.id.carrier_label);
+        final boolean showCarrierLabel = mContext.getResources().getBoolean(
+                R.bool.config_showCarrierLabel);
+        mShowCarrierInPanel = showCarrierLabel && (mCarrierLabel != null);
+        if (DEBUG) Log.v(TAG, "carrierlabel=" + mCarrierLabel + " show=" + mShowCarrierInPanel);
+        if (mShowCarrierInPanel) {
+            mCarrierLabel.setVisibility(mShowCarrierInPanel ? View.VISIBLE : View.INVISIBLE);
+        }
+
+        // make sure carrier label is not covered by navigation bar
+        if (mCarrierLabel != null && mNavigationBarView != null) {
+            MarginLayoutParams mlp = (MarginLayoutParams) mCarrierLabel.getLayoutParams();
+            if (mlp != null && mlp.bottomMargin < mNavigationBarView.mBarSize) {
+                mlp.bottomMargin = mNavigationBarView.mBarSize;
+                mCarrierLabel.setLayoutParams(mlp);
+            }
+        }
         mFlashlightController = new FlashlightController(mContext);
         mKeyguardBottomArea.setFlashlightController(mFlashlightController);
         mKeyguardBottomArea.setPhoneStatusBar(this);
@@ -1670,12 +1721,36 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         updateNotificationShade();
         mIconController.updateNotificationIcons(mNotificationData);
+
+        if (mContext.getResources().getBoolean(R.bool.enable_operator_name)
+                && mCarrierText != null) {
+            if (mState == StatusBarState.KEYGUARD || mState == StatusBarState.SHADE_LOCKED) {
+                mCarrierText.setVisibility(View.GONE);
+            } else {
+                mCarrierText.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
     protected void updateRowStates() {
         super.updateRowStates();
         mNotificationPanel.notifyVisibleChildrenChanged();
+    }
+
+    protected void updateCarrierLabelVisibility() {
+        if (!mShowCarrierInPanel) return;
+
+        final boolean makeVisible = mStackScroller.getVisibility() == View.VISIBLE
+                && mState != StatusBarState.KEYGUARD;
+
+        if ((mCarrierLabel.getVisibility() == View.VISIBLE) != makeVisible) {
+            if (DEBUG) {
+                Log.d(TAG, "making carrier label " + (makeVisible?"visible":"invisible"));
+            }
+
+            mCarrierLabel.setVisibility(makeVisible ? View.VISIBLE : View.INVISIBLE);
+        }
     }
 
     @Override
@@ -3954,6 +4029,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         updateStackScrollerState(goingToFullShade);
         updateNotifications();
         checkBarModes();
+        updateCarrierLabelVisibility();
         updateMediaMetaData(false);
         mKeyguardMonitor.notifyKeyguardState(mStatusBarKeyguardViewManager.isShowing(),
                 mStatusBarKeyguardViewManager.isSecure());
@@ -4082,6 +4158,23 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mGroupManager.setStatusBarState(state);
         mStatusBarWindowManager.setStatusBarState(state);
         updateDozing();
+
+        final TelephonyManager tm = (TelephonyManager)mContext.getSystemService(Context.
+                TELEPHONY_SERVICE);
+        boolean showOperatorName = (0 != Settings.System.getInt(
+                mContext.getContentResolver(), SHOW_OPERATOR_NAME, 1));
+        final boolean enableOperatorName = (mContext.getResources().
+                getBoolean(com.android.internal.R.bool.config_showOperatorNameInStatusBar));
+
+        TextView networkLabel = (TextView)mStatusBarWindow.findViewById(R.id.network_label);
+        if (networkLabel != null) {
+            if (!enableOperatorName || !showOperatorName || mState != StatusBarState.SHADE) {
+                mNetworkController.removeNetworkLabelView();
+                networkLabel.setVisibility(View.GONE);
+            } else {
+                mNetworkController.addNetworkLabelView(networkLabel);
+            }
+        }
     }
 
     @Override

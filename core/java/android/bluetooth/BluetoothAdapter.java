@@ -946,7 +946,6 @@ public final class BluetoothAdapter {
      * @hide
      */
     public boolean disable(boolean persist) {
-
         try {
             return mManagerService.disable(persist);
         } catch (RemoteException e) {Log.e(TAG, "", e);}

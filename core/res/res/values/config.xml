@@ -2364,6 +2364,43 @@
     <string-array name="config_cell_retries_per_error_code">
     </string-array>
 
+    <!-- Whether cpu boost is enabled for AppLaunch -->
+    <bool name="config_enableCpuBoostForAppLaunch">false</bool>
+    <integer name="launchboost_timeout_param">0</integer>
+    <integer-array name="launchboost_param_value"/>
+
+    <!-- Whether disablepacking is enabled or not -->
+    <bool name="config_disablePacking">false</bool>
+    <integer name="disablepacking_timeout_param">0</integer>
+    <integer-array name="launchboost_packing_param_value"/>
+
+    <!-- Whether cpu boost is enabled for animation. -->
+    <bool name="config_enablePerfBoostForAnimation">false</bool>
+    <integer name="animationboost_timeout_param">0</integer>
+    <integer-array name="animationboost_param_value"/>
+
+    <!-- Whether cpu boost is enabled for overscroller fling. -->
+    <bool name="config_enableCpuBoostForOverScrollerFling">false</bool>
+    <integer name="flingboost_timeout_param">0</integer>
+    <integer-array name="flingboost_param_value"/>
+
+    <!-- Whether cpu boost is enabled for horizontal scroll. -->
+    <bool name="config_enableCpuBoostForScroller">false</bool>
+    <integer name="scrollboost_timeout_param">0</integer>
+    <integer-array name="scrollboost_param_value"/>
+
+    <!-- Activities list for boost -->
+    <string-array translatable="false" name="boost_activityList">
+    </string-array>
+
+    <!-- Activity scroll boost params -->
+    <integer name="ascrollboost_timeout">0</integer>
+    <integer-array name="ascrollboost_param_value"/>
+
+    <!-- cpu boost for PanelView fling -->
+    <bool name="config_enableCpuBoostForPanelViewFling">false</bool>
+    <integer-array name="panelview_flingboost_param_value" />
+
    <!-- Configuration to play sms ringtone during MO/MT call -->
    <bool name="config_sms_ringtone_incall">false</bool>
     <!-- IpReachability monitor enable/Disable -->
@@ -2411,4 +2448,94 @@
     <!-- The BT name of the keyboard packaged with the device. If this is defined, SystemUI will
          automatically try to pair with it when the device exits tablet mode. -->
     <string translatable="false" name="config_packagedKeyboardName"></string>
+
+    <string-array name="origin_carrier_names">
+        <item>CHINA\u0020\u0020MOBILE</item>
+        <item>CMCC</item>
+        <item>CHN-UNICOM</item>
+        <item>China Mobile</item>
+        <item>China Unicom</item>
+        <item>China Telecom</item>
+        <item>中国移动</item>
+        <item>中国联通</item>
+        <item>中国电信</item>
+        <item>中國移動</item>
+        <item>中國聯通</item>
+        <item>中國電信</item>
+        <item>Searching for Service</item>
+    </string-array>
+
+    <string-array name="locale_carrier_names">
+        <item>China_Mobile</item>
+        <item>China_Mobile</item>
+        <item>China_Unicom</item>
+        <item>China_Mobile</item>
+        <item>China_Unicom</item>
+        <item>China_Telecom</item>
+       <item>China_Mobile</item>
+        <item>China_Unicom</item>
+        <item>China_Telecom</item>
+        <item>China_Mobile</item>
+        <item>China_Unicom</item>
+        <item>China_Telecom</item>
+        <item>roamingTextSearching</item>
+    </string-array>
+
+    <!-- monitor locale change -->
+    <bool name="config_monitor_locale_change">false</bool>
+
+    <!-- display for radio tech -->
+    <bool name="config_display_rat">false</bool>
+
+    <!-- config 2G/3G/4G RAT strings for carriers -->
+    <string name="config_rat_unknown" translatable="false">""</string>
+    <string name="config_rat_2g" translatable="false">2G</string>
+    <string name="config_rat_3g" translatable="false">3G</string>
+    <string name="config_rat_4g" translatable="false">4G</string>
+
+     <!-- Keypress Optimization -->
+    <bool name="config_enableKeypressOptimization">false</bool>
+    <integer-array name="keypress_param_value"/>
+
+    <bool name="config_enableDataSwitch">false</bool>
+
+    <!-- Whether to use TMO MCC MNC roaming setting -->
+    <bool name="config_regional_mcc_mnc_roaming_setting">false</bool>
+
+    <!-- Whether to use TMO LTE singnal strength threshold -->
+    <bool name="config_regional_lte_singnal_threshold">false</bool>
+    <!-- Whether to use TMO UMTS singnal strength threshold -->
+    <bool name="config_regional_umts_singnal_threshold">false</bool>
+
+    <integer-array name="umts_signal_strength_threshold">
+        <item>-140</item>
+        <item>-113</item>
+        <item>-103</item>
+        <item>-97</item>
+        <item>-89</item>
+        <item>-44</item>
+    </integer-array>
+    <integer-array name="lte_signal_strength_threshold">
+        <item>-140</item>
+        <item>-120</item>
+        <item>-115</item>
+        <item>-110</item>
+        <item>-100</item>
+        <item>-44</item>
+    </integer-array>
+
+    <!-- Enables the feature that can show/hide the operator name in statusbar.
+        When true, the user can select to show/hide operator name through a
+        checkbox in Settings. When false, there is no option to show operator
+        name (no checkbox in Settings). -->
+    <bool name="config_showOperatorNameInStatusBar">false</bool>
+    <bool name="config_regional_hotspot_show_maximum_connection_enable">false</bool>
+    <bool name="config_regional_hotspot_show_broadcast_ssid_checkbox">false</bool>
+    <bool name="config_regional_hotspot_show_notification_when_turn_on">false</bool>
+    <!-- Zero Balance redirect URL config -->
+    <string name="operator_config_url" translatable="false"></string>
+    <!-- Zero Balance ping URL config -->
+    <string name="operator_ping_url" translatable="false"></string>
+    <!-- Zero Balance feature enable config -->
+    <bool name="config_zero_balance_operator">false</bool>
 </resources>

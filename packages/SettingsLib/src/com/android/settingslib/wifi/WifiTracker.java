@@ -320,6 +320,7 @@ public class WifiTracker {
                     continue;
                 }
                 AccessPoint accessPoint = getCachedOrCreate(config, cachedAccessPoints);
+                accessPoint.foundInScanResult = false;
                 if (mLastInfo != null && mLastNetworkInfo != null) {
                     if (config.isPasspoint() == false) {
                         accessPoint.update(connectionConfig, mLastInfo, mLastNetworkInfo);
@@ -352,6 +353,7 @@ public class WifiTracker {
                 boolean found = false;
                 for (AccessPoint accessPoint : apMap.getAll(result.SSID)) {
                     if (accessPoint.update(result)) {
+                        accessPoint.foundInScanResult = true;
                         found = true;
                         break;
                     }

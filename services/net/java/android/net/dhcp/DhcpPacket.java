@@ -847,16 +847,6 @@ abstract class DhcpPacket {
             addrLen = ETHER_BROADCAST.length;
         }
 
-        // Some DHCP servers have been known to announce invalid client hardware address values such
-        // as 0xff. The legacy DHCP client accepted these becuause it does not check the length at
-        // all but only checks that the interface MAC address matches the first bytes of the address
-        // in the packets. We're a bit stricter: if the length is obviously invalid (i.e., bigger
-        // than the size of the field), we fudge it to 6 (Ethernet). http://b/23725795
-        // TODO: evaluate whether to make this test more liberal.
-        if (addrLen > HWADDR_LEN) {
-            addrLen = ETHER_BROADCAST.length;
-        }
-
         clientMac = new byte[addrLen];
         packet.get(clientMac);
 

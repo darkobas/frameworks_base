@@ -46,8 +46,11 @@ import static com.android.server.NetworkManagementSocketTagger.PROP_QTAGUID_ENAB
 
 import android.annotation.NonNull;
 import android.app.ActivityManagerNative;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.INetworkManagementEventObserver;
 import android.net.InterfaceConfiguration;
@@ -74,6 +77,7 @@ import android.os.ServiceManager;
 import android.os.StrictMode;
 import android.os.SystemClock;
 import android.os.SystemProperties;
+import android.provider.Settings;
 import android.telephony.DataConnectionRealTimeInfo;
 import android.telephony.PhoneStateListener;
 import android.telephony.SubscriptionManager;
@@ -83,6 +87,7 @@ import android.util.Slog;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
 
+import com.android.internal.R;
 import com.android.internal.annotations.GuardedBy;
 import com.android.internal.app.IBatteryStats;
 import com.android.internal.net.NetworkStatsFactory;
@@ -323,6 +328,12 @@ public class NetworkManagementService extends INetworkManagementService.Stub
 
     public void systemReady() {
         prepareNativeDaemon();
+        //Registering the receiver for Zerobalance blocking/unblocking
+        if (mContext.getResources().getBoolean(R.bool.config_zero_balance_operator)) {
+            final IntentFilter restrictFilter = new IntentFilter();
+            restrictFilter.addAction("org.codeaurora.restrictData");
+            mContext.registerReceiver(mZeroBalanceReceiver, restrictFilter);
+        }
         if (DBG) Slog.d(TAG, "Prepared");
     }
 
@@ -1526,10 +1537,29 @@ public class NetworkManagementService extends INetworkManagementService.Stub
             if (wifiConfig == null) {
                 mConnector.execute("softap", "set", wlanIface);
             } else {
-                mConnector.execute("softap", "set", wlanIface, wifiConfig.SSID,
-                                   "broadcast", Integer.toString(wifiConfig.apChannel),
+                String ssid_mode = "broadcast";
+                if (mContext.getResources().getBoolean(
+                    com.android.internal.R.bool
+                    .config_regional_hotspot_show_broadcast_ssid_checkbox)
+                    && wifiConfig.hiddenSSID) {
+                    ssid_mode = "hidden";
+                }
+                if (mContext.getResources().getBoolean(
+                        com.android.internal.R.bool
+                        .config_regional_hotspot_show_maximum_connection_enable)) {
+                    int clientNum = Settings.System.getInt(mContext.getContentResolver(),
+                            "WIFI_HOTSPOT_MAX_CLIENT_NUM",8);
+                    Slog.d(TAG, "clientNum :"+clientNum);
+                    mConnector.execute("softap", "set", wlanIface, wifiConfig.SSID,
+                                   ssid_mode, Integer.toString(wifiConfig.apChannel),
+                                   getSecurityType(wifiConfig),
+                                   new SensitiveArg(wifiConfig.preSharedKey), clientNum);
+                } else {
+                    mConnector.execute("softap", "set", wlanIface, wifiConfig.SSID,
+                                   ssid_mode, Integer.toString(wifiConfig.apChannel),
                                    getSecurityType(wifiConfig),
                                    new SensitiveArg(wifiConfig.preSharedKey));
+                }
             }
             mConnector.execute("softap", "startap");
         } catch (NativeDaemonConnectorException e) {
@@ -2578,4 +2608,29 @@ public class NetworkManagementService extends INetworkManagementService.Stub
     public void removeInterfaceFromLocalNetwork(String iface) {
         modifyInterfaceInNetwork("remove", "local", iface);
     }
+
+    private BroadcastReceiver mZeroBalanceReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean isBlockAllData = false;
+            if(intent != null
+                    && intent.getAction().equals("org.codeaurora.restrictData")) {
+                isBlockAllData = intent.getBooleanExtra("Restrict",false);
+                Log.wtf("ZeroBalance", "Intent value to block unblock data"+isBlockAllData);
+            }
+            mContext.enforceCallingOrSelfPermission(CONNECTIVITY_INTERNAL, TAG);
+
+            // silently discard when control disabled
+            // TODO: eventually migrate to be always enabled
+            if (!mBandwidthControlEnabled) return;
+            try {
+                Log.wtf("ZeroBalance", "before calling connector Intent"
+                        +"value to block unblock data"+isBlockAllData);
+                mConnector.execute("bandwidth",
+                        isBlockAllData ? "blockAllData" : "unblockAllData");
+            } catch (NativeDaemonConnectorException e) {
+                throw e.rethrowAsParcelableException();
+            }
+        }
+    };
 }

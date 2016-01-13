@@ -648,6 +648,12 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     int mOverscanRight = 0;
     int mOverscanBottom = 0;
 
+    // Panel Orientation default portrait
+    private int mPanelOrientation = Surface.ROTATION_0;
+
+    // What we do when the user long presses on home
+    private int mLongPressOnHomeBehavior;
+
     // What we do when the user double-taps on home
     private int mDoubleTapOnHomeBehavior;
 
@@ -1998,7 +2004,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             return;
         }
         mDisplay = display;
-
+        mPanelOrientation =
+            SystemProperties.getInt("persist.panel.orientation", 0) / 90;
         final Resources res = mContext.getResources();
         int shortSize, longSize;
         if (width > height) {
@@ -3104,6 +3111,19 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     + repeatCount + " keyguardOn=" + keyguardOn + " mHomePressed=" + mHomePressed
                     + " canceled=" + canceled + " virtualKey=" + virtualKey + " scanCode=" + scanCode
                     + " longPress=" + longPress);
+        }
+
+        // If the boot mode is power off alarm, we should not dispatch the several physical keys
+        // in power off alarm UI to avoid pausing power off alarm UI.
+        int isPowerOffAlarmMode = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.POWER_OFF_ALARM_MODE, 0);
+        if (DEBUG_INPUT) { Log.d(TAG, "intercept Dispatching isPowerOffAlarmMode = " +
+                isPowerOffAlarmMode); }
+
+        if (isPowerOffAlarmMode == 1 && (keyCode == KeyEvent.KEYCODE_HOME
+                || keyCode == KeyEvent.KEYCODE_SEARCH
+                || keyCode == KeyEvent.KEYCODE_MENU)) {
+            return -1;  // ignore the physical key here
         }
 
         // If the boot mode is power off alarm, we should not dispatch the several physical keys
@@ -6636,14 +6656,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     mAllowAllRotations = mContext.getResources().getBoolean(
                             com.android.internal.R.bool.config_allowAllRotations) ? 1 : 0;
                 }
-
-                // use sensor orientation if it's forced, or if the user has allowed it
-                boolean useSensorRotation =
-                        orientation == ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
-                        || orientation == ActivityInfo.SCREEN_ORIENTATION_FULL_USER
-                        || RotationPolicy.isRotationAllowed(sensorRotation, mUserRotationAngles,
-                                mAllowAllRotations != 0);
-                if (useSensorRotation) {
+                if (sensorRotation != mUpsideDownRotation
+                        || mAllowAllRotations == 1
+                        || orientation == ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+                        || orientation == ActivityInfo.SCREEN_ORIENTATION_FULL_USER) {
                     preferredRotation = sensorRotation;
                 } else {
                     preferredRotation = lastRotation;
@@ -6718,7 +6734,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     if (preferredRotation >= 0) {
                         return preferredRotation;
                     }
-                    return Surface.ROTATION_0;
+                    return mPanelOrientation;
             }
         }
     }
