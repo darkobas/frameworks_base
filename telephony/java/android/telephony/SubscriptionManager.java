@@ -142,11 +142,6 @@ public class SubscriptionManager {
      * <P>Type: INTEGER (int)</P>
      */
     /** @hide */
-
-    /**
-     * The activation state of SIM/sub.
-     * <P>Type: INTEGER (int)</P>
-     */
     public static final String SUB_STATE = "sub_state";
 
     public static final int INACTIVE = 0;
