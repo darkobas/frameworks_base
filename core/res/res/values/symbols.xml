@@ -2425,10 +2425,6 @@
   <!-- Symbols/Overlays for carrier hotspot -->
   <java-symbol type="bool" name="config_regional_hotspot_show_maximum_connection_enable" />
 
-  <!-- keypress optimization -->
-  <java-symbol type="bool" name="config_enableKeypressOptimization" />
-  <java-symbol type="array" name="keypress_param_value" />
-
   <java-symbol type="bool" name="config_enableDataSwitch" />
   <!-- Symbols/Overlays for Network settings -->
   <java-symbol type="bool" name="config_regional_mcc_mnc_roaming_setting" />

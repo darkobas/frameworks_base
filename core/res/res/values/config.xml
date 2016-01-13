@@ -2493,10 +2493,6 @@
     <string name="config_rat_3g" translatable="false">3G</string>
     <string name="config_rat_4g" translatable="false">4G</string>
 
-     <!-- Keypress Optimization -->
-    <bool name="config_enableKeypressOptimization">false</bool>
-    <integer-array name="keypress_param_value"/>
-
     <bool name="config_enableDataSwitch">false</bool>
 
     <!-- Whether to use TMO MCC MNC roaming setting -->
