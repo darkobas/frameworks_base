@@ -452,6 +452,24 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     }
 
+    private final ContentObserver mShowOperatorNameObserver = new ContentObserver(new Handler()) {
+        @Override
+        public void onChange(boolean selfChange) {
+            boolean showOperatorName = (0 != Settings.System.getInt(
+                mContext.getContentResolver(), SHOW_OPERATOR_NAME, 1));
+            TextView networkLabel = (TextView)mStatusBarWindow.findViewById(R.id.network_label);
+            if (networkLabel != null) {
+                if (!showOperatorName || mState != StatusBarState.SHADE) {
+                    mNetworkController.removeNetworkLabelView();
+                    networkLabel.setVisibility(View.GONE);
+                } else {
+                    mNetworkController.addNetworkLabelView(networkLabel);
+                }
+            }
+        }
+    };
+
+
     // ensure quick settings is disabled until the current user makes it through the setup wizard
     private boolean mUserSetup = false;
     private ContentObserver mUserSetupObserver = new ContentObserver(new Handler()) {

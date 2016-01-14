@@ -88,12 +88,10 @@ public class LteTile extends QSTile<QSTile.BooleanState> {
         switch (getCurrentPreferredNetworkMode()) {
             case Phone.NT_MODE_GLOBAL:
             case Phone.NT_MODE_LTE_CDMA_AND_EVDO:
-            case Phone.NT_MODE_LTE_GSM_WCDMA:
             case Phone.NT_MODE_LTE_ONLY:
             case Phone.NT_MODE_LTE_WCDMA:
             case Phone.NT_MODE_LTE_CDMA_EVDO_GSM_WCDMA:
-            case Phone.NT_MODE_LTE_TDSCDMA_GSM_WCDMA:
-            case Phone.NT_MODE_LTE_TDSCDMA_WCDMA:
+            case Phone.NT_MODE_LTE_GSM_WCDMA:
                 state.visible = true;
                 state.icon= ResourceIcon.get(R.drawable.ic_qs_lte_on);
                 state.label = mContext.getString(R.string.lte_on);
