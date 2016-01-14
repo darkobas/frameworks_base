@@ -3645,6 +3645,13 @@ public final class Settings {
         public static final String KEY_APP_SWITCH_LONG_PRESS_ACTION = "key_app_switch_long_press_action";
 
         /**
+         * Should the alarm be shown in fullscreen instead of heads-up
+         *
+         * @hide
+        */
+        public static final String SHOW_ALARM_FULLSCREEN = "show_alarm_fullscreen";
+
+        /**
          *  Enable statusbar double tap gesture on to put device to sleep
          * @hide
          */
@@ -3859,6 +3866,7 @@ public final class Settings {
             PUBLIC_SETTINGS.add(DTMF_TONE_WHEN_DIALING);
             PUBLIC_SETTINGS.add(SOUND_EFFECTS_ENABLED);
             PUBLIC_SETTINGS.add(HAPTIC_FEEDBACK_ENABLED);
+            PUBLIC_SETTINGS.add(SHOW_ALARM_FULLSCREEN);
             PUBLIC_SETTINGS.add(SHOW_WEB_SUGGESTIONS);
             PUBLIC_SETTINGS.add(POWER_OFF_ALARM_MODE);
         }
