@@ -544,6 +544,16 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_RECENTS),
                     false, this, UserHandle.USER_ALL);
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_TILE_EQUAL),
+                    false, this, UserHandle.USER_ALL);
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_TILE_COLUMNS),
+                    false, this, UserHandle.USER_ALL);
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_TILE_BG_OPACITY),
+                    false, this, UserHandle.USER_ALL);
+
             update();
         }
 
@@ -561,6 +571,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 if (showNavBarBool !=  mShowNavBar){
                     updateNavigationBar();
                 }
+            }
+
+            if (mQSPanel != null) {
+                mQSPanel.updateSettings();
+            }
+            if (mNotificationPanel != null) {
+                final int qsAlphaValue = Settings.System.getIntForUser(
+                        mContext.getContentResolver(), Settings.System.QS_TILE_BG_OPACITY, 255, mCurrentUserId);
+                mNotificationPanel.setQSBackgroundAlpha(qsAlphaValue);
             }
         }
     }
