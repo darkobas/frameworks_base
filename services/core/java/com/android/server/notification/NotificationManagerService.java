@@ -652,9 +652,8 @@ public class NotificationManagerService extends SystemService {
                         "Bad notification posted from package " + pkg
                         + ": " + message);
             } catch (RemoteException e) {
-            } finally {
-                Binder.restoreCallingIdentity(ident);
             }
+            Binder.restoreCallingIdentity(ident);
         }
 
         @Override
