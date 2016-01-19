@@ -2014,6 +2014,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                             == PlaybackState.STATE_PLAYING);
         }
 
+        if (backdropBitmap == null && mMediaMetadata == null) {
+            WallpaperManager wm = (WallpaperManager)
+                    mContext.getSystemService(Context.WALLPAPER_SERVICE);
+            backdropBitmap = wm.getKeyguardBitmap();
+        }
+
         if (keyguardVisible) {
             // always use current backdrop to color eq
             mVisualizerView.setBitmap(backdropBitmap);
