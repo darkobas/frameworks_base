@@ -648,9 +648,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     int mOverscanRight = 0;
     int mOverscanBottom = 0;
 
-    // Panel Orientation default portrait
-    private int mPanelOrientation = Surface.ROTATION_0;
-
     // What we do when the user double-taps on home
     private int mDoubleTapOnHomeBehavior;
 
@@ -2001,8 +1998,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             return;
         }
         mDisplay = display;
-        mPanelOrientation =
-            SystemProperties.getInt("persist.panel.orientation", 0) / 90;
+
         final Resources res = mContext.getResources();
         int shortSize, longSize;
         if (width > height) {
@@ -6710,7 +6706,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     if (preferredRotation >= 0) {
                         return preferredRotation;
                     }
-                    return mPanelOrientation;
+                    return Surface.ROTATION_0;
             }
         }
     }
