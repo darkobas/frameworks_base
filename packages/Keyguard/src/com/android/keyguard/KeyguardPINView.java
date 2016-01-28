@@ -67,7 +67,7 @@ public class KeyguardPINView extends KeyguardPinBasedInputView {
 
     protected void resetState() {
         super.resetState();
-        mSecurityMessageDisplay.setMessage(getMsgWithCnt(R.string.kg_pin_instructions), false);
+        mSecurityMessageDisplay.setMessage(R.string.kg_pin_instructions, false);
     }
 
     @Override

@@ -2528,6 +2528,9 @@
     <bool name="config_regional_hotspot_show_maximum_connection_enable">false</bool>
     <bool name="config_regional_hotspot_show_broadcast_ssid_checkbox">false</bool>
     <bool name="config_regional_hotspot_show_notification_when_turn_on">false</bool>
+     <!-- Keypress Optimization -->
+    <bool name="config_enableKeypressOptimization">false</bool>
+    <integer-array name="keypress_param_value"/>
     <!-- Zero Balance redirect URL config -->
     <string name="operator_config_url" translatable="false"></string>
     <!-- Zero Balance ping URL config -->

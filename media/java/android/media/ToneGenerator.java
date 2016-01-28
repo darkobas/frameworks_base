@@ -739,7 +739,7 @@ public class ToneGenerator
      *
      * @hide #ToneGenerator(int, int)
      */
-    public static final int TONE_HOLD_RECALL = 99;
+    public static final int TONE_HOLD_RECALL = 101;
 
     /** Maximum volume, for use with {@link #ToneGenerator(int,int)} */
     public static final int MAX_VOLUME = 100;

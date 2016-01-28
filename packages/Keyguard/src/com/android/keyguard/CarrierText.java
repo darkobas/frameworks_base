@@ -291,8 +291,6 @@ public class CarrierText extends TextView {
             case SimNotReady:
                 // Null is reserved for denoting missing, in this case we have nothing to display.
                 carrierText = ""; // nothing to display yet.
-                if (TelephonyManager.getDefault().isMultiSimEnabled())
-                    carrierText = text;
                 break;
 
             case NetworkLocked:

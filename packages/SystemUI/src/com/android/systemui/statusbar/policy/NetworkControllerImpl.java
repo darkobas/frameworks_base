@@ -39,8 +39,6 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.MathUtils;
-import android.view.View;
-import android.widget.TextView;
 
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.telephony.PhoneConstants;
@@ -117,8 +115,6 @@ public class NetworkControllerImpl extends BroadcastReceiver
 
     // The current user ID.
     private int mCurrentUserId;
-
-    private TextView mNetWorkNameLabelView;
 
     private OnSubscriptionsChangedListener mSubscriptionListener;
 
@@ -607,39 +603,6 @@ public class NetworkControllerImpl extends BroadcastReceiver
         }
         mWifiSignalController.updateConnectivity(mConnectedTransports, mValidatedTransports);
         mEthernetSignalController.updateConnectivity(mConnectedTransports, mValidatedTransports);
-    }
-
-    private void setTextViewVisibility(TextView v) {
-        String networkName = getMobileDataNetworkName();
-        if (networkName.equals(mContext.getString(
-                com.android.internal.R.string.lockscreen_carrier_default))
-                || networkName.equals(mContext.getString(
-                com.android.internal.R.string.emergency_calls_only))) {
-            v.setVisibility(View.GONE);
-        } else {
-            v.setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void addNetworkLabelView(TextView v) {
-        if (v != null) {
-            mNetWorkNameLabelView = v;
-            mNetWorkNameLabelView.setText(getMobileDataNetworkName());
-            setTextViewVisibility(mNetWorkNameLabelView);
-        }
-    }
-
-    public void removeNetworkLabelView() {
-        if (mNetWorkNameLabelView != null) {
-            mNetWorkNameLabelView = null;
-        }
-    }
-
-    public void updateNetworkLabelView() {
-        if (mNetWorkNameLabelView != null) {
-            mNetWorkNameLabelView.setText(getMobileDataNetworkName());
-            setTextViewVisibility(mNetWorkNameLabelView);
-        }
     }
 
     public void dump(FileDescriptor fd, PrintWriter pw, String[] args) {

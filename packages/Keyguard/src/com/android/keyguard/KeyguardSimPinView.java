@@ -261,7 +261,6 @@ public class KeyguardSimPinView extends KeyguardPinBasedInputView {
                                 KeyguardUpdateMonitor.getInstance(getContext())
                                         .reportSimUnlocked(mSubId);
                                 mRemainingAttempts = -1;
-                                mShowDefaultMessage = true;
                                 if (mCallback != null) {
                                     mCallback.dismiss(true);
                                 }
