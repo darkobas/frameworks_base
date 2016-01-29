@@ -271,7 +271,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
      * in Settings application that allows a user to add or remove
      * the operator name in statusbar.
      */
-    protected static final String SHOW_OPERATOR_NAME = "show_network_name_mode";
+    protected static final String SHOW_OPERATOR_NAME = "show_operator_name";
 
     /** If true, the system is in the half-boot-to-decryption-screen state.
      * Prudently disable QS and notifications.  */
