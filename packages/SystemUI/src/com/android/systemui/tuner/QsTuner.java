@@ -333,7 +333,7 @@ public class QsTuner extends Fragment implements Callback {
             List<String> tiles = mTileSpecs;
 
             String[] defaults =
-                getContext().getString(R.string.quick_settings_tiles_default).split(",");
+                getContext().getString(R.string.quick_settings_tiles_all).split(",");
             final String[] available = new String[defaults.length - tiles.size()];
             final String[] availableTiles = new String[available.length];
             int index = 0;
