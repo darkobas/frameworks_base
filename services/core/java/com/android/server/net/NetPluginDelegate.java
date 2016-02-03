@@ -27,18 +27,17 @@
  *IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.android.server;
+package com.android.server.net;
 
 import dalvik.system.PathClassLoader;
 
 import java.lang.reflect.Constructor;
 
 import android.util.Slog;
-import android.net.Network;
 import android.net.NetworkStats;
 import android.util.Log;
 
-public class NetPluginDelegate {
+class NetPluginDelegate {
 
     private static final String TAG = "ConnectivityExtension";
     private static final boolean LOGV = false;
@@ -46,9 +45,8 @@ public class NetPluginDelegate {
     private static Class tetherExtensionClass = null;
     private static Object tetherExtensionObj = null;
 
-    public static void getTetherStats(NetworkStats uidStats, NetworkStats devStats,
+    static void getTetherStats(NetworkStats uidStats, NetworkStats devStats,
             NetworkStats xtStats) {
-        if (LOGV) Slog.v(TAG, "getTetherStats() E");
         loadTetherExtJar();
         try {
             tetherExtensionClass.getMethod("getTetherStats", NetworkStats.class,
@@ -58,11 +56,9 @@ public class NetPluginDelegate {
             e.printStackTrace();
             Log.w(TAG, "error in invoke method");
         }
-        if (LOGV) Slog.v(TAG, "getTetherStats() X");
     }
 
-    public static void setQuota(String iface, long quota) {
-        if (LOGV) Slog.v(TAG, "setQuota(" + iface + ", " + quota + ") E");
+    static void setQuota(String iface, long quota) {
         loadTetherExtJar();
         try {
             tetherExtensionClass.getMethod("setQuota", String.class, long.class).invoke(
@@ -70,20 +66,8 @@ public class NetPluginDelegate {
         } catch (Exception ex) {
             Log.w(TAG, "Error calling setQuota Method on extension jar");
         }
-        if (LOGV) Slog.v(TAG, "setQuota(" + iface + ", " + quota + ") X");
     }
 
-    public static void setUpstream(Network net) {
-        if (LOGV) Slog.v(TAG, "setUpstream(" + net + ") E");
-        loadTetherExtJar();
-        try {
-            tetherExtensionClass.getMethod("setUpstream", Network.class).invoke(
-                    tetherExtensionObj, net);
-        } catch (Exception ex) {
-            Log.w(TAG, "Error calling setUpstream Method on extension jar");
-        }
-        if (LOGV) Slog.v(TAG, "setUpstream(" + net + ") E");
-    }
 
 
     private static void loadTetherExtJar() {
