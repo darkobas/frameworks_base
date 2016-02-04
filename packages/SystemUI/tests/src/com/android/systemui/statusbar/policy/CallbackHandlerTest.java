@@ -103,6 +103,7 @@ public class CallbackHandlerTest extends AndroidTestCase {
         int type = R.drawable.stat_sys_data_fully_connected_1x;
         int qsType = R.drawable.ic_qs_signal_1x;
         boolean wide = true;
+        boolean showSeparateRoamIndicator = false;
         int subId = 5;
         mHandler.setMobileDataIndicators(status, qs, type, qsType, in, out, 0, 0, 0, 0,
                 typeDescription, description, wide, subId);
@@ -117,6 +118,8 @@ public class CallbackHandlerTest extends AndroidTestCase {
         ArgumentCaptor<String> typeContentArg = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<String> descArg = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<Boolean> wideArg = ArgumentCaptor.forClass(Boolean.class);
+        ArgumentCaptor<Boolean> showSeparateRoamIndicatorArg =
+                ArgumentCaptor.forClass(Boolean.class);
         ArgumentCaptor<Integer> subIdArg = ArgumentCaptor.forClass(Integer.class);
         Mockito.verify(mSignalCallback).setMobileDataIndicators(statusArg.capture(),
                 qsArg.capture(), typeIconArg.capture(), qsTypeIconArg.capture(), inArg.capture(),
