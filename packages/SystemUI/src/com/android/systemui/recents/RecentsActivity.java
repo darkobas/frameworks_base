@@ -28,6 +28,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.UserHandle;
+import android.provider.Settings;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewStub;
@@ -254,10 +255,14 @@ public class RecentsActivity extends Activity implements RecentsView.RecentsView
             if (mEmptyView != null) {
                 mEmptyView.setVisibility(View.GONE);
             }
-            if (mRecentsView.hasValidSearchBar()) {
-                mRecentsView.setSearchBarVisibility(View.VISIBLE);
+            if (!mConfig.searchBarEnabled) {
+                mRecentsView.setSearchBarVisibility(View.GONE);
             } else {
-                refreshSearchWidgetView();
+                if (mRecentsView.hasValidSearchBar()) {
+                    mRecentsView.setSearchBarVisibility(View.VISIBLE);
+                } else {
+                    refreshSearchWidgetView();
+                }
             }
         }
 
