@@ -49,7 +49,8 @@
         >
 
         <TextView android:id="@+id/network_label"
-            android:textSize="14dp"
+            android:textSize="10dp"
+            android:textColor="@color/network_label"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:maxLength="@integer/config_operatorNameMaxLength"
