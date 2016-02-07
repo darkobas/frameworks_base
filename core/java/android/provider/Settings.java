@@ -3780,7 +3780,6 @@ public final class Settings {
          * @hide
          */
         public static final String STATUSBAR_BATTERY_CHARGING_COLOR = "statusbar_battery_charging_color";
-
         /**
          * enable color when charging
          *

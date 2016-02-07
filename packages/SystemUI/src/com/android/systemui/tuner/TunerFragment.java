@@ -48,7 +48,7 @@ public class TunerFragment extends PreferenceFragment {
 
     private static final String KEY_QS_TUNER = "qs_tuner";
     private static final String KEY_DEMO_MODE = "demo_mode";
-    private static final String KEY_BATTERY_PCT = "battery_pct";
+    //private static final String KEY_BATTERY_PCT = "battery_pct";
 
     public static final String SETTING_SEEN_TUNER_WARNING = "seen_tuner_warning";
 
@@ -85,7 +85,7 @@ public class TunerFragment extends PreferenceFragment {
                 return true;
             }
         });*/
-        mBatteryPct = (SwitchPreference) findPreference(KEY_BATTERY_PCT);
+        /*mBatteryPct = (SwitchPreference) findPreference(KEY_BATTERY_PCT);
         if (Settings.Secure.getInt(getContext().getContentResolver(), SETTING_SEEN_TUNER_WARNING,
                 0) == 0) {
             new AlertDialog.Builder(getContext())
@@ -98,15 +98,15 @@ public class TunerFragment extends PreferenceFragment {
                                     SETTING_SEEN_TUNER_WARNING, 1);
                         }
                     }).show();
-        }
+        }*/
     }
 
     @Override
     public void onResume() {
         super.onResume();
         updateBatteryPct();
-        getContext().getContentResolver().registerContentObserver(
-                System.getUriFor(SHOW_PERCENT_SETTING), false, mSettingObserver);
+    //    getContext().getContentResolver().registerContentObserver(
+      //          System.getUriFor(SHOW_PERCENT_SETTING), false, mSettingObserver);
 
         registerPrefs(getPreferenceScreen());
         MetricsLogger.visibility(getContext(), MetricsLogger.TUNER, true);
@@ -171,10 +171,10 @@ public class TunerFragment extends PreferenceFragment {
     }
 
     private void updateBatteryPct() {
-        mBatteryPct.setOnPreferenceChangeListener(null);
-        mBatteryPct.setChecked(System.getInt(getContext().getContentResolver(),
-                SHOW_PERCENT_SETTING, 0) != 0);
-        mBatteryPct.setOnPreferenceChangeListener(mBatteryPctChange);
+   //     mBatteryPct.setOnPreferenceChangeListener(null);
+//        mBatteryPct.setChecked(System.getInt(getContext().getContentResolver(),
+ //               SHOW_PERCENT_SETTING, 0) != 0);
+  //      mBatteryPct.setOnPreferenceChangeListener(mBatteryPctChange);
     }
 
     private final class SettingObserver extends ContentObserver {
