@@ -836,7 +836,7 @@ public class DeviceIdleController extends SystemService
         synchronized (this) {
             mEnabled = getContext().getResources().getBoolean(
                     com.android.internal.R.bool.config_enableAutoPowerModes) ||
-                    SystemProperties.getBoolean("persist.sys.doze_powersave", false);
+                    SystemProperties.getBoolean("persist.sys.doze_powersave", true);
             SystemConfig sysConfig = SystemConfig.getInstance();
             ArraySet<String> allowPowerExceptIdle = sysConfig.getAllowInPowerSaveExceptIdle();
             for (int i=0; i<allowPowerExceptIdle.size(); i++) {

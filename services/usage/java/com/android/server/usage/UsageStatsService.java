@@ -180,7 +180,7 @@ public class UsageStatsService extends SystemService implements
 
         mAppIdleEnabled = getContext().getResources().getBoolean(
                 com.android.internal.R.bool.config_enableAutoPowerModes) ||
-                SystemProperties.getBoolean("persist.sys.doze_powersave", false);
+                SystemProperties.getBoolean("persist.sys.doze_powersave", true);
         if (mAppIdleEnabled) {
             IntentFilter deviceStates = new IntentFilter(BatteryManager.ACTION_CHARGING);
             deviceStates.addAction(BatteryManager.ACTION_DISCHARGING);
