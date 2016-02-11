@@ -110,6 +110,7 @@
     <string name="battery_style_meter_horizontal">Horizontal bar</string>
     <string name="battery_style_circle">Circle</string>
     <string name="battery_style_droid">Droid</string>
+    <string name="battery_style_darko">Darkobas</string>
 
     <!-- Title of an application permission, listed so the user can choose whether they want the application to do this. -->
     <string name="permlab_setKeyguardWallpaper">set keyguard wallpaper</string>
