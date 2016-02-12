@@ -29,7 +29,7 @@
   <java-symbol name="global_action_reboot_recovery" type="string" />
   <java-symbol name="global_action_reboot_bootloader" type="string" />
   <java-symbol type="array" name="config_rebootActionsList" />
-  <java-symbol name="global_action_current_user" type="string" />
+  <java-symbol type="array" name="values_globalActionsList" />
   <java-symbol name="reboot_to_bootloader_title" type="string" />
   <java-symbol name="reboot_to_bootloader_message" type="string" />
   <java-symbol name="reboot_to_recovery_title" type="string" />
@@ -52,8 +52,13 @@
   <java-symbol type="drawable" name="ic_global_dnd_total_silence" />
   <java-symbol type="drawable" name="ic_global_dnd_alarms" />
   <java-symbol type="drawable" name="ic_global_dnd_important" />
+  <java-symbol type="drawable" name="ic_global_users" />
   <java-symbol type="id" name="option4" />
   <java-symbol type="layout" name="global_actions_dnd_mode" />
+  <java-symbol type="style" name="GlobalActionsAnimation" />
+  <java-symbol type="string" name="global_action_users" />
+  <java-symbol type="dimen" name="global_actions_avatar_size" />
+  <java-symbol type="color" name="global_actions_icon_color" />
 
   <java-symbol type="dimen" name="max_avatar_size" />
 
@@ -90,6 +95,9 @@
 
   <!-- Proximity check on screen on default -->
   <java-symbol type="bool" name="config_proximityCheckOnWakeEnabledByDefault" />
+  <!-- Last app switch animations -->
+  <java-symbol type="anim" name="last_app_in" />
+  <java-symbol type="anim" name="last_app_out" />
 
   <java-symbol type="bool" name="config_multiColorBatteryLed" />
   <java-symbol type="bool" name="config_wifiApFirmwareReload" />
@@ -100,4 +108,16 @@
 
   <!-- Use alternative way to blur lockscreen -->
   <java-symbol type="bool" name="config_use_stackblur" />
+  <java-symbol type="array" name="entries_battery_styles" />
+  <java-symbol type="array" name="values_battery_styles" />
+  <java-symbol type="bool" name="config_button_brightness_support" />
+  <java-symbol type="integer" name="config_button_brightness_default" />
+  <java-symbol type="integer" name="config_longPressOnMenuBehavior" />
+  <java-symbol type="string" name="lock_to_app_toast_back" />
+<!--  <java-symbol type="string" name="system_error_vendorprint" />
+-  <java-symbol type="drawable" name="ic_audio_notification_new" />
+  <java-symbol type="drawable" name="ic_audio_notification_mute_new" />
+  <java-symbol type="drawable" name="ic_audio_notification_mute_alpha" />
+-->
+  <java-symbol type="bool" name="config_enableScreenrecordChord" />
 </resources>

@@ -894,10 +894,15 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_HEIGHT), false, this,
                     UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.GLOBAL_ACTIONS_LIST), false, this,
+                    UserHandle.USER_ALL);
+
             updateSettings();
         }
 
-        @Override public void onChange(boolean selfChange) {
+        @Override
+        public void onChange(boolean selfChange) {
             updateSettings();
             updateRotation(false);
         }
@@ -2210,6 +2215,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mHardwareKeysDisable = Settings.System.getIntForUser(resolver,
                     Settings.System.HARDWARE_KEYS_DISABLE, 0,
                     UserHandle.USER_CURRENT) != 0;
+            if (mGlobalActions != null) {
+                mGlobalActions.settingsChanged();
+            }
         }
         synchronized (mWindowManagerFuncs.getWindowManagerLock()) {
             PolicyControl.reloadFromSetting(mContext);

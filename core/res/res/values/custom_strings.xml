@@ -23,7 +23,7 @@
     <string name="global_action_reboot_sub">System</string>
     <string name="global_action_reboot_recovery">Recovery</string>
     <string name="global_action_reboot_bootloader">Bootloader</string>
-    <string name="global_action_current_user">Current</string>
+    <string name="global_action_users">Users\u2026</string>
 
     <!-- advanced reboot to bootloader. -->
     <string name="reboot_to_bootloader_title">Reboot bootloader</string>
@@ -39,8 +39,6 @@
 
     <!-- HW button mapping -->
     <string name="hide_lock_to_app_dialog">Always start</string>
-    <string name="silent_mode_priority">Priority</string>
-    <string name="silent_mode_none">None</string>
 
     <!-- Text of the checkbox for the permission confirmation dialog to remember the user's choice. [CHAR LIMIT=40] -->
     <string name="permission_remember_choice">Remember</string>
@@ -130,4 +128,5 @@
     <string name="dnd_mode_total_silence">Total silence</string>
     <string name="dnd_mode_alarms">Alarms only</string>
     <string name="dnd_mode_important">Priority only</string>
+    <string name="global_action_current_user">Current</string>
 </resources>
