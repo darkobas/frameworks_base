@@ -3034,7 +3034,7 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
                     lp.rightMargin = rightMargin;
                     view.setLayoutParams(lp);
                 }
-                if (show) {
+                  if (show) {
                     view.setBackgroundColor(color);
                 }
             }
