@@ -45,7 +45,7 @@ public class BrightnessMirrorController {
     private final ImageView mIcon;
     private Context mContext;
 
-    public BrightnessMirrorController(Context context, StatusBarWindowView statusBarWindow) {
+    public BrightnessMirrorController(Context context, View statusBarWindow) {
         mContext = context;
         mScrimBehind = (ScrimView) statusBarWindow.findViewById(R.id.scrim_behind);
         mBrightnessMirror = statusBarWindow.findViewById(R.id.brightness_mirror);

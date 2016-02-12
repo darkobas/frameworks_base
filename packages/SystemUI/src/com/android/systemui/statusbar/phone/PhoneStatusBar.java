@@ -315,6 +315,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     Point mCurrentDisplaySize = new Point();
 
     StatusBarWindowView mStatusBarWindow;
+    FrameLayout mStatusBarWindowContent;
     PhoneStatusBarView mStatusBarView;
     private int mStatusBarWindowState = WINDOW_STATE_SHOWING;
     private StatusBarWindowManager mStatusBarWindowManager;
@@ -467,7 +468,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         public void onChange(boolean selfChange) {
             boolean showOperatorName = (0 != Settings.System.getInt(
                 mContext.getContentResolver(), SHOW_OPERATOR_NAME, 1));
-            TextView networkLabel = (TextView)mStatusBarWindow.findViewById(R.id.network_label);
+            TextView networkLabel = (TextView)mStatusBarWindowContent.findViewById(R.id.network_label);
             if (networkLabel != null) {
                 if (!showOperatorName || mState != StatusBarState.SHADE) {
                     mNetworkController.removeNetworkLabelView();
@@ -800,6 +801,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mBackKillTimeout = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_backKillTimeout);
 
+        mStatusBarWindow = new StatusBarWindowView(mContext, null);
+        mStatusBarWindow.setService(this);
+
         super.start(); // calls createAndAddWindows()
 
         mMediaSessionManager
@@ -876,10 +880,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         updateDisplaySize(); // populates mDisplayMetrics
         updateResources();
 
-        mStatusBarWindow = (StatusBarWindowView) View.inflate(context,
+        mStatusBarWindowContent = (FrameLayout) View.inflate(context,
                 R.layout.super_status_bar, null);
         mStatusBarWindow.setService(this);
-        mStatusBarWindow.setOnTouchListener(new View.OnTouchListener() {
+        mStatusBarWindowContent.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 checkUserAutohide(v, event);
@@ -888,17 +892,17 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                         animateCollapsePanels();
                     }
                 }
-                return mStatusBarWindow.onTouchEvent(event);
+                return mStatusBarWindowContent.onTouchEvent(event);
             }
         });
 
-        mStatusBarView = (PhoneStatusBarView) mStatusBarWindow.findViewById(R.id.status_bar);
+        mStatusBarView = (PhoneStatusBarView) mStatusBarWindowContent.findViewById(R.id.status_bar);
         mStatusBarView.setBar(this);
 
-        PanelHolder holder = (PanelHolder) mStatusBarWindow.findViewById(R.id.panel_holder);
+        PanelHolder holder = (PanelHolder) mStatusBarWindowContent.findViewById(R.id.panel_holder);
         mStatusBarView.setPanelHolder(holder);
 
-        mNotificationPanel = (NotificationPanelView) mStatusBarWindow.findViewById(
+        mNotificationPanel = (NotificationPanelView) mStatusBarWindowContent.findViewById(
                 R.id.notification_panel);
         mNotificationPanel.setStatusBar(this);
 
@@ -963,7 +967,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mCarrierText = mStatusBarView.findViewById(R.id.status_carrier_text);
         }
 
-        mStackScroller = (NotificationStackScrollLayout) mStatusBarWindow.findViewById(
+        mStackScroller = (NotificationStackScrollLayout) mStatusBarWindowContent.findViewById(
                 R.id.notification_stack_scroller);
         mStackScroller.setLongPressListener(getNotificationLongClicker());
         mStackScroller.setPhoneStatusBar(this);
@@ -996,15 +1000,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mStackScroller.setDismissView(mDismissView);
         mExpandedContents = mStackScroller;
 
-        mBackdrop = (BackDropView) mStatusBarWindow.findViewById(R.id.backdrop);
+        mBackdrop = (BackDropView) mStatusBarWindowContent.findViewById(R.id.backdrop);
         mBackdropFront = (ImageView) mBackdrop.findViewById(R.id.backdrop_front);
         mBackdropBack = (ImageView) mBackdrop.findViewById(R.id.backdrop_back);
 
-        FrameLayout scrimView = (FrameLayout) mStatusBarWindow.findViewById(R.id.scrimview);
+        FrameLayout scrimView = (FrameLayout) mStatusBarWindowContent.findViewById(R.id.scrimview);
         ScrimView scrimBehind = (ScrimView) scrimView.findViewById(R.id.scrim_behind);
         ScrimView scrimInFront =
-                (ScrimView) mStatusBarWindow.findViewById(R.id.scrim_in_front);
-        View headsUpScrim = mStatusBarWindow.findViewById(R.id.heads_up_scrim);
+                (ScrimView) mStatusBarWindowContent.findViewById(R.id.scrim_in_front);
+        View headsUpScrim = mStatusBarWindowContent.findViewById(R.id.heads_up_scrim);
         mScrimController = new ScrimController(scrimBehind, scrimInFront, headsUpScrim,
                 mScrimSrcModeEnabled);
         mHeadsUpManager.addListener(mScrimController);
@@ -1014,16 +1018,16 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mDozeScrimController = new DozeScrimController(mScrimController, context);
         mVisualizerView = (VisualizerView) scrimView.findViewById(R.id.visualizerview);
 
-        mHeader = (StatusBarHeaderView) mStatusBarWindow.findViewById(R.id.header);
+        mHeader = (StatusBarHeaderView) mStatusBarWindowContent.findViewById(R.id.header);
         mHeader.setActivityStarter(this);
-        mKeyguardStatusBar = (KeyguardStatusBarView) mStatusBarWindow.findViewById(R.id.keyguard_header);
-        mKeyguardStatusView = mStatusBarWindow.findViewById(R.id.keyguard_status_view);
+        mKeyguardStatusBar = (KeyguardStatusBarView) mStatusBarWindowContent.findViewById(R.id.keyguard_header);
+        mKeyguardStatusView = mStatusBarWindowContent.findViewById(R.id.keyguard_status_view);
         mKeyguardBottomArea =
-                (KeyguardBottomAreaView) mStatusBarWindow.findViewById(R.id.keyguard_bottom_area);
+                (KeyguardBottomAreaView) mStatusBarWindowContent.findViewById(R.id.keyguard_bottom_area);
         mKeyguardBottomArea.setActivityStarter(this);
         mKeyguardBottomArea.setAssistManager(mAssistManager);
         mKeyguardIndicationController = new KeyguardIndicationController(mContext,
-                (KeyguardIndicationTextView) mStatusBarWindow.findViewById(
+                (KeyguardIndicationTextView) mStatusBarWindowContent.findViewById(
                         R.id.keyguard_indication_text),
                 mKeyguardBottomArea.getLockIcon());
         mKeyguardBottomArea.setKeyguardIndicationController(mKeyguardIndicationController);
@@ -1094,7 +1098,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mNetworkController.addEmergencyListener(mHeader);
         }
 
-        mCarrierLabel = (TextView)mStatusBarWindow.findViewById(R.id.carrier_label);
+        mCarrierLabel = (TextView)mStatusBarWindowContent.findViewById(R.id.carrier_label);
         final boolean showCarrierLabel = mContext.getResources().getBoolean(
                 R.bool.config_showCarrierLabel);
         mShowCarrierInPanel = showCarrierLabel && (mCarrierLabel != null);
@@ -1124,12 +1128,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     mHandler);
         }
         mKeyguardUserSwitcher = new KeyguardUserSwitcher(mContext,
-                (ViewStub) mStatusBarWindow.findViewById(R.id.keyguard_user_switcher),
+                (ViewStub) mStatusBarWindowContent.findViewById(R.id.keyguard_user_switcher),
                 mKeyguardStatusBar, mNotificationPanel, mUserSwitcherController);
 
 
         // Set up the quick settings tile panel
-        mQSPanel = (QSPanel) mStatusBarWindow.findViewById(R.id.quick_settings_panel);
+        mQSPanel = (QSPanel) mStatusBarWindowContent.findViewById(R.id.quick_settings_panel);
         if (mQSPanel != null) {
             final QSTileHost qsh = new QSTileHost(mContext, this,
                     mBluetoothController, mLocationController, mRotationLockController,
@@ -1139,7 +1143,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     mSecurityController);
             mQSPanel.setHost(qsh);
             mQSPanel.setTiles(qsh.getTiles());
-            mBrightnessMirrorController = new BrightnessMirrorController(mContext, mStatusBarWindow);
+            if (mBrightnessMirrorController == null) {
+                mBrightnessMirrorController = new BrightnessMirrorController(mContext, mStatusBarWindowContent);
+            }
             mQSPanel.setBrightnessMirror(mBrightnessMirrorController);
             mHeader.setQSPanel(mQSPanel);
             qsh.setCallback(new QSTileHost.Callback() {
@@ -2878,11 +2884,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
 
             // update status bar mode
-            final int sbMode = computeBarMode(oldVal, newVal,
+            final int sbMode = computeBarMode(oldVal, newVal,  mStatusBarView.getBarTransitions(),
                     View.STATUS_BAR_TRANSIENT, View.STATUS_BAR_TRANSLUCENT);
 
             // update navigation bar mode
-            final int nbMode = computeBarMode(oldVal, newVal,
+            final int nbMode = computeBarMode(oldVal, newVal, mStatusBarView.getBarTransitions(),
                     View.NAVIGATION_BAR_TRANSIENT, View.NAVIGATION_BAR_TRANSLUCENT);
             final boolean sbModeChanged = sbMode != -1;
             final boolean nbModeChanged = nbMode != -1;
@@ -2933,7 +2939,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     }
 
-    private int computeBarMode(int oldVis, int newVis,
+    private int computeBarMode(int oldVis, int newVis,  BarTransitions transitions,
             int transientFlag, int translucentFlag) {
         final int oldMode = barMode(oldVis, transientFlag, translucentFlag);
         final int newMode = barMode(newVis, transientFlag, translucentFlag);
@@ -3265,6 +3271,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     private void addStatusBarWindow() {
         makeStatusBarView();
+        mStatusBarWindow.addContent(mStatusBarWindowContent);
         mStatusBarWindowManager = new StatusBarWindowManager(mContext, mKeyguardMonitor);
         mStatusBarWindowManager.setShowingMedia(mKeyguardShowingMedia);
         mStatusBarWindowManager.add(mStatusBarWindow, getStatusBarHeight());
@@ -4250,7 +4257,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         final boolean enableOperatorName = (mContext.getResources().
                 getBoolean(com.android.internal.R.bool.config_showOperatorNameInStatusBar));
 
-        TextView networkLabel = (TextView)mStatusBarWindow.findViewById(R.id.network_label);
+        TextView networkLabel = (TextView)mStatusBarWindowContent.findViewById(R.id.network_label);
         if (networkLabel != null) {
             if (!enableOperatorName || !showOperatorName || mState != StatusBarState.SHADE) {
                 mNetworkController.removeNetworkLabelView();
