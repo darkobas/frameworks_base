@@ -392,7 +392,10 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             /*} else if (GLOBAL_ACTION_KEY_ASSIST.equals(actionKey)) {
                 mItems.add(getAssistAction());*/
             } else if (GLOBAL_ACTION_KEY_DND.equals(actionKey)) {
+                if (Settings.Global.getInt(mContext.getContentResolver(),
+                        Settings.Global.DND_IN_POWER_MENU, 0) != 0) {
                 mItems.add(mDndModeAction);
+                }
             } else {
                 Log.e(TAG, "Invalid global action key " + actionKey);
             }

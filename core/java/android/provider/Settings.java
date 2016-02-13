@@ -6881,6 +6881,13 @@ public final class Settings {
         public static final String BUGREPORT_IN_POWER_MENU = "bugreport_in_power_menu";
 
         /**
+         * When the user has enable the option to have a "DND" options
+         * in the power menu.
+         * @hide
+         */
+        public static final String DND_IN_POWER_MENU = "dnd_in_power_menu";
+
+        /**
          * Whether ADB is enabled.
          */
         public static final String ADB_ENABLED = "adb_enabled";
