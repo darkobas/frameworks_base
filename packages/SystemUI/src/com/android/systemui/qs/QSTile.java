@@ -297,9 +297,6 @@ public abstract class QSTile<TState extends State> implements Listenable {
                 } else if (msg.what == DESTROY) {
                     name = "handleDestroy";
                     handleDestroy();
-                } else if (msg.what == LONG_CLICK) {
-                    name = "handleLongClick";
-                    handleLongClick();
                 } else if (msg.what == CLEAR_STATE) {
                     name = "handleClearState";
                     handleClearState();
