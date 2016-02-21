@@ -74,4 +74,6 @@
     <string name="qs_tile_columns_four">4</string>
     <string name="qs_tile_columns_five">5</string>
     <string name="qs_tile_bg_opacity_title">Background opacity</string>
+    <string name="status_bar_silent">Silent mode</string>
+
 </resources>
