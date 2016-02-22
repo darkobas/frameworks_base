@@ -325,7 +325,7 @@ public class QsTuner extends Fragment implements Callback {
 
         private boolean isAddPossible() {
             String[] defaults =
-                getContext().getString(R.string.quick_settings_tiles_default).split(",");
+                getContext().getString(R.string.quick_settings_tiles_all).split(",");
             return defaults.length - mTileSpecs.size() != 0;
         }
 
