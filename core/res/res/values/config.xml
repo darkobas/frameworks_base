@@ -2057,6 +2057,8 @@
     <string-array translatable="false" name="config_globalActionsList">
         <item>power</item>
         <item>bugreport</item>
+        <item>screenshot</item>
+        <item>screenrecord</item>
         <item>users</item>
         <item>dnd</item>
     </string-array>
