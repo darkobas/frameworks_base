@@ -119,4 +119,5 @@
   <java-symbol type="drawable" name="ic_audio_notification" />
   <java-symbol type="drawable" name="ic_audio_notification_mute" />
   <java-symbol type="drawable" name="ic_audio_notification_mute_alpha" />
+  <java-symbol type="drawable" name="ic_remix_icon" />
 </resources>
