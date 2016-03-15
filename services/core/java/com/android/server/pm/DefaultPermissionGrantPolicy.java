@@ -659,6 +659,12 @@ final class DefaultPermissionGrantPolicy {
                 grantRuntimePermissionsLPw(vendingPackage, SMS_PERMISSIONS, userId);
             }	
 
+            PackageParser.Package videosPackage = getDefaultProviderAuthorityPackageLPr(
+                    "com.google.android.videos", userId);
+            if (videosPackage != null) {
+                grantRuntimePermissionsLPw(videosPackage, PHONE_PERMISSIONS, userId);
+            }    
+
             mService.mSettings.onDefaultRuntimePermissionsGrantedLPr(userId);
         }
     }
