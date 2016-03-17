@@ -110,8 +110,8 @@ public class BatteryDroidView extends AbstractBatteryView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        mWidth = (mShowPercent ? (mTextWidth + mStrokeWidth) : 0) + mCircleWidth + 2 * mStrokeWidth;
-        mHeight = mCircleWidth + 2 * mStrokeWidth;
+        mWidth = (mShowPercent ? (mTextWidth + mStrokeWidth) : 0) + mCircleWidth + 1 * mStrokeWidth;
+        mHeight = mCircleWidth + 1 * mStrokeWidth;
         setMeasuredDimension(mWidth, mHeight);
     }
 

@@ -41,6 +41,7 @@
     <LinearLayout
         android:id="@+id/battery_container"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/battery_margin_bottom"
         android:gravity="center_vertical" />
 </LinearLayout>

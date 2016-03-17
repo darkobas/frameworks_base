@@ -101,8 +101,8 @@ public class BatteryCirclePercentView extends AbstractBatteryView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        mWidth = (isWideDisplay() ? (mTextWidth + mStrokeWidth) : 0) + mCircleWidth + 2 * mStrokeWidth;
-        mHeight = mCircleWidth + 2 * mStrokeWidth;
+        mWidth = (isWideDisplay() ? (mTextWidth + mStrokeWidth) : 0) + mCircleWidth + 1 * mStrokeWidth;
+        mHeight = mCircleWidth + 1 * mStrokeWidth;
         setMeasuredDimension(mWidth, mHeight);
     }
 
