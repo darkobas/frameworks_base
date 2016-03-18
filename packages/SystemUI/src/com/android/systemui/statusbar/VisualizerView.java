@@ -34,7 +34,6 @@ import com.android.systemui.omni.UserContentObserver;
 import com.android.systemui.statusbar.policy.KeyguardMonitor;
 import android.provider.Settings;
 
-import java.util.Arrays;
 
 public class VisualizerView extends View implements Palette.PaletteAsyncListener,
         KeyguardMonitor.Callback {
@@ -223,6 +222,7 @@ public class VisualizerView extends View implements Palette.PaletteAsyncListener
         mKeyguardMonitor = kgm;
         if (isAttachedToWindow()) {
             // otherwise we might never register ourselves
+            mKeyguardMonitor.removeCallback(this);
             mKeyguardMonitor.addCallback(this);
             updateViewVisibility();
         }
