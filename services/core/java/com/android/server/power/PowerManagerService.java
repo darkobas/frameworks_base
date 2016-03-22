@@ -185,8 +185,6 @@ public final class PowerManagerService extends SystemService
 
     private final Object mLock = new Object();
 
-    private TelephonyManager mTelephonyManager;
-
     // A bitfield that indicates what parts of the power state have
     // changed and need to be recalculated.
     private int mDirty;
@@ -3357,14 +3355,6 @@ public final class PowerManagerService extends SystemService
             } else {
                 r.run();
             }
-        }
-
-        TelephonyManager getTelephonyManager() {
-            if (mTelephonyManager == null) {
-                mTelephonyManager = (TelephonyManager)mContext.getSystemService(
-                        Context.TELEPHONY_SERVICE);
-            }
-            return mTelephonyManager;
         }
 
         private void runPostProximityCheck(final Runnable r) {
