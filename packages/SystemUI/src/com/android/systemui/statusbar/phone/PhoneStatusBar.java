@@ -4643,7 +4643,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
         if (!mDeviceInteractive) {
             PowerManager pm = mContext.getSystemService(PowerManager.class);
-            pm.wakeUp(SystemClock.uptimeMillis(), "com.android.systemui:CAMERA_GESTURE");
+            pm.wakeUpWithProximityCheck(SystemClock.uptimeMillis(), "com.android.systemui:CAMERA_GESTURE");
             mStatusBarKeyguardViewManager.notifyDeviceWakeUpRequested();
         }
         vibrateForCameraGesture();
