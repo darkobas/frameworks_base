@@ -23,4 +23,22 @@ public interface DeviceKeyHandler {
      * @return If the event is consume
      */
     public boolean handleKeyEvent(KeyEvent event);
+
+    /**
+     * Invoked when an unknown key was detected by the system,
+     * this should NOT handle the key just return if it WOULD be handled
+     *
+     * @param event The key event to be handled
+     * @return If the event will be consumed
+     */
+    public boolean canHandleKeyEvent(KeyEvent event);
+
+    /**
+     * Special key event that should be treated as
+     * a camera launch event
+     *
+     * @param event The key event to be handled
+     * @return If the event is a camera launch event
+     */
+    public boolean isCameraLaunchEvent(KeyEvent event);
 }
