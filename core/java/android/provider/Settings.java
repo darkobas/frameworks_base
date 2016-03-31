@@ -3560,6 +3560,12 @@ public final class Settings {
         public static final String DOUBLE_TAP_SLEEP_LOCK_SCREEN = "double_tap_sleep_lock_screen";
 
         /**
+         * Enable vibration when double tapping the power button for camera
+         * @hide
+         */
+        public static final String DOUBLE_TAP_VIBRATE = "double_tap_vibrate";
+
+        /**
          * Show search bar in recents
          * @hide
          */
