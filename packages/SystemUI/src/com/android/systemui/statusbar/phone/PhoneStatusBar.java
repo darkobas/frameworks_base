@@ -4538,7 +4538,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 keyButtonView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_LONG_CLICKED);
             }
             if (hijackRecentsLongPress) {
+                mStatusBarView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                 TaskUtils.toggleLastApp(mContext, mCurrentUserId);
+                mRecentsConsumed = true;
             }
         } catch (RemoteException e) {
             Log.d(TAG, "Unable to reach activity manager", e);

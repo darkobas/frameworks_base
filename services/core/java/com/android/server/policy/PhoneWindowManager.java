@@ -3311,26 +3311,25 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         return -1;
                      }
                 } else if (longPress) {
-                    if (!keyguardOn && mLongPressOnMenuBehavior != KEY_ACTION_NOTHING) {
-                        if (mLongPressOnMenuBehavior != KEY_ACTION_APP_SWITCH) {
-                            cancelPreloadRecentApps();
-                        }
-                        performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);
-                        performKeyAction(mLongPressOnMenuBehavior, event);
-                        mMenuPressed = false;
-                        return -1;
+                        if (!keyguardOn && mLongPressOnMenuBehavior != KEY_ACTION_NOTHING) {
+                            if (mLongPressOnMenuBehavior != KEY_ACTION_APP_SWITCH) {
+                                cancelPreloadRecentApps();
+                            }
+                            performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);
+                            performKeyAction(mLongPressOnMenuBehavior, event);
+                            mMenuPressed = false;
+                            return -1;
+                            }
+                         }
+                } else if (!down && mMenuPressed) {
+                    if (mPressOnMenuBehavior != KEY_ACTION_APP_SWITCH) {
+                        cancelPreloadRecentApps();
+                    }
+                    mMenuPressed = false;
+                    if (!canceled) {
+                        performKeyAction(mPressOnMenuBehavior, event);
                     }
                 }
-            }
-            if (!down && mMenuPressed) {
-                if (mPressOnMenuBehavior != KEY_ACTION_APP_SWITCH) {
-                    cancelPreloadRecentApps();
-                }
-                mMenuPressed = false;
-                if (!canceled) {
-                    performKeyAction(mPressOnMenuBehavior, event);
-                }
-            }
             return -1;
         } else if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (down) {
@@ -3349,7 +3348,12 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         cancelPreloadRecentApps();
                     }
                     if (!keyguardOn) {
-                        if (mLongPressOnBackBehavior != KEY_ACTION_NOTHING) {
+                        // check for locked mode
+                        if (stopLockTaskMode()) {
+                            // Do not perform action when key is released
+                            mBackDoCustomAction = false;
+                            return -1;
+                         } else if (mLongPressOnBackBehavior != KEY_ACTION_NOTHING) {
                             performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);
 
                             performKeyAction(mLongPressOnBackBehavior, event);
@@ -7886,31 +7890,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
         if (mKeyguardDelegate != null) {
             mKeyguardDelegate.dump(prefix, pw);
-        }
-    }
-
-    private void handleLongPressOnMenu(int deviceId) {
-        if (mLongPressOnMenuBehavior != LONG_PRESS_HOME_NOTHING) {
-            mMenuConsumed = true;
-            performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);
-
-            if (mLongPressOnMenuBehavior == LONG_PRESS_HOME_RECENT_SYSTEM_UI) {
-                doToggleRecentApps();
-            } else if (mLongPressOnMenuBehavior == LONG_PRESS_HOME_ASSIST) {
-                launchAssistAction(null, deviceId);
-            }
-        }
-    }
-
-    private void handleLongPressOnBack(int deviceId) {
-        mBackConsumed = true;
-        performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);
-
-         // check for locked mode
-        if (!stopLockTaskMode()) {
-            // else kill app
-            mHandler.postDelayed(mKillTask, mBackKillTimeout);
-            mBackKillPending = true;
         }
     }
 
