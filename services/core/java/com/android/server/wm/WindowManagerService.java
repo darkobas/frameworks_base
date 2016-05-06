@@ -10132,6 +10132,7 @@ public class WindowManagerService extends IWindowManager.Stub
                             }
                         }
 
+                        winAnimator.computeShownFrameLocked();
                         winAnimator.setSurfaceBoundariesLocked(recoveringMemory);
                     }
 
