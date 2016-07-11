@@ -434,10 +434,6 @@ final class ConnectionServiceAdapterServant {
 
         @Override
         public void resetCdmaConnectionTime(String callId) {
-            SomeArgs args = SomeArgs.obtain();
-            args.arg1 = connectionId;
-            args.arg2 = event;
-            mHandler.obtainMessage(MSG_ON_CONNECTION_EVENT, args).sendToTarget();
         }
 
         @Override

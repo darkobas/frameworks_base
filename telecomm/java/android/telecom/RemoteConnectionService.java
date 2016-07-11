@@ -333,9 +333,6 @@ final class RemoteConnectionService {
 
         @Override
         public void resetCdmaConnectionTime(String callId) {
-            if (mConnectionById.containsKey(callId)) {
-                findConnectionForAction(callId, "onConnectionEvent").onConnectionEvent(event);
-            }
         }
 
         @Override

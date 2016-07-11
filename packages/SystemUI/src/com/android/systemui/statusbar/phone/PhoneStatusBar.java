@@ -829,7 +829,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     mShowOperatorNameObserver);
         }
 
-        addNavigationBar();
+        addNavigationBar(true);
         // must be after addNavigationBar
         mOmniSettingsObserver.observe();
 
@@ -4904,7 +4904,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                         checkUserAutohide(v, event);
                         return false;
                     }});
-                addNavigationBar();
+                addNavigationBar(true);
                 checkBarModes();
                 notifyUiVisibilityChanged(mSystemUiVisibility);
             }

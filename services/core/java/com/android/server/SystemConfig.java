@@ -104,6 +104,9 @@ public class SystemConfig {
     // These are the permitted backup transport service components
     final ArraySet<ComponentName> mBackupTransportWhitelist = new ArraySet<>();
 
+    final ArrayMap<Signature, ArraySet<String>> mSignatureAllowances
+            = new ArrayMap<Signature, ArraySet<String>>();
+
     public static SystemConfig getInstance() {
         synchronized (SystemConfig.class) {
             if (sInstance == null) {
@@ -147,6 +150,10 @@ public class SystemConfig {
 
     public ArraySet<String> getLinkedApps() {
         return mLinkedApps;
+    }
+
+    public ArrayMap<Signature, ArraySet<String>> getSignatureAllowances() {
+        return mSignatureAllowances;
     }
 
     public ArraySet<ComponentName> getBackupTransportWhitelist() {
