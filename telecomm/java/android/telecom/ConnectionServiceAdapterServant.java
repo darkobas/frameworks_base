@@ -62,7 +62,6 @@ final class ConnectionServiceAdapterServant {
     private static final int MSG_ON_POST_DIAL_CHAR = 22;
     private static final int MSG_SET_CONFERENCE_MERGE_FAILED = 23;
     private static final int MSG_SET_EXTRAS = 24;
-    private static final int MSG_ON_CONNECTION_EVENT = 25;
 
     private final IConnectionServiceAdapter mDelegate;
 
@@ -243,15 +242,6 @@ final class ConnectionServiceAdapterServant {
                     break;
                 }
 
-                case MSG_ON_CONNECTION_EVENT: {
-                    SomeArgs args = (SomeArgs) msg.obj;
-                    try {
-                        mDelegate.onConnectionEvent((String) args.arg1, (String) args.arg2);
-                    } finally {
-                        args.recycle();
-                    }
-                    break;
-                }
             }
         }
     };
@@ -436,13 +426,6 @@ final class ConnectionServiceAdapterServant {
         public void resetCdmaConnectionTime(String callId) {
         }
 
-        @Override
-        public final void onConnectionEvent(String connectionId, String event) {
-            SomeArgs args = SomeArgs.obtain();
-            args.arg1 = connectionId;
-            args.arg2 = event;
-            mHandler.obtainMessage(MSG_ON_CONNECTION_EVENT, args).sendToTarget();
-        }
     };
 
     public ConnectionServiceAdapterServant(IConnectionServiceAdapter delegate) {

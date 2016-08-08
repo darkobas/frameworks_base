@@ -89,5 +89,4 @@ oneway interface IConnectionServiceAdapter {
 
     void resetCdmaConnectionTime(String callId);
 
-    void onConnectionEvent(String callId, String event);
 }
